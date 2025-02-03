@@ -24,6 +24,7 @@ import Footer from "@/components/common/sections/Footer";
 
 // baseUrl
 import { baseUrl } from '@/utils/baseUrl';
+import { ToastContainer } from "react-toastify";
 
 // metadata
 export const metadata: Metadata = {
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
     description: "File Analysis Tool Description",
     siteName: "File Analysis Tool",
     images: [
-      { url: "/images/file-analysis.png" }
+      { url: `${baseUrl}/images/file-analysis.png` }
     ]
   },
 
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "File Analysis Tool",
     description: "File Analysis Tool Description",
-    images: "/images/file-analysis.png"
+    images: `${baseUrl}/images/file-analysis.png`
   },
 
   verification: {
@@ -90,6 +91,19 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </body>
       <GoogleAnalytics gaId="G-id" />
     </html>

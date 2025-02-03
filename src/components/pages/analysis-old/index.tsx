@@ -69,7 +69,7 @@ const Index = () => {
   };
 
   return (
-    <div className="container-custom">
+    <div className="container">
       <h1>File Analysis Tool</h1>
 
       {/* File Upload Section */}
