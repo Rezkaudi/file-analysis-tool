@@ -10,51 +10,143 @@ interface FileItem {
 
 interface AnalysisResult {
     fileName: string;
-    criteria: Record<string, string>;
+    criterias: Record<string, string>;
     score: number;
     analysis: string;
 }
 
 interface ResultsProps {
-    file: FileItem[] | null;
-    criteria: string[];
+    files: FileItem[] | null;
+    criterias: string[];
 }
 
-export default function Results({ file, criteria }: ResultsProps) {
+export default function Results({ files, criterias }: ResultsProps) {
     const [results, setResults] = useState<AnalysisResult[] | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
+    const [startUploadingFiles, setStartUploadingFiles] = useState<boolean>(false);
+    const [StartFilesAnalysis, setStartFilesAnalysis] = useState<boolean>(false);
+    const [currentStep, setCurrentStep] = useState<number>(0);
+
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
-    const analyzeFile = () => {
-        if (!file || file.length === 0 || (criteria.length === 1 && criteria[0] === "")) {
-            if (!file || file.length === 0) {
+    const simulateUpload = async () => {
+        setStartUploadingFiles(true);
+        setIsAnalyzing(true);
+
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate upload time
+        // try {
+        //     const response = await fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(data)
+        //     });
+
+        //     if (!response.ok) {
+        //         throw new Error(`HTTP error! status: ${response.status}`);
+        //     }
+
+        //     const result = await response.json();
+        //     return result;
+        // } catch (error) {
+        //     console.error('Error:', error);
+        //     throw error;
+        // }
+
+        setStartUploadingFiles(false);
+        setCurrentStep(prev => prev + 1);
+        const allFilesContents = [
+            {
+                "filename": "Dockerfile1",
+                "content": "aaa"
+            },
+            {
+                "filename": "Dockerfile2",
+                "content": "bbb"
+            }
+        ];
+
+        return allFilesContents
+    };
+
+    const simulateAnalysis = async (formData: { "file_contents": string[], "criterias": string[] }) => {
+        console.log(formData)
+
+        setStartFilesAnalysis(true);
+        await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate analysis time
+
+        // try {
+        //     const response = await fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(data)
+        //     });
+
+        //     if (!response.ok) {
+        //         throw new Error(`HTTP error! status: ${response.status}`);
+        //     }
+
+        //     const result = await response.json();
+        //     return result;
+        // } catch (error) {
+        //     console.error('Error:', error);
+        //     throw error;
+        // }
+        setStartFilesAnalysis(false);
+        setCurrentStep(prev => prev + 1);
+        setIsAnalyzing(false);
+
+
+        const mockResults: AnalysisResult[] | undefined = files?.map((fileItem) => ({
+            fileName: fileItem.name,
+            criterias: criterias.reduce<Record<string, string>>((acc, curr, idx) => {
+                acc[`criteria${idx + 1}`] = curr;
+                return acc;
+            }, {}),
+            score: Math.floor(Math.random() * 100),
+            analysis:
+                "Detailed analysis of the file content based on provided criteria",
+        })).sort((a, b) => b.score - a.score);
+
+        return mockResults
+
+    };
+
+    const analyzeFile = async () => {
+        if (!files || files.length === 0 || (criterias.length === 1 && criterias[0] === "")) {
+            if (!files || files.length === 0) {
                 toast.warn('Please choose one file at least');
             }
 
-            if (criteria.length === 1 && criteria[0] === "") {
+            if (criterias.length === 1 && criterias[0] === "") {
                 toast.warn('Please input one criteria at least ');
             }
 
             return;
         }
 
-        setIsAnalyzing(true);
+        let formData = null
 
-        setTimeout(() => {
-            const mockResults: AnalysisResult[] = file.map((fileItem) => ({
-                fileName: fileItem.name,
-                criteria: criteria.reduce<Record<string, string>>((acc, curr, idx) => {
-                    acc[`criteria${idx + 1}`] = curr;
-                    return acc;
-                }, {}),
-                score: Math.floor(Math.random() * 100),
-                analysis:
-                    "Detailed analysis of the file content based on provided criteria",
-            })).sort((a, b) => b.score - a.score);
+        const allFilesContents = await simulateUpload();
 
-            setResults(mockResults);
-            setIsAnalyzing(false);
-        }, 1000);
+        const filesContents = allFilesContents.map(file => file.content);
+
+        formData = {
+            "file_contents": filesContents,
+            "criterias": criterias
+        }
+
+        const result = await simulateAnalysis(formData);
+        if (result) {
+            setResults(result);
+        }
+
+        else {
+            console.log("error")
+        }
     };
 
     const toggleSortOrder = () => {
@@ -66,22 +158,54 @@ export default function Results({ file, criteria }: ResultsProps) {
     };
 
     return (
-        <div className="w-full p-4 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Analysis Results</h2>
-            <button
-                onClick={analyzeFile}
-                disabled={isAnalyzing}
-                className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-            >
-                {isAnalyzing ? "Analyzing..." : "Start Analysis"}
-            </button>
+        <div className="w-full p-4 bg-white">
+            {/* <h2 className="text-xl font-semibold mb-4 text-purple-700">Analysis Results</h2> */}
+            {!results && <div className="w-full flex items-center justify-center">
+                <button
+                    onClick={analyzeFile}
+                    disabled={isAnalyzing}
+                    className="mb-4 px-20 text-3xl py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:opacity-80 transition"
+                >
+                    {isAnalyzing ? "Analyzing..." : "Start Analysis"}
+                </button>
+            </div>}
+
+            {isAnalyzing && <div className="w-[400px] mx-auto flex flex-col gap-5 p-4 rounded shadow-2xl items-start justify-center mt-10">
+                <div className={`flex items-center gap-2 ${currentStep > 0 ? 'text-green-600' : ''}`}>
+                    <span>Step 1 :</span>
+                    <div>
+                        <h3 className="font-medium">Uploading Files {currentStep > 0 ? <span className="text-xl">&#10003;</span> : ''}</h3>
+                        {startUploadingFiles && (
+                            <div className="mt-2 flex justify-between text-sm text-gray-500">
+                                <span>Processing...</span>
+                                <div className="w-5 h-5 border-b-2 border-purple-700 rounded-full animate-spin" />
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className={`flex items-center gap-2 ${currentStep > 1 ? 'text-green-600' : ''}`}>
+                    <span>Step 2 : </span>
+                    <div>
+                        <h3 className="font-medium">Files Analysis {currentStep > 1 ? <span className="text-xl">&#10003;</span> : ''}</h3>
+                        {StartFilesAnalysis && (
+                            <div className="mt-2 flex justify-between text-sm text-gray-500">
+                                <span>Processing...</span>
+                                <div className="w-5 h-5 border-b-2 border-purple-700 rounded-full animate-spin" />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>}
+
+
             {results && (
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse border border-gray-300">
                         <thead>
                             <tr className="bg-gray-200">
                                 <th className="border border-gray-300 px-4 py-2">File Name</th>
-                                {criteria.map((criterion, index) => (
+                                {criterias.map((criterion, index) => (
                                     <th key={index} className="border border-gray-300 px-4 py-2">
                                         Criteria {index + 1}
                                         <div className="text-sm text-gray-500">{criterion}</div>
@@ -100,9 +224,9 @@ export default function Results({ file, criteria }: ResultsProps) {
                             {results.map((result, index) => (
                                 <tr key={index} className="border border-gray-300">
                                     <td className="border border-gray-300 px-4 py-2">{result.fileName}</td>
-                                    {criteria.map((_, idx) => (
+                                    {criterias.map((_, idx) => (
                                         <td key={idx} className="border border-gray-300 px-4 py-2">
-                                            {result.criteria[`criteria${idx + 1}`]}
+                                            {result.criterias[`criteria${idx + 1}`]}
                                         </td>
                                     ))}
                                     <td className="border border-gray-300 px-4 py-2">

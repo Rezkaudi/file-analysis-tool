@@ -15,14 +15,16 @@ const FileUploader: React.FC<IFileUploader> = ({ files, setFiles }) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = Array.from(event.target.files || []);
-        const pdfFiles = selectedFiles.filter((file) => file.type === "application/pdf");
+        const pdfFiles = selectedFiles
+        // .filter((file) => file.type === "application/pdf");
         setFiles((prevFiles) => [...prevFiles, ...pdfFiles]);
     };
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const droppedFiles = Array.from(event.dataTransfer.files);
-        const pdfFiles = droppedFiles.filter((file) => file.type === "application/pdf");
+        const pdfFiles = droppedFiles
+        // .filter((file) => file.type === "application/pdf");
         setFiles((prevFiles) => [...prevFiles, ...pdfFiles]);
     };
 
@@ -44,7 +46,7 @@ const FileUploader: React.FC<IFileUploader> = ({ files, setFiles }) => {
 
     return (
         <div className="w-full p-4 border border-gray-300 rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Upload Files</h2>
+            <h2 className="text-lg font-semibold mb-10 text-purple-700">Upload Files</h2>
             <div
                 className="border-2 border-dashed border-gray-400 p-6 text-center cursor-pointer hover:bg-gray-100"
                 onDrop={handleDrop}
@@ -52,14 +54,14 @@ const FileUploader: React.FC<IFileUploader> = ({ files, setFiles }) => {
             >
                 <input
                     type="file"
-                    accept="application/pdf"
+                    // accept="application/pdf"
                     multiple
                     onChange={handleFileChange}
                     className="hidden"
                     id="fileInput"
                 />
-                <label htmlFor="fileInput" className="block text-gray-700 cursor-pointer">
-                    Drag & Drop PDF files here or <span className="text-blue-500">Browse</span>
+                <label htmlFor="fileInput" className=" text-gray-700 cursor-pointer h-40 flex items-center justify-center">
+                    Drag & Drop PDF files here or  <span className="text-purple-700">Browse</span>
                 </label>
             </div>
             <div className="grid grid-cols-3 gap-4 mt-4">
@@ -76,7 +78,7 @@ const FileUploader: React.FC<IFileUploader> = ({ files, setFiles }) => {
                     </div>
                 ))}
             </div>
-            <div className="mt-4 text-sm font-semibold">
+            <div className="mt-4 text-sm font-semibold text-gray-500">
                 Total Files: {files.length} | Total Size: {formatSize(totalSize)}
             </div>
         </div>

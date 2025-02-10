@@ -17,12 +17,15 @@ interface FileItem {
 
 const Index = () => {
   const [files, setFiles] = useState<FileItem[]>([]);
-  const [criteria, setCriteria] = useState<string[]>([""]);
+  // const [fileContents, setFileContents] = useState<string[]>([]);
+  const [criterias, setCriterias] = useState<string[]>([""]);
   const [currentStep, setCurrentStep] = useState(0);
+
+
 
   return (
     <div className="container mx-auto p-5">
-      <h1>File Analysis Tool</h1>
+      <h1 className="text-purple-700">File Analysis Tool</h1>
 
 
       <Stepper currentStep={currentStep} setCurrentStep={setCurrentStep}>
@@ -32,11 +35,11 @@ const Index = () => {
         </Step>
 
         <Step label="Step 2">
-          <CriteriaManager criteria={criteria} setCriteria={setCriteria} />
+          <CriteriaManager criterias={criterias} setCriterias={setCriterias} />
         </Step>
 
-        <Step label="Resulte">
-          <Results file={files} criteria={criteria} />
+        <Step label="Analysis Results">
+          <Results files={files} criterias={criterias} />
         </Step>
 
       </Stepper>
