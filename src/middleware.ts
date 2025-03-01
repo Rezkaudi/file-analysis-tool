@@ -22,5 +22,5 @@ export async function middleware(request: NextRequest) {
 
 // Configure which routes the middleware should protect
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images).*)'],
 };
