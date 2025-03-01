@@ -27,7 +27,7 @@ const CriteriaManager: React.FC<ICriteriaManager> = ({ criterias, setCriterias }
             <h2 className="text-xl font-semibold mb-4 text-purple-700 ">Add Analysis Criteria</h2>
             {criterias.map((criterion, index) => (
                 <div key={index} className="flex items-center gap-2 mb-2">
-                    <label className="text-purple-700 font-bold">{index + 1} - </label>
+                    <label className="text-purple-700 font-bold w-7">{index + 1} - </label>
                     <input
                         type="text"
                         value={criterion}

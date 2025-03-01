@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from 'sonner';
 
 // third parties
 import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
@@ -104,6 +105,7 @@ export default function RootLayout({
           pauseOnHover
           theme="colored"
         />
+        <Toaster position="top-right" richColors />
       </body>
       <GoogleAnalytics gaId="G-id" />
     </html>
