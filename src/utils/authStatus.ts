@@ -29,3 +29,14 @@ export async function setAccessToken(accessToken: string) {
         return null;
     }
 }
+
+export async function getAccessToken() {
+    try {
+        const cookieStore = cookies();
+        const accessToken = (await cookieStore).get("accessToken")?.value;
+        return accessToken;
+    } catch (error) {
+        console.error('Error setting access token:', error);
+        return null;
+    }
+}
