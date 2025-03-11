@@ -20,7 +20,7 @@ export async function setAccessToken(accessToken: string) {
         const cookieStore = cookies();
         (await cookieStore).set("accessToken", accessToken, {
             httpOnly: true,
-            maxAge: 0.5 * 60 * 60, // 0.5 hours
+            maxAge: 12 * 60 * 60, // 12 hours
             secure: true,
             sameSite: "strict"
         });

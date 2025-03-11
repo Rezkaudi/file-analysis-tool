@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 
 interface CreateCriteriaModalProps {
@@ -34,13 +36,20 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
-
-        await onSubmit(description);
-        setDescription('');
-        setIsLoading(false);
-
-        onClose();
+        try {
+            setIsLoading(true);
+            await onSubmit(description);
+            setDescription('');
+            onClose();
+            toast.success("Succsessfull")
+        }
+        catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            toast.error(axiosError.response?.data?.message);
+        }
+        finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -80,6 +89,7 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
                     </button>
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                     >
                         Add Criteria

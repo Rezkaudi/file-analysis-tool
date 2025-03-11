@@ -30,7 +30,7 @@ export function ResumeCard({ resume, onDelete }: ResumeCardProps) {
                 </button>
                 <div className="flex items-center gap-3 mb-4 cursor-pointer" onClick={handleGetFile}>
                     <FileText size={24} className="text-blue-600" />
-                    <h3 className="text-lg font-semibold">{resume.title}</h3>
+                    <h3 className="text-lg font-semibold line-clamp-1 break-words">{resume.title}</h3>
                     {isLoading && (
                         <div className="flex items-center justify-center">
                             <svg className="h-4 w-4 animate-spin text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

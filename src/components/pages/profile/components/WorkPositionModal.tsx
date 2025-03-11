@@ -113,7 +113,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 className="mt-1 block w-full border p-2  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                 rows={3}
-                                required
+                            // required
                             />
                         </div>
 

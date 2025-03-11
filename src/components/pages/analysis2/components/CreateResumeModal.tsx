@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import Modal from 'react-modal';
 import { X, Upload } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 
 interface CreateResumeModalProps {
@@ -50,13 +52,18 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit }: CreateResumeMod
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (file) {
-            setIsLoading(true)
-            await onSubmit(file);
+            try {
+                setIsLoading(true)
 
-            setFile(null);
-
-            setIsLoading(false)
-            onClose();
+                await onSubmit(file)
+                setFile(null);
+                onClose();
+            } catch (error) {
+                const axiosError = error as AxiosError<ApiError>;
+                toast.error(axiosError.response?.data?.message);
+            } finally {
+                setIsLoading(false)
+            }
         }
     };
 
