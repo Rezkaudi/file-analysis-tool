@@ -40,9 +40,9 @@ export function ResumeCard({ resume, onDelete }: ResumeCardProps) {
                         </div>
                     )}
                 </div>
-                {resume.score !== null && (
+                {/* {resume.score !== null && (
                     <p className="text-gray-700 mb-2">Score: {resume.score}</p>
-                )}
+                )} */}
 
                 <p className="text-sm text-gray-500">
                     Created: {format(new Date(resume.createdAt), 'MMM d, yyyy')}

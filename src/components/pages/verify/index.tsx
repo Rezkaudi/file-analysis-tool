@@ -3,11 +3,12 @@
 import { useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { apiUrl } from "@/utils/apiUrl";
+import { verify } from "@/services/auth";
+import { AxiosError } from "axios";
 
 export default function VerifyPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [code, setCode] = useState(["1", "2", "3", "4"]);
+  const [code, setCode] = useState(["", "", "", ""]);
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -63,23 +64,16 @@ export default function VerifyPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      // await new Promise(resolve => setTimeout(resolve, 1500));
+      const verifyData = { verificationId, verificationCode }
 
-      // Replace with actual API call
-      const response = await fetch(`${apiUrl}/v1/user/auth/verify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ verificationId, verificationCode }),
-      });
-
-      if (!response.ok) throw new Error('Verification failed');
+      await verify(verifyData)
+      router.push("/profile");
 
       toast.success("Account verified successfully!");
-      router.push("/login");
+
     } catch (error) {
-      toast.error("Verification failed. Please try again.");
-      console.error(error);
+      const axiosError = error as AxiosError<ApiError>;
+      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

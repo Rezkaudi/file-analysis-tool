@@ -9,7 +9,7 @@ import { CreateResumeModal } from './components/CreateResumeModal';
 import { addCritiria, deleteCritiria } from '@/services/criteria';
 import { getPositionById, startProcessing } from '@/services/positions';
 import { addResume, deleteResume } from '@/services/resume';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useRouter } from "next/navigation"; // Import useRouter
 import { AxiosError } from 'axios';
 import Link from 'next/link';
@@ -19,13 +19,16 @@ interface IAnalysis {
   id: string
 }
 
+
 const Index: React.FC<IAnalysis> = ({ data, id }) => {
   const [jobPosting, setJobPosting] = useState<WorkPosition>(data);
   const [isCriteriaModalOpen, setIsCriteriaModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProcess, setIsLoadingProcess] = useState(false);
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
+
+  // Initialize router
   // const [results, setResults] = useState<WorkPosition | null>(null);
   // const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
@@ -71,12 +74,14 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
 
   const handleCreateResume = async (file: File) => {
     await addResume(file, id)
-    await fetchPositionsById()
   };
 
   const startAnalysis = async () => {
     try {
       setIsLoadingProcess(true)
+      // if (jobPosting.status !== "completed") {
+      //   await startProcessing(id)
+      // }
       await startProcessing(id)
       // await fetchPositionsById()
       // setResults(res)
@@ -86,6 +91,7 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
     catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       toast.error(axiosError.response?.data?.message);
+      router.push(`/results/${id}`)
     }
     finally {
       setIsLoadingProcess(false)
@@ -163,6 +169,7 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
             </div> : <h4 className='w-full text-center mt-[50px] text-red-500'>No Resumes Found . Create New Resumes</h4>}
           </div>
 
+
           <div className='w-full flex items-center justify-center mt-[100px]'>
             <button className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
               onClick={startAnalysis}>
@@ -197,57 +204,6 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
               </Link>} */}
           </div>
 
-
-          {/* 
-          {results && (
-            <div className="overflow-x-auto pt-10">
-              <table className="w-full border-collapse border border-gray-300">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-gray-300 px-4 py-2">File Name</th>
-                    {data.criterias.map((criterion, index) => (
-                      <th key={index} className="border border-gray-300 px-4 py-2">
-                        Criteria {index + 1}
-                        <div className="text-sm text-gray-500">{criterion.description}</div>
-                      </th>
-                    ))}
-                    <th className="border border-gray-300 px-4 py-2">
-                      Score
-                      <button className="ml-2 px-2 py-1 bg-gray-300 rounded flex items-center" onClick={toggleSortOrder}>
-                        {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                      </button>
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">Analysis</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {results.resumes.map((result, index) => (
-                    <tr key={index} className="border border-gray-300">
-                      <td className="border border-gray-300 px-4 py-2">{result.title}</td>
-                      {results.criterias.map((item, idx: number) => (
-                        <td key={idx} className="border border-gray-300 px-4 py-2">
-                          {item.description}
-                        </td>
-                      ))}
-                      <td className="border border-gray-300 px-4 py-2">
-                        <div className="relative w-full bg-gray-200 rounded">
-                          <div
-                            className="bg-green-500 h-4 rounded"
-                            style={{ width: `${result.score}%` }}
-                          ></div>
-                          <span className="absolute inset-0 flex justify-center items-center text-xs font-semibold">
-                            {result.score}%
-                          </span>
-                        </div>
-                      </td>
-                     
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )} */}
-
         </div>
       )
       }
@@ -263,6 +219,7 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
         isOpen={isResumeModalOpen}
         onClose={() => setIsResumeModalOpen(false)}
         onSubmit={handleCreateResume}
+        fetchPositionsById={fetchPositionsById}
       />
     </div >
   );

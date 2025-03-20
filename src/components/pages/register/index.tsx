@@ -7,7 +7,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { apiUrl } from "@/utils/apiUrl";
+import { signup } from "@/services/auth";
+import { AxiosError } from "axios";
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -54,26 +55,15 @@ export default function RegisterPage() {
         password: data.password,
       };
 
-      console.log(apiData)
-
-      // Simulate API call
-      // await new Promise(resolve => setTimeout(resolve, 1500));
-
       // Replace with actual API call
-      const response = await fetch(`${apiUrl}/v1/user/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiData),
-      });
-
-      if (!response.ok) throw new Error('Registration failed');
-      const { verificationId }: { verificationId: string } = await response.json()
+      const response = await signup(apiData)
+      router.push(`/verify?verificationId=${response.verificationId}`);
 
       toast.success("Registration successful! Please verify your account.");
-      router.push(`/verify?verificationId=${verificationId}`);
+
     } catch (error) {
-      toast.error("Registration failed. Please try again.");
-      console.error(error);
+      const axiosError = error as AxiosError<ApiError>;
+      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

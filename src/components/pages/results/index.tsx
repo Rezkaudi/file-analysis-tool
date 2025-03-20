@@ -6,6 +6,8 @@ import { getPositionById } from '@/services/positions';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { getResumeFile } from '@/services/resume';
+import Link from 'next/link';
+import * as XLSX from "xlsx";
 
 interface IAnalysis {
   id: string
@@ -142,6 +144,26 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
   }, [fetchAndUpdatePosition]);
 
 
+  const handleExtractExcel = (data: Resume[]) => {
+    // Define the sheet data
+    const sheetData = data.map(({ title, score, explanation }) => ({
+      FileName: title,
+      Score: score,
+      Explanation: explanation,
+    }));
+
+    // Create a new worksheet
+    const worksheet = XLSX.utils.json_to_sheet(sheetData);
+
+    // Create a new workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Resumes");
+
+    // Convert the workbook to a binary Excel file
+    XLSX.writeFile(workbook, "resumes.xlsx");
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
 
@@ -151,7 +173,27 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between">
+            <span className={`px-3 py-1 flex gap-3 rounded-full text-sm font-medium ${position?.status === 'completed'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-yellow-100 text-yellow-800'
+              }`}>
+              {position?.status}
+
+              {position?.status === 'processing' && <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>}
+            </span>
+
+            <div className='flex gap-3'>
+              <Link className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-xl font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50" href={`/position/${id}`}>Back</Link>
+              {position?.status !== 'processing' && position?.resumes && <button className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-xl font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50" onClick={() => handleExtractExcel(position?.resumes)}>Extract as Excel</button>}
+            </div>
+          </div>
+
           <div className="overflow-x-auto pt-10">
+
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
@@ -162,40 +204,39 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                       <div className="text-sm text-gray-500">{criterion.description}</div>
                     </th>
                   ))} */}
-                  <th className="border border-gray-300 px-4 py-2 flex items-center justify-center">
+                  <th className=" px-4 py-2 flex items-center justify-center">
                     Score
                     <button className="ml-2 px-2 py-1 bg-gray-300 rounded flex items-center" onClick={toggleSortOrder}>
                       {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                     </button>
                   </th>
-                  {/* <th className="border border-gray-300 px-4 py-2">Analysis</th> */}
+                  <th className="border border-gray-300 px-4 py-2">Analysis</th>
                 </tr>
               </thead>
               <tbody>
                 {position?.resumes.map((result, index) => (
                   <tr key={index} className="border border-gray-300">
-                    <td className="border border-gray-300 w-[100%] flex items-center gap-2 justify-between px-4 py-2">
-                      {result.title}
-                      <button
-                        className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
-                        onClick={() => handleGetFile(result.id)}>
+
+                    <td className=" flex items-center gap-2 justify-between px-4 py-2">
+                      <span className='hover:text-purple-900 cursor-pointer flex gap-3' onClick={() => handleGetFile(result.id)}>
+                        {result.title}
                         {isLoadingFile && selectedFile === result.id && (
                           <div className="flex items-center justify-center">
-                            <svg className="h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <svg className="h-4 w-4 animate-spin text-purple-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
                           </div>
                         )}
-                        Download
-                      </button>
+                      </span>
+
                     </td>
                     {/* {position?.criterias.map((item, idx: number) => (
                       <td key={idx} className="border border-gray-300 px-4 py-2">
                         {item.description}
                       </td>
                     ))} */}
-                    <td className="border border-gray-300 w-[50%] px-4 py-2">
+                    <td className="border border-gray-300 px-4 py-2">
                       <div className="relative w-full bg-gray-200 rounded">
                         <div
                           className="bg-green-500 h-4 rounded"
@@ -206,9 +247,9 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                         </span>
                       </div>
                     </td>
-                    {/* <td className="border border-gray-300 px-4 py-2">
-                        {result.analysis}
-                      </td> */}
+                    <td className="border border-gray-300 px-4 py-2">
+                      {result.explanation}
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -6,7 +6,9 @@ import { WorkPositionModal } from './components/WorkPositionModal';
 import { DeleteConfirmationModal } from './components/DeleteConfirmationModal';
 import { Pagination } from './components/Pagination';
 import { getPositions, createPosition, updatePosition, deletePosition } from "@/services/positions"
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
+import { refreshToken } from '@/services/auth';
 
 
 const Index = () => {
@@ -34,9 +36,10 @@ const Index = () => {
             setPositions(response.items);
             setTotalPages(Math.ceil(response.count / pageSize));
 
-        } catch (err) {
-            setError('Failed to fetch positions');
-            console.error('Error fetching positions:', err);
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
+
         } finally {
             setIsLoading(false);
         }
@@ -44,7 +47,6 @@ const Index = () => {
 
     useEffect(() => {
         fetchPositions(currentPage);
-        console.log("ss")
     }, [currentPage]);
 
 
@@ -53,10 +55,15 @@ const Index = () => {
             await createPosition(data);
             fetchPositions(currentPage);
             toast.success("successful");
-        } catch (err) {
-            console.error('Error creating position:', err);
-            setError('Failed to create position');
-            toast.error("Failed to create position");
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            if (axiosError.response?.data?.statusCode === 401) {
+                await refreshToken()
+                await handleCreatePosition(data)
+            }
+            else {
+                toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
+            }
         }
     };
 
@@ -67,9 +74,9 @@ const Index = () => {
             await updatePosition(selectedPosition.id, data);
             fetchPositions(currentPage);
             toast.success("successful");
-        } catch (err) {
-            console.error('Error updating position:', err);
-            setError('Failed to update position');
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
         }
     };
 
@@ -78,9 +85,9 @@ const Index = () => {
             await deletePosition(id);
             fetchPositions(currentPage);
             toast.success("successful");
-        } catch (err) {
-            console.error('Error deleting position:', err);
-            setError('Failed to delete position');
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
         }
     };
 

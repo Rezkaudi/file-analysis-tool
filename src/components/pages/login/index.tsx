@@ -7,8 +7,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { setAccessToken } from "@/utils/authStatus";
 import { login } from "@/services/auth";
+import { AxiosError } from "axios";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -37,21 +37,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      // await new Promise(resolve => setTimeout(resolve, 1500));
-      // console.log(data)
-      // Replace with actual API call
-
-      const response = await login(data)
-      await setAccessToken(response.accessToken);
-
-
-      toast.success("Login successful");
+      await login(data)
       router.push("/profile");
-
+      toast.success("Login successful");
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.");
-      console.error(error);
+      const axiosError = error as AxiosError<ApiError>;
+      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -17,6 +17,7 @@ type Resume = {
     id: string;
     title: string;
     path: string;
+    explanation: string
     score: number | null;
     createdAt: string;
 }
@@ -38,6 +39,24 @@ type LoginFormData = {
     password: string
 }
 
+type RegisterFormData = {
+    email: string
+    password: string
+    name: string
+}
+
+type VerifyFormData = {
+    verificationId: string | null
+    verificationCode: string
+}
+
+type RefreshTokenFormData = {
+    email: string
+    password: string
+    name: string
+}
+
 type ApiError = {
     message: string;
+    statusCode: number;
 }
