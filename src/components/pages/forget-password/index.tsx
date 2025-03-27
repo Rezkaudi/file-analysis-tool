@@ -7,17 +7,16 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { login } from "@/services/auth";
+import { forgetPassword } from "@/services/auth";
 import { AxiosError } from "axios";
 
-const loginSchema = z.object({
+const forgetSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(4, { message: "Password must be at least 4 characters" }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type ForgetPasswordFormValues = z.infer<typeof forgetSchema>;
 
-export default function LoginPage() {
+export default function ForgetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -25,29 +24,22 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ForgetPasswordFormValues>({
+    resolver: zodResolver(forgetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  async function onSubmit(data: LoginFormValues) {
+  async function onSubmit(data: ForgetPasswordFormValues) {
     setIsLoading(true);
 
     try {
-      await login(data)
-      router.push("/profile");
-      toast.success("Login successful");
+      const response = await forgetPassword(data)
+      router.push(`/reset-password?verificationId=${response.verificationId}`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      if (axiosError.response?.data?.statusCode === 401) {
-        toast.error("Invalid email or password. Please try again.");
-      }
-      else {
-        toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-      }
+      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +49,9 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-[#8926a4]">Login</h1>
+          <h1 className="text-3xl font-bold text-[#8926a4]">Forget Password</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your credentials to access your account
+            Enter your email to Reset Password
           </p>
         </div>
 
@@ -82,24 +74,6 @@ export default function LoginPage() {
             )}
           </div>
 
-          <div className="space-y-1">
-            <label htmlFor="password" className="block text-sm font-medium text-purple-500">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              className={`w-full rounded-md border ${errors.password ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
-              {...register("password")}
-              disabled={isLoading}
-            />
-            {errors.password && (
-              <p className="text-xs text-red-500">{errors.password.message}</p>
-            )}
-          </div>
-
           <button
             type="submit"
             disabled={isLoading}
@@ -114,20 +88,15 @@ export default function LoginPage() {
                 Logging in...
               </div>
             ) : (
-              "Login"
+              "Submit"
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="font-medium text-[#8926a4] hover:opacity-80">
-            Register
-          </Link>
-        </div>
-        <div className="mt-2 text-center text-sm">
-          <Link href="/forget-password" className="font-medium text-[#8926a4] hover:opacity-80">
-            Forget Password
+          Do you have an account?{" "}
+          <Link href="/login" className="font-medium text-[#8926a4] hover:opacity-80">
+            Login
           </Link>
         </div>
       </div>

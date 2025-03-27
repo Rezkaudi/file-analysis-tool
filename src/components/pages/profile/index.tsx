@@ -9,6 +9,7 @@ import { getPositions, createPosition, updatePosition, deletePosition } from "@/
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
+import { getBalance } from '@/services/profile';
 
 
 const Index = () => {
@@ -17,6 +18,7 @@ const Index = () => {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [balance, setBalance] = useState<{ balance: number } | null>(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -45,8 +47,14 @@ const Index = () => {
         }
     };
 
+    const getBalanceData = async () => {
+        const response = await getBalance()
+        setBalance({ balance: response.balance })
+    };
+
     useEffect(() => {
         fetchPositions(currentPage);
+        getBalanceData()
     }, [currentPage]);
 
 
@@ -139,6 +147,12 @@ const Index = () => {
                     </div>
                 ) : (
                     <>
+                        {balance &&
+                            <span className="text-xl mx-2 py-10 block">
+                                Balance : {balance.balance}
+                            </span>
+                        }
+
                         {positions.length > 0 ? <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {positions.map((position) => (

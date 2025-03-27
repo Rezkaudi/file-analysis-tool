@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
-    const PUBLIC_PATHS = ['/', '/login', '/register', '/verify'];
+    const PUBLIC_PATHS = ['/', '/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy'];
 
     // Allow access to home page without authentication
     if (PUBLIC_PATHS.includes(pathname)) return NextResponse.next();

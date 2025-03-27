@@ -79,19 +79,16 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
   const startAnalysis = async () => {
     try {
       setIsLoadingProcess(true)
-      // if (jobPosting.status !== "completed") {
-      //   await startProcessing(id)
-      // }
       await startProcessing(id)
-      // await fetchPositionsById()
-      // setResults(res)
       router.push(`/results/${id}`)
       toast.success("Succsessfull")
     }
     catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       toast.error(axiosError.response?.data?.message);
-      router.push(`/results/${id}`)
+      if (axiosError.response?.data?.message !== "No enough points to process") {
+        router.push(`/results/${id}`)
+      }
     }
     finally {
       setIsLoadingProcess(false)
@@ -171,8 +168,10 @@ const Index: React.FC<IAnalysis> = ({ data, id }) => {
 
 
           <div className='w-full flex items-center justify-center mt-[100px]'>
-            <button className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
-              onClick={startAnalysis}>
+            <button className="flex px-10 py-3 text-xl items-center gap-2 disabled:cursor-not-allowed rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+              onClick={startAnalysis}
+              disabled={jobPosting.resumes.length === 0 || jobPosting.criterias.length === 0}
+            >
               Start Analysis
               {isLoadingProcess && (
                 <div className="flex items-center justify-center">

@@ -3,10 +3,14 @@
 import { useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { verify, resendVerificationCode } from "@/services/auth";
+import { resendVerificationCode, resetPassword } from "@/services/auth";
 import { AxiosError } from "axios";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function VerifyPage() {
+
+export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingResend, setIsLoadingResend] = useState(false);
 
@@ -17,8 +21,32 @@ export default function VerifyPage() {
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
   ];
+
+  const resetPasswordSchema = z.object({
+    newPassword: z.string().min(4, { message: "Password must be at least 4 characters" }),
+    repassword: z.string(),
+  }).refine((data) => data.newPassword === data.repassword, {
+    message: "Passwords do not match",
+    path: ["repassword"],
+  });
+
+  type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
+
   const router = useRouter();
   const verificationId = useSearchParams().get('verificationId')
+
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      newPassword: "",
+      repassword: "",
+    },
+  });
 
   const handleChange = (index: number, value: string) => {
     // Only allow numbers
@@ -55,7 +83,7 @@ export default function VerifyPage() {
     }
   };
 
-  async function handleVerify() {
+  async function onSubmit(data: ResetPasswordFormValues) {
     const verificationCode = code.join("");
 
     if (verificationCode.length !== 4) {
@@ -66,12 +94,12 @@ export default function VerifyPage() {
     setIsLoading(true);
 
     try {
-      const verifyData = { verificationId, verificationCode }
+      const resetPasswordData = { verificationId, verificationCode, newPassword: data.newPassword }
 
-      await verify(verifyData)
+      await resetPassword(resetPasswordData)
       router.push("/profile");
 
-      toast.success("Account verified successfully!");
+      toast.success("Reset Password successfully!");
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
@@ -129,24 +157,63 @@ export default function VerifyPage() {
             ))}
           </div>
 
-          <button
-            onClick={handleVerify}
-            disabled={isLoading || code.some(digit => !digit)}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 hover:bg-blue-700  focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center">
-                <svg className="mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Verifying...
-              </div>
-            ) : (
-              "Verify Account"
-            )}
-          </button>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
+
+            <div className="space-y-1">
+              <label htmlFor="password" className="block text-sm font-medium text-[#8926a4]">
+                New Password
+              </label>
+              <input
+                id="newPassword"
+                type="password"
+                placeholder="••••••••"
+                className={`w-full rounded-md border ${errors.newPassword ? "border-red-500" : "border-gray-300"
+                  } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                {...register("newPassword")}
+                disabled={isLoading}
+              />
+              {errors.newPassword && (
+                <p className="text-xs text-red-500">{errors.newPassword.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
+                Confirm Password
+              </label>
+              <input
+                id="repassword"
+                type="password"
+                placeholder="••••••••"
+                className={`w-full rounded-md border ${errors.repassword ? "border-red-500" : "border-gray-300"
+                  } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                {...register("repassword")}
+                disabled={isLoading}
+              />
+              {errors.repassword && (
+                <p className="text-xs text-red-500">{errors.repassword.message}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg className="mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Reset...
+                </div>
+              ) : (
+                "Reset Password"
+              )}
+            </button>
+          </form>
 
           <div className="text-center text-sm">
             Didn&apos;t receive a code?{" "}

@@ -94,3 +94,21 @@ export async function getRefreshToken(): Promise<string | null> {
         return null;
     }
 }
+
+export async function removeRefreshToken(): Promise<void> {
+    try {
+        const cookieStore = cookies();
+        (await cookieStore).delete(finalConfig.refreshTokenName);
+    } catch (error) {
+        console.error('Error removing refresh token:', error);
+    }
+}
+
+export async function removeAccessToken(): Promise<void> {
+    try {
+        const cookieStore = cookies();
+        (await cookieStore).delete(finalConfig.accessTokenName);
+    } catch (error) {
+        console.error('Error removing access token:', error);
+    }
+}

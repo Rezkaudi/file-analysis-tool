@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+;
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -11,9 +13,17 @@ import { signup } from "@/services/auth";
 import { AxiosError } from "axios";
 
 const registerSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters" })
+    .regex(/^[a-zA-Z\s]+$/, { message: "Name must contain only letters and spaces" }),
+
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(4, { message: "Password must be at least 4 characters" }),
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" })
+    .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
+
   repassword: z.string(),
   terms: z.boolean().refine(val => val === true, {
     message: "You must accept the terms and conditions",
@@ -27,6 +37,9 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const router = useRouter();
 
   const {
@@ -63,7 +76,12 @@ export default function RegisterPage() {
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
+      if (axiosError.response?.data?.statusCode === 409) {
+        toast.error(`${axiosError.response?.data?.message}: This Email addresses already registered` || "Failed. Please try again.");
+      }
+      else {
+        toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -87,6 +105,7 @@ export default function RegisterPage() {
             <input
               id="name"
               type="text"
+              maxLength={30}
               placeholder="John Doe"
               className={`w-full rounded-md border ${errors.name ? "border-red-500" : "border-gray-300"
                 } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
@@ -120,15 +139,29 @@ export default function RegisterPage() {
             <label htmlFor="password" className="block text-sm font-medium text-[#8926a4]">
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              className={`w-full rounded-md border ${errors.password ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
-              {...register("password")}
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                className={`w-full rounded-md border ${errors.password ? "border-red-500" : "border-gray-300"}
+        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                {...register("password")}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-md transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOffIcon className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-xs text-red-500">{errors.password.message}</p>
             )}
@@ -138,15 +171,29 @@ export default function RegisterPage() {
             <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
               Confirm Password
             </label>
-            <input
-              id="repassword"
-              type="password"
-              placeholder="••••••••"
-              className={`w-full rounded-md border ${errors.repassword ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
-              {...register("repassword")}
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <input
+                id="repassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="••••••••"
+                className={`w-full rounded-md border ${errors.repassword ? "border-red-500" : "border-gray-300"}
+        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                {...register("repassword")}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-md transition-colors"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? (
+                  <EyeOffIcon className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
+            </div>
             {errors.repassword && (
               <p className="text-xs text-red-500">{errors.repassword.message}</p>
             )}
@@ -162,7 +209,8 @@ export default function RegisterPage() {
             />
             <div className="space-y-1 leading-none">
               <label htmlFor="terms" className="text-sm font-medium text-gray-700">
-                I agree to the terms of service and privacy policy
+                I agree to the terms of service and
+                <Link className="ml-1 text-purple-600 underline" href="/privacy-policy">privacy policy</Link>
               </label>
               {errors.terms && (
                 <p className="text-xs text-red-500">{errors.terms.message}</p>

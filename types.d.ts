@@ -7,6 +7,12 @@ type WorkPosition = {
     resumes: Resume[]
 }
 
+type BalanceHistory = {
+    id: string;
+    amount: number;
+    createdAt: string;
+}
+
 type Criteria = {
     id: string;
     description: string;
@@ -50,6 +56,20 @@ type VerifyFormData = {
     verificationCode: string
 }
 
+type VerificationCodeFormData = {
+    verificationId: string | null
+}
+
+type ForgetPasswordFormData = {
+    email: string
+}
+
+type ResetPasswordFormData = {
+    verificationId: string | null
+    verificationCode: string
+    newPassword: string
+}
+
 type RefreshTokenFormData = {
     email: string
     password: string
@@ -59,4 +79,9 @@ type RefreshTokenFormData = {
 type ApiError = {
     message: string;
     statusCode: number;
+}
+
+type ChangePasswordFormData = {
+    oldPassword: string
+    newPassword: string
 }
