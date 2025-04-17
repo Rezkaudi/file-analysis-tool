@@ -6,9 +6,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { forgetPassword } from "@/services/auth";
-import { AxiosError } from "axios";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const forgetSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -19,6 +17,7 @@ type ForgetPasswordFormValues = z.infer<typeof forgetSchema>;
 export default function ForgetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { forgetPasswordUser } = useAuthStore()
 
   const {
     register,
@@ -33,16 +32,8 @@ export default function ForgetPasswordPage() {
 
   async function onSubmit(data: ForgetPasswordFormValues) {
     setIsLoading(true);
-
-    try {
-      const response = await forgetPassword(data)
-      router.push(`/reset-password?verificationId=${response.verificationId}`);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    await forgetPasswordUser(data, router)
+    setIsLoading(false);
   }
 
   return (

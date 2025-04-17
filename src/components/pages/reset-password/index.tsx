@@ -3,16 +3,16 @@
 import { useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { resendVerificationCode, resetPassword } from "@/services/auth";
-import { AxiosError } from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthStore } from "@/store/useAuthStore";
 
 
 export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingResend, setIsLoadingResend] = useState(false);
+  const { resetPasswordUser, resendVerificationCodeForResetUser } = useAuthStore()
 
   const [code, setCode] = useState(["", "", "", ""]);
   const inputRefs = [
@@ -92,40 +92,19 @@ export default function ResetPasswordPage() {
     }
 
     setIsLoading(true);
+    const resetPasswordData = { verificationId, verificationCode, newPassword: data.newPassword }
+    await resetPasswordUser(resetPasswordData, router)
+    setIsLoading(false);
 
-    try {
-      const resetPasswordData = { verificationId, verificationCode, newPassword: data.newPassword }
-
-      await resetPassword(resetPasswordData)
-      router.push("/profile");
-
-      toast.success("Reset Password successfully!");
-
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   async function handleResend() {
 
     setIsLoadingResend(true);
+    const resendCodeData = { verificationId }
+    await resendVerificationCodeForResetUser(resendCodeData, router)
+    setIsLoadingResend(false);
 
-    try {
-      const resendCodeData = { verificationId }
-      const response = await resendVerificationCode(resendCodeData)
-      router.push(`/reset-password?verificationId=${response.verificationId}`);
-
-      toast.info("A new verification code has been sent.")
-
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-    } finally {
-      setIsLoadingResend(false);
-    }
   }
 
   return (

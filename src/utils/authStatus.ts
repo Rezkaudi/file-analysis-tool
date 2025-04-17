@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 interface AuthConfig {
     accessTokenName: string;
     refreshTokenName: string;
+    userDataName: string
     accessTokenDuration: number; // in seconds
     refreshTokenDuration: number; // in seconds
 }
@@ -11,6 +12,7 @@ interface AuthConfig {
 const DEFAULT_CONFIG: AuthConfig = {
     accessTokenName: 'accessToken',
     refreshTokenName: 'refreshToken',
+    userDataName: "userData",
     accessTokenDuration: 12 * 60 * 60, // 12 hours
     refreshTokenDuration: 30 * 24 * 60 * 60 // 30 days
 };
@@ -110,5 +112,42 @@ export async function removeAccessToken(): Promise<void> {
         (await cookieStore).delete(finalConfig.accessTokenName);
     } catch (error) {
         console.error('Error removing access token:', error);
+    }
+}
+
+
+export async function setUserData(user: User): Promise<void> {
+    try {
+        const cookieStore = cookies();
+        (await cookieStore).set(finalConfig.userDataName, JSON.stringify(user), {
+            httpOnly: true,
+            maxAge: finalConfig.accessTokenDuration,
+            secure: true,
+            sameSite: "strict",
+            path: "/"
+        });
+    } catch (error) {
+        console.error('Error setting user data:', error);
+        throw error;
+    }
+}
+
+export async function getUserData(): Promise<User | null> {
+    try {
+        const cookieStore = cookies();
+        const userData = (await cookieStore).get(finalConfig.userDataName);
+        return userData ? JSON.parse(userData.value) : null;
+    } catch (error) {
+        console.error('Error getting user data:', error);
+        return null;
+    }
+}
+
+export async function removeUserData(): Promise<void> {
+    try {
+        const cookieStore = cookies();
+        (await cookieStore).delete(finalConfig.userDataName);
+    } catch (error) {
+        console.error('Error removing user data:', error);
     }
 }

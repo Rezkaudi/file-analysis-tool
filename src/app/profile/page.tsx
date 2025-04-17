@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 // page
-import Profile from "@/components/pages/profile"
+import Profile from "@/components/pages/use-cases"
 
 // baseUrl
 import { baseUrl } from '@/utils/baseUrl';

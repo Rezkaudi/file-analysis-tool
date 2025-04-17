@@ -4,12 +4,13 @@ import { Plus } from 'lucide-react';
 import { WorkPositionCard } from './components/WorkPositionCard';
 import { WorkPositionModal } from './components/WorkPositionModal';
 import { DeleteConfirmationModal } from './components/DeleteConfirmationModal';
+import { DuplicateConfirmationModal } from './components/DuplicateConfirmationModal';
+
 import { Pagination } from './components/Pagination';
-import { getPositions, createPosition, updatePosition, deletePosition } from "@/services/positions"
+import { getPositions, createPosition, updatePosition, deletePosition, duplicatePosition } from "@/services/positions"
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
-import { getBalance } from '@/services/profile';
 
 
 const Index = () => {
@@ -18,12 +19,14 @@ const Index = () => {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    const [balance, setBalance] = useState<{ balance: number } | null>(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
     const [selectedPosition, setSelectedPosition] = useState<WorkPosition | undefined>();
     const [positionToDelete, setPositionToDelete] = useState<WorkPosition | undefined>();
+    const [positionToDuplicate, setPositionToDuplicate] = useState<WorkPosition | undefined>();
+
     const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
     const pageSize = 20
 
@@ -47,14 +50,9 @@ const Index = () => {
         }
     };
 
-    const getBalanceData = async () => {
-        const response = await getBalance()
-        setBalance({ balance: response.balance })
-    };
 
     useEffect(() => {
         fetchPositions(currentPage);
-        getBalanceData()
     }, [currentPage]);
 
 
@@ -99,6 +97,18 @@ const Index = () => {
         }
     };
 
+    const handleDuplicatePosition = async (id: string) => {
+        try {
+            await duplicatePosition(id);
+            fetchPositions(currentPage);
+            toast.success("successful");
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiError>;
+            toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
+        }
+    };
+
+
     const openCreateModal = () => {
         setModalMode('create');
         setSelectedPosition(undefined);
@@ -116,6 +126,13 @@ const Index = () => {
         setIsDeleteModalOpen(true);
     };
 
+    const openDuplicateModal = (position: WorkPosition) => {
+        setPositionToDuplicate(position);
+        setIsDuplicateModalOpen(true);
+    };
+
+
+
     if (error) {
         return (
             <div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
@@ -130,14 +147,14 @@ const Index = () => {
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="max-w-6xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-xl lg:text-3xl font-bold text-gray-900">Job Positions</h1>
+                    <h1 className="text-xl lg:text-3xl font-bold text-gray-900">Use Cases</h1>
                     <button
                         onClick={openCreateModal}
                         className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
 
                     >
                         <Plus size={20} />
-                        Add Position
+                        Add Use Case
                     </button>
                 </div>
 
@@ -147,20 +164,16 @@ const Index = () => {
                     </div>
                 ) : (
                     <>
-                        {balance &&
-                            <span className="text-xl mx-2 py-10 block">
-                                Balance : {balance.balance}
-                            </span>
-                        }
-
                         {positions.length > 0 ? <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {positions.map((position) => (
                                     <WorkPositionCard
+                                        fetchPositions={() => fetchPositions(currentPage)}
                                         key={position.id}
                                         position={position}
                                         onEdit={openEditModal}
                                         onDelete={openDeleteModal}
+                                        onDuplicate={openDuplicateModal}
                                     />
                                 ))}
                             </div>
@@ -191,6 +204,17 @@ const Index = () => {
                         }
                     }}
                     positionTitle={positionToDelete?.title || ''}
+                />
+
+                <DuplicateConfirmationModal
+                    isOpen={isDuplicateModalOpen}
+                    onClose={() => setIsDuplicateModalOpen(false)}
+                    onConfirm={async () => {
+                        if (positionToDuplicate) {
+                            await handleDuplicatePosition(positionToDuplicate.id);
+                        }
+                    }}
+                    positionTitle={positionToDuplicate?.title || ''}
                 />
             </div>
         </div>

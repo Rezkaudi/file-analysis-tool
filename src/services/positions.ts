@@ -38,6 +38,11 @@ export const updatePosition = async (id: string, data: WorkPositionFormData) => 
     return response.data;
 };
 
+export const duplicatePosition = async (id: string) => {
+    const response = await api.post(`/v1/user/positions/${id}/duplicate`, {});
+    return response.data;
+};
+
 export const deletePosition = async (id: string) => {
     await api.delete(`/v1/user/positions/${id}`);
 };

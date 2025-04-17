@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '@/utils/apiUrl';
-import { getRefreshToken, removeAccessToken, removeRefreshToken, setAccessToken, setRefreshToken } from '@/utils/authStatus';
+import { getRefreshToken, removeAccessToken, removeRefreshToken, removeUserData, setAccessToken, setRefreshToken, setUserData } from '@/utils/authStatus';
 
 
 const api = axios.create({
@@ -22,6 +22,7 @@ export const login = async (data: LoginFormData) => {
     const response = await api.post(endPoint.login, data);
     await setRefreshToken(response.data.refreshToken)
     await setAccessToken(response.data.accessToken)
+    await setUserData(response.data.user)
     return response.data
     // response is {accessToken,refreshToken,user} (user data)
 };
@@ -29,7 +30,7 @@ export const login = async (data: LoginFormData) => {
 export const logout = async () => {
     await removeRefreshToken()
     await removeAccessToken()
-    window.open("/login");
+    await removeUserData()
 };
 
 export const signup = async (data: RegisterFormData) => {
@@ -42,6 +43,7 @@ export const verify = async (data: VerifyFormData) => {
     const response = await api.post(endPoint.verify, data);
     await setRefreshToken(response.data.refreshToken)
     await setAccessToken(response.data.accessToken)
+    await setUserData(response.data.user)
     return response.data
     // response is {accessToken,refreshToken,user} (user data)
 };
@@ -57,6 +59,8 @@ export const refreshToken = async () => {
     );
     await setRefreshToken(response.data.refreshToken)
     await setAccessToken(response.data.accessToken)
+    await setUserData(response.data.user)
+
     return response.data
     // response is {accessToken,refreshToken,user} (user data)
 };
@@ -65,7 +69,6 @@ export const resendVerificationCode = async (data: VerificationCodeFormData) => 
     const response = await api.post(endPoint.resendVerificationCode, data);
     return response.data
 };
-
 
 export const forgetPassword = async (data: ForgetPasswordFormData) => {
     const response = await api.post(endPoint.forgetPassword, data);
@@ -77,6 +80,8 @@ export const resetPassword = async (data: ResetPasswordFormData) => {
     const response = await api.post(endPoint.resetPassword, data);
     await setRefreshToken(response.data.refreshToken)
     await setAccessToken(response.data.accessToken)
+    await setUserData(response.data.user)
+
     return response.data
     // response is {accessToken,refreshToken,user} (user data)
 };

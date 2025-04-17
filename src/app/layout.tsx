@@ -26,6 +26,7 @@ import Footer from "@/components/common/sections/Footer";
 // baseUrl
 import { baseUrl } from '@/utils/baseUrl';
 import { ToastContainer } from "react-toastify";
+import AuthProvider from "./AuthProvider";
 
 // metadata
 export const metadata: Metadata = {
@@ -89,24 +90,29 @@ export default function RootLayout({
     <html lang="en">
       <GoogleTagManager gtmId="G-id" />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        <Toaster position="top-right" richColors />
+          <Header />
+          {children}
+          <Footer />
+
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+          <Toaster position="top-right" richColors />
+        </AuthProvider>
+
       </body>
+
       <GoogleAnalytics gaId="G-id" />
     </html>
   );

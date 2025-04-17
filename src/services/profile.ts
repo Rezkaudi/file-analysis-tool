@@ -14,7 +14,8 @@ const endPoint = {
     profile: "/v1/user/profile",
     balance: "/v1/user/pointsCharges/balance",
     history: "/v1/user/pointsCharges/history",
-    changePassword: "/v1/user/profile/password"
+    changePassword: "/v1/user/profile/password",
+    products: "/v1/user/payment/products"
 }
 
 api.interceptors.request.use(
@@ -47,4 +48,14 @@ export const getProfileData = async () => {
 
 export const changePassword = async (data: ChangePasswordFormData) => {
     await api.patch(endPoint.changePassword, data);
+};
+
+export const getProducts = async () => {
+    const response = await api.get(endPoint.products);
+    return response.data;
+};
+
+export const buyProducts = async () => {
+    const response = await api.get(endPoint.products);
+    return response.data;
 };

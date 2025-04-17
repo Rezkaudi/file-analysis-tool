@@ -6,9 +6,8 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { login } from "@/services/auth";
-import { AxiosError } from "axios";
+import { useAuthStore } from "@/store/useAuthStore";
+
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -20,6 +19,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { loginUser } = useAuthStore()
 
   const {
     register,
@@ -35,22 +35,9 @@ export default function LoginPage() {
 
   async function onSubmit(data: LoginFormValues) {
     setIsLoading(true);
+    await loginUser(data, router)
+    setIsLoading(false);
 
-    try {
-      await login(data)
-      router.push("/profile");
-      toast.success("Login successful");
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      if (axiosError.response?.data?.statusCode === 401) {
-        toast.error("Invalid email or password. Please try again.");
-      }
-      else {
-        toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   return (

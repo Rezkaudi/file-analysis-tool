@@ -85,3 +85,30 @@ type ChangePasswordFormData = {
     oldPassword: string
     newPassword: string
 }
+
+type User = {
+    id: string;
+    name: string;
+    email: string;
+    imageUrl: string | null;
+    verifiedAt: string;
+    createdAt: string
+}
+
+type PricingTier = {
+    id: string;
+    name: string;
+    description: string;
+    currency: string;
+    unit_amount: number;
+    price: string;
+    points: number;
+    metadata: {
+        points: string;
+    };
+}
+
+type UserData = {
+    userInfo: User | null,
+    balance: number | null
+}

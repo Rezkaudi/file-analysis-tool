@@ -8,9 +8,8 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { signup } from "@/services/auth";
-import { AxiosError } from "axios";
+
+import { useAuthStore } from "@/store/useAuthStore";
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" })
@@ -18,11 +17,12 @@ const registerSchema = z.object({
 
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
+  // .min(8, { message: "Password must be at least 8 characters" })
+  // .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+  // .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+  // .regex(/[0-9]/, { message: "Password must contain at least one number" })
+  // .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" })
+  ,
 
   repassword: z.string(),
   terms: z.boolean().refine(val => val === true, {
@@ -39,6 +39,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { signupUser } = useAuthStore()
 
   const router = useRouter();
 
@@ -60,31 +61,15 @@ export default function RegisterPage() {
   async function onSubmit(data: RegisterFormValues) {
     setIsLoading(true);
 
-    try {
-      // Extract only the required fields for API submission
-      const apiData = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      };
+    const apiData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
 
-      // Replace with actual API call
-      const response = await signup(apiData)
-      router.push(`/verify?verificationId=${response.verificationId}`);
+    await signupUser(apiData, router)
 
-      toast.success("Registration successful! Please verify your account.");
-
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      if (axiosError.response?.data?.statusCode === 409) {
-        toast.error(`${axiosError.response?.data?.message}: This Email addresses already registered` || "Failed. Please try again.");
-      }
-      else {
-        toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   }
 
   return (

@@ -1,24 +1,34 @@
 import React from 'react';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Copy } from 'lucide-react';
 import Link from 'next/link';
+import { duplicatePosition } from '@/services/positions';
 
 interface WorkPositionCardProps {
     position: WorkPosition;
     onEdit: (position: WorkPosition) => void;
     onDelete: (position: WorkPosition) => void;
+    fetchPositions: () => void
 }
 
 export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
     position,
     onEdit,
     onDelete,
+    fetchPositions
 }) => {
+
+    const duplicate = async () => {
+        await duplicatePosition(position.id)
+        fetchPositions()
+    }
+
     return (
         <Link href={`/position/${position.id}`} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-start mb-4">
                 <h3 className="text-xl font-semibold text-gray-800">{position.title}</h3>
-                <div className="flex space-x-2">
+                <div className="flex space-x-1">
                     <button
+                        title='Edit this Use Case'
                         onClick={(e) => {
                             e.stopPropagation()
                             e.nativeEvent.stopImmediatePropagation();
@@ -30,6 +40,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                         <Pencil size={18} />
                     </button>
                     <button
+                        title='Delete this Use Case'
                         onClick={(e) => {
                             e.stopPropagation()
                             e.nativeEvent.stopImmediatePropagation();
@@ -39,6 +50,20 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                         className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
                     >
                         <Trash2 size={18} />
+                    </button>
+
+                    <button
+                        title='Duplicate this Use Case'
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            e.nativeEvent.stopImmediatePropagation();
+                            e.preventDefault();
+
+                            duplicate()
+                        }}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                    >
+                        <Copy size={18} />
                     </button>
                 </div>
             </div>
