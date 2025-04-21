@@ -44,7 +44,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-[#8926a4]">Login</h1>
+          <h1 className="text-3xl font-bold text-primary">Login</h1>
           <p className="mt-2 text-sm text-gray-600">
             Enter your credentials to access your account
           </p>
@@ -52,7 +52,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
-            <label htmlFor="email" className="block text-sm font-medium text-purple-500">
+            <label htmlFor="email" className="block text-sm font-medium text-secondary">
               Email
             </label>
             <input
@@ -70,7 +70,7 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="password" className="block text-sm font-medium text-purple-500">
+            <label htmlFor="password" className="block text-sm font-medium text-secondary">
               Password
             </label>
             <input
@@ -90,7 +90,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -108,12 +108,12 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="font-medium text-[#8926a4] hover:opacity-80">
+          <Link href="/register" className="font-medium text-primary hover:opacity-80">
             Register
           </Link>
         </div>
         <div className="mt-2 text-center text-sm">
-          <Link href="/forget-password" className="font-medium text-[#8926a4] hover:opacity-80">
+          <Link href="/forget-password" className="font-medium text-primary hover:opacity-80">
             Forget Password
           </Link>
         </div>

@@ -188,7 +188,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
             <div className='flex gap-3'>
               {position?.status !== 'processing' && position?.resumes &&
                 <button
-                  className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                   onClick={() => handleExtractExcel(position?.resumes)}>
                   Export
                   <Download size={16} />

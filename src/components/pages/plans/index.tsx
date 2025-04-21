@@ -138,7 +138,7 @@ const Index = () => {
                                 </div>
 
                                 <button
-                                    className="mt-8 block w-full text-xl rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-4 text-center font-medium text-white shadow focus:ring-offset-2"
+                                    className="mt-8 block w-full text-xl rounded-md bg-gradient-to-r from-secondary to-accent px-6 py-4 text-center font-medium text-white shadow focus:ring-offset-2"
                                     onClick={() => setSelectedTier(tier)}
                                 >
                                     Buy

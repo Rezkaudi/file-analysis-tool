@@ -76,7 +76,7 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-[#8926a4]">Create an account</h1>
+          <h1 className="text-4xl font-black text-primary">Create an account</h1>
           <p className="mt-3 text-sm text-gray-600">
             Enter your information to create an account
           </p>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
-            <label htmlFor="name" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="name" className="block text-sm font-medium text-primary">
               Name
             </label>
             <input
@@ -103,7 +103,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="email" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="email" className="block text-sm font-medium text-primary">
               Email
             </label>
             <input
@@ -121,7 +121,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="password" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="password" className="block text-sm font-medium text-primary">
               Password
             </label>
             <div className="relative">
@@ -153,7 +153,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="repassword" className="block text-sm font-medium text-primary">
               Confirm Password
             </label>
             <div className="relative">
@@ -195,7 +195,7 @@ export default function RegisterPage() {
             <div className="space-y-1 leading-none">
               <label htmlFor="terms" className="text-sm font-medium text-gray-700">
                 I agree to the terms of service and
-                <Link className="ml-1 text-purple-600 underline" href="/privacy-policy">privacy policy</Link>
+                <Link className="ml-1 text-secondary underline" href="/privacy-policy">privacy policy</Link>
               </label>
               {errors.terms && (
                 <p className="text-xs text-red-500">{errors.terms.message}</p>
@@ -206,7 +206,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -224,7 +224,7 @@ export default function RegisterPage() {
 
         <div className="mt-6 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-[#8926a4] hover:opacity-80">
+          <Link href="/login" className="font-medium text-primary hover:opacity-80">
             Login
           </Link>
         </div>

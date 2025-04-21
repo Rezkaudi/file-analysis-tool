@@ -30,7 +30,7 @@ const Services = () => {
         <section className="py-[100px]">
             {/* Section Title */}
             <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tight text-[#8926a4] sm:text-5xl">
+                <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-5xl">
                     Our Services
                 </h2>
             </div>

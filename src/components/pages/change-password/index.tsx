@@ -65,7 +65,7 @@ export default function ChangePasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-[#8926a4]">Change Password</h1>
+          <h1 className="text-4xl font-black text-primary">Change Password</h1>
           <p className="mt-3 text-sm text-gray-600">
             Enter your information to Change Password
           </p>
@@ -74,7 +74,7 @@ export default function ChangePasswordPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
           <div className="space-y-1">
-            <label htmlFor="oldPassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="oldPassword" className="block text-sm font-medium text-primary">
               Old Password
             </label>
             <input
@@ -92,7 +92,7 @@ export default function ChangePasswordPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="newPassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="newPassword" className="block text-sm font-medium text-primary">
               New Password
             </label>
             <input
@@ -110,7 +110,7 @@ export default function ChangePasswordPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="repassword" className="block text-sm font-medium text-primary">
               Confirm New Password
             </label>
             <input
@@ -132,7 +132,7 @@ export default function ChangePasswordPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">

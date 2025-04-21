@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     const { isAuthenticated, userBalance } = useAuthStore()
 
     return (
-        <header className="w-full h-20 lg:h-20 sticky top-0 z-50 bg-[#8926a4] text-white" aria-label="Website Header">
+        <header className="w-full h-20 lg:h-20 sticky top-0 z-50 bg-primary text-white" aria-label="Website Header">
             <div className="px-4 lg:px-7 flex w-full justify-between items-center gap-8 h-full relative">
                 {/* logo */}
                 <Link href="/" className="relative block text-md lg:text-3xl font-black">
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
                 {!isAuthenticated ? (
                     pathname !== "/login" && <Link
                         href="/login"
-                        className=" block text-xl bg-white text-[#8926a4] py-2 px-4 rounded font-black"
+                        className=" block text-xl bg-white text-primary py-2 px-4 rounded font-black"
                     >
                         Login
                     </Link>
@@ -64,7 +64,7 @@ export default Header;
 
 //     <button
 //         onClick={logout}
-//         className="relative block text-xl bg-white text-[#8926a4] py-2 px-4 rounded font-black"
+//         className="relative block text-xl bg-white text-primary py-2 px-4 rounded font-black"
 //     >
 //         logout
 //     </button>

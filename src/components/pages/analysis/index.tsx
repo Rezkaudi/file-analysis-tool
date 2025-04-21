@@ -25,7 +25,7 @@ const Index = () => {
 
   return (
     <div className="container mx-auto p-5">
-      <h1 className="text-purple-700">File Analysis Tool</h1>
+      <h1 className="text-primary">File Analysis Tool</h1>
 
 
       <Stepper currentStep={currentStep} setCurrentStep={setCurrentStep}>

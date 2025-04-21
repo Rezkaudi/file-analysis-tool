@@ -139,20 +139,20 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                   </div>
                 </div>
 
-                {/* <Link className="flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-xl font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50" href={"/profile"}>Back</Link> */}
+                {/* <Link className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-xl font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50" href={"/profile"}>Back</Link> */}
 
               </div>
               <div className="flex gap-4">
                 <button
                   onClick={() => setIsCriteriaModalOpen(true)}
-                  className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                  className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 >
                   <Plus size={20} />
                   Add Criteria
                 </button>
                 <button
                   onClick={() => setIsResumeModalOpen(true)}
-                  className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                  className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 >
                   <Plus size={20} />
                   Upload Resume
@@ -188,7 +188,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
 
 
             {jobPosting.status !== 'completed' && <div className='w-full flex items-center justify-center mt-[100px]'>
-              <button className="flex px-10 py-3 text-xl items-center gap-2 disabled:cursor-not-allowed rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+              <button className="flex px-10 py-3 text-xl items-center gap-2 disabled:cursor-not-allowed rounded-md bg-gradient-to-r from-secondary to-accent font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 onClick={startAnalysis}
                 disabled={jobPosting.resumes.length === 0 || jobPosting.criterias.length === 0}
               >
@@ -205,7 +205,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
               </button>
               {/* {jobPosting.status === "created" ?
 
-          <button className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+          <button className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
             onClick={startAnalysis}>
             Start Analysis
             {isLoadingProcess && (
@@ -218,7 +218,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
             )}
 
           </button> :
-          <Link href={`/results/${id}`} className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50">
+          <Link href={`/results/${id}`} className="flex px-10 py-3 text-xl items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50">
             Results
           </Link>} */}
             </div>}
