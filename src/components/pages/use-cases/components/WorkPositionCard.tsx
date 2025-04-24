@@ -30,7 +30,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                             e.preventDefault();
                             onEdit(position)
                         }}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                        className="p-2 text-mainPurple hover:bg-blue-50 rounded-full transition-colors"
                     >
                         <Pencil size={18} />
                     </button>

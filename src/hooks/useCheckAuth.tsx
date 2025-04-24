@@ -12,11 +12,12 @@ const useCheckAuth = () => {
         setIsLoggedIn(isAuthenticated);
     };
 
+
+
     useEffect(() => {
         getUserData().then((data) => {
             setUserData(data)
         })
-
         checkAuth()
     }, [pathname])
 

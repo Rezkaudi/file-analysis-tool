@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { changePassword } from "@/services/profile";
+import SmallSpinner from "@/components/common/components/SmallSpinner";
 
 const changePasswordSchema = z.object({
   oldPassword: z.string().min(4, { message: "Password must be at least 4 characters" }),
@@ -65,7 +66,7 @@ export default function ChangePasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-[#8926a4]">Change Password</h1>
+          <h1 className="text-4xl font-black text-mainPurple">Change Password</h1>
           <p className="mt-3 text-sm text-gray-600">
             Enter your information to Change Password
           </p>
@@ -74,7 +75,7 @@ export default function ChangePasswordPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
           <div className="space-y-1">
-            <label htmlFor="oldPassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="oldPassword" className="block text-sm font-medium text-mainPurple">
               Old Password
             </label>
             <input
@@ -82,7 +83,7 @@ export default function ChangePasswordPage() {
               type="password"
               placeholder="••••••••"
               className={`w-full rounded-md border ${errors.oldPassword ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
               {...register("oldPassword")}
               disabled={isLoading}
             />
@@ -92,7 +93,7 @@ export default function ChangePasswordPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="newPassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="newPassword" className="block text-sm font-medium text-mainPurple">
               New Password
             </label>
             <input
@@ -100,7 +101,7 @@ export default function ChangePasswordPage() {
               type="password"
               placeholder="••••••••"
               className={`w-full rounded-md border ${errors.newPassword ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
               {...register("newPassword")}
               disabled={isLoading}
             />
@@ -110,7 +111,7 @@ export default function ChangePasswordPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="repassword" className="block text-sm font-medium text-mainPurple">
               Confirm New Password
             </label>
             <input
@@ -118,7 +119,7 @@ export default function ChangePasswordPage() {
               type="password"
               placeholder="••••••••"
               className={`w-full rounded-md border ${errors.repassword ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
               {...register("repassword")}
               disabled={isLoading}
             />
@@ -132,15 +133,12 @@ export default function ChangePasswordPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-md bg-gradiantPurple px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-80"
           >
             {isLoading ? (
-              <div className="flex items-center justify-center">
-                <svg className="mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Changing...
+              <div className="flex items-center gap-3 justify-center">
+                <span>Changing...</span>
+                <SmallSpinner />
               </div>
             ) : (
               "Change Password"

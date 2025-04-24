@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from 'sonner';
 
-// third parties
-import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
-
 // styles
 import "@/styles/globals.css";
 
@@ -25,30 +22,29 @@ import Footer from "@/components/common/sections/Footer";
 
 // baseUrl
 import { baseUrl } from '@/utils/baseUrl';
-import { ToastContainer } from "react-toastify";
 import AuthProvider from "./AuthProvider";
 
 // metadata
 export const metadata: Metadata = {
 
   title: {
-    default: "File Analysis Tool",
-    template: "%s | File Analysis Tool",
+    default: "Resumate",
+    template: "%s | Resumate",
   },
 
-  description: "File Analysis Tool Description",
+  description: "Resumate Description",
 
-  applicationName: "File Analysis Tool",
+  applicationName: "Resumate",
 
   generator: "Next.js",
 
-  keywords: ["File Analysis Tool"],
+  keywords: ["Resumate"],
 
   referrer: "origin",
 
-  creator: "File Analysis Tool",
+  creator: "Resumate",
 
-  publisher: "File Analysis Tool",
+  publisher: "Resumate",
 
   alternates: {
     canonical: baseUrl
@@ -57,9 +53,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: baseUrl,
-    title: "File Analysis Tool",
-    description: "File Analysis Tool Description",
-    siteName: "File Analysis Tool",
+    title: "Resumate",
+    description: "Resumate Description",
+    siteName: "Resumate",
     images: [
       { url: `${baseUrl}/images/file-analysis.png` }
     ]
@@ -67,8 +63,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "File Analysis Tool",
-    description: "File Analysis Tool Description",
+    title: "Resumate",
+    description: "Resumate Description",
     images: `${baseUrl}/images/file-analysis.png`
   },
 
@@ -88,32 +84,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="G-id" />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-
           <Header />
           {children}
           <Footer />
 
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-          <Toaster position="top-right" richColors />
+          <Toaster position="bottom-right" richColors />
         </AuthProvider>
 
       </body>
-
-      <GoogleAnalytics gaId="G-id" />
     </html>
   );
 }

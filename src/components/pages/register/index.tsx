@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useAuthStore } from "@/store/useAuthStore";
+import SmallSpinner from "@/components/common/components/SmallSpinner";
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" })
@@ -76,7 +77,7 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-[#8926a4]">Create an account</h1>
+          <h1 className="text-4xl font-black text-mainPurple">Create an account</h1>
           <p className="mt-3 text-sm text-gray-600">
             Enter your information to create an account
           </p>
@@ -84,7 +85,7 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
-            <label htmlFor="name" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="name" className="block text-sm font-medium text-mainPurple">
               Name
             </label>
             <input
@@ -93,7 +94,7 @@ export default function RegisterPage() {
               maxLength={30}
               placeholder="John Doe"
               className={`w-full rounded-md border ${errors.name ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
               {...register("name")}
               disabled={isLoading}
             />
@@ -103,7 +104,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="email" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="email" className="block text-sm font-medium text-mainPurple">
               Email
             </label>
             <input
@@ -111,7 +112,7 @@ export default function RegisterPage() {
               type="email"
               placeholder="email@example.com"
               className={`w-full rounded-md border ${errors.email ? "border-red-500" : "border-gray-300"
-                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+                } px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
               {...register("email")}
               disabled={isLoading}
             />
@@ -121,7 +122,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="password" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="password" className="block text-sm font-medium text-mainPurple">
               Password
             </label>
             <div className="relative">
@@ -130,7 +131,7 @@ export default function RegisterPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 className={`w-full rounded-md border ${errors.password ? "border-red-500" : "border-gray-300"}
-        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
                 {...register("password")}
                 disabled={isLoading}
               />
@@ -153,7 +154,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="repassword" className="block text-sm font-medium text-[#8926a4]">
+            <label htmlFor="repassword" className="block text-sm font-medium text-mainPurple">
               Confirm Password
             </label>
             <div className="relative">
@@ -162,7 +163,7 @@ export default function RegisterPage() {
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="••••••••"
                 className={`w-full rounded-md border ${errors.repassword ? "border-red-500" : "border-gray-300"}
-        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:opacity-80`}
+        px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-mainPurple focus:outline-none focus:ring-1 focus:opacity-80`}
                 {...register("repassword")}
                 disabled={isLoading}
               />
@@ -206,15 +207,12 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-md bg-gradiantPurple px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-80"
           >
             {isLoading ? (
-              <div className="flex items-center justify-center">
-                <svg className="mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Creating account...
+              <div className="flex items-center gap-3 justify-center">
+                <span>  Creating account...</span>
+                <SmallSpinner />
               </div>
             ) : (
               "Register"
@@ -224,7 +222,7 @@ export default function RegisterPage() {
 
         <div className="mt-6 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-[#8926a4] hover:opacity-80">
+          <Link href="/login" className="font-medium text-mainPurple hover:opacity-80">
             Login
           </Link>
         </div>

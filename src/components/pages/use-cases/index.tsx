@@ -11,6 +11,7 @@ import { getPositions, createPosition, updatePosition, deletePosition, duplicate
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
+import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
 
 
 const Index = () => {
@@ -150,7 +151,7 @@ const Index = () => {
                     <h1 className="text-xl lg:text-3xl font-bold text-gray-900">Use Cases</h1>
                     <button
                         onClick={openCreateModal}
-                        className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                        className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradiantPurple px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
 
                     >
                         <Plus size={20} />
@@ -158,11 +159,7 @@ const Index = () => {
                     </button>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                ) : (
+                {isLoading ? <DataLoadSpinner /> : (
                     <>
                         {positions.length > 0 ? <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

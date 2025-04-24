@@ -9,9 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        mainPurple: "#8926a4",
       },
+      backgroundImage: {
+        gradiantPurple: "linear-gradient(to right, #a855f7, #ec4899)"
+      }
     },
   },
   plugins: [],
