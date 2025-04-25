@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { AxiosError } from 'axios';
 
-import { checkAuthStatus } from '@/utils/authStatus';
+import { checkAuthStatus, getUserData } from '@/utils/authStatus';
 
 import { toast } from "sonner";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -39,26 +39,17 @@ export const useAuthStore = create<AuthState>((set) => ({
     checkAuth: async () => {
         set({ isLoading: true, error: null });
         try {
-            console.log("check")
-
             const isAuth = await checkAuthStatus();
+            const user = await getUserData();
 
-            console.log("isAuth", isAuth)
-
-            // const user = await getUserData();
-
-            // console.log("user", user)
-
-
-            // if (isAuth) {
-            //     await useAuthStore.getState().getUserBalance();
-            // }
-
-            set({ user: null, isAuthenticated: true, isLoading: false });
+            if (isAuth) {
+                await useAuthStore.getState().getUserBalance();
+            }
+            set({ user, isAuthenticated: isAuth, isLoading: false });
 
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
-            console.log("status", axiosError.status)
+            console.log(axiosError.status)
 
             if (axiosError.status === 401) {
                 await logout()
@@ -67,8 +58,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 
             toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
             set({ isLoading: false });
-            console.log(error)
-            throw error
         }
     },
 
