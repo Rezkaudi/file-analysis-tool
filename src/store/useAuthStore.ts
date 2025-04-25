@@ -63,11 +63,11 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
 
-    logoutUser: async (router: AppRouterInstance) => {
+    logoutUser: async () => {
         set({ error: null });
         try {
 
-            router.push("/login")
+            window.location.href = "/login"
             await logout()
 
             set({ user: null, isAuthenticated: false, isLoading: false });
