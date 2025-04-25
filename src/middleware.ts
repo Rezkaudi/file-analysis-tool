@@ -5,23 +5,22 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy'];
 
+    // Allow access to home page without authentication
+    if (PUBLIC_PATHS.includes(pathname)) return NextResponse.next();
+
+    // Get the token from cookies
     const token = request.cookies.get('accessToken');
 
-    // ✅ Skip redirect if it looks like a non-existent page (e.g. /plansa)
-    const isPublicOrStatic = PUBLIC_PATHS.includes(pathname) || pathname.includes('.') || pathname.startsWith('/_next') || pathname.startsWith('/api');
-    const isProbably404 = !isPublicOrStatic && !token;
-
-    if (isProbably404) {
-        return NextResponse.next();
-    }
-
-    if (!token && !isPublicOrStatic) {
+    // If no token found, redirect to login
+    if (!token) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
+    // Token exists, allow access to protected pages
     return NextResponse.next();
 }
 
+// Configure which routes the middleware should protect
 export const config = {
-    matcher: ['/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images).*)'],
 };
