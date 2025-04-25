@@ -35,11 +35,9 @@ const Header: React.FC = () => {
                             </Link>
                         </div>
                         <div className="flex items-center justify-between gap-2 md:gap-5">
-                            {userBalance &&
-                                <span className="text-lg block">
-                                    Your Credits : {userBalance}
-                                </span>
-                            }
+                            <span className="text-lg block">
+                                Your Credits : {userBalance || 0}
+                            </span>
                             <ProfileDropdown />
                         </div>
                     </div>
