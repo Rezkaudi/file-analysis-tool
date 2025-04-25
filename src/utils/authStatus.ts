@@ -24,10 +24,11 @@ export async function checkAuthStatus(): Promise<boolean> {
     try {
         const cookieStore = cookies();
         const accessToken = (await cookieStore).get(finalConfig.accessTokenName)?.value;
+        console.log(!!accessToken && accessToken.length > 0)
         return !!accessToken && accessToken.length > 0;
     } catch (error) {
         console.error('Error checking authentication:', error);
-        return false;
+        throw error
     }
 }
 
@@ -139,7 +140,7 @@ export async function getUserData(): Promise<User | null> {
         return userData ? JSON.parse(userData.value) : null;
     } catch (error) {
         console.error('Error getting user data:', error);
-        return null;
+        throw error;
     }
 }
 
@@ -149,5 +150,6 @@ export async function removeUserData(): Promise<void> {
         (await cookieStore).delete(finalConfig.userDataName);
     } catch (error) {
         console.error('Error removing user data:', error);
+        throw error;
     }
 }
