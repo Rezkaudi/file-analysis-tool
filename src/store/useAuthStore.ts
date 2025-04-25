@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { AxiosError } from 'axios';
 
-// import { checkAuthStatus, getUserData } from '@/utils/authStatus';
+import { checkAuthStatus } from '@/utils/authStatus';
 
 import { toast } from "sonner";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -41,9 +41,9 @@ export const useAuthStore = create<AuthState>((set) => ({
         try {
             console.log("check")
 
-            // const isAuth = await checkAuthStatus();
+            const isAuth = await checkAuthStatus();
 
-            // console.log("isAuth", isAuth)
+            console.log("isAuth", isAuth)
 
             // const user = await getUserData();
 
