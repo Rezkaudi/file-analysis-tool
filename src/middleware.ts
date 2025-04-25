@@ -5,12 +5,17 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy'];
 
-    if (PUBLIC_PATHS.includes(pathname)) return NextResponse.next();
-
     const token = request.cookies.get('accessToken');
 
-    // ✅ Skip redirect for non-token pages that don't exist (e.g. /plansa)
-    if (!token && !pathname.includes('.')) {
+    // ✅ Skip redirect if it looks like a non-existent page (e.g. /plansa)
+    const isPublicOrStatic = PUBLIC_PATHS.includes(pathname) || pathname.includes('.') || pathname.startsWith('/_next') || pathname.startsWith('/api');
+    const isProbably404 = !isPublicOrStatic && !token;
+
+    if (isProbably404) {
+        return NextResponse.next();
+    }
+
+    if (!token && !isPublicOrStatic) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
@@ -18,5 +23,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images).*)'],
+    matcher: ['/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
 };
