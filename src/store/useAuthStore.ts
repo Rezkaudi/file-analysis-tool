@@ -78,13 +78,12 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
 
-    loginUser: async (data: LoginFormData, router: AppRouterInstance) => {
+    loginUser: async (data: LoginFormData) => {
         set({ error: null });
         try {
             const response = await login(data)
             await useAuthStore.getState().getUserBalance();
 
-            router.push("/");
             window.location.href = "/"
 
             set({ user: response.user, isAuthenticated: true, isLoading: false });
