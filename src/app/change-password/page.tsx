@@ -9,8 +9,6 @@ import { baseUrl } from '@/utils/baseUrl';
 // metadata
 export const metadata: Metadata = {
   title: "change-password ",
-  description: "change-password Description",
-  keywords: "change-password",
   alternates: {
     canonical: `${baseUrl}/change-password`
   },

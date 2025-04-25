@@ -1,5 +1,5 @@
-import Home from "@/components/pages/home"
+import UseCases from "@/components/pages/use-cases"
 
 export default function HomePage() {
-  return <Home />;
+  return <UseCases />;
 }

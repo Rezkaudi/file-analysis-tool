@@ -20,8 +20,8 @@ export const Pagination: React.FC<PaginationProps> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 0}
                 className={`p-2 rounded-md ${currentPage === 0
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : 'text-gray-600 hover:bg-gray-100'
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
             >
                 <ChevronLeft size={20} />
@@ -32,8 +32,8 @@ export const Pagination: React.FC<PaginationProps> = ({
                     key={page}
                     onClick={() => onPageChange(page)}
                     className={`px-4 py-2 rounded-md ${currentPage === page
-                            ? 'bg-blue-600 text-white'
-                            : 'text-gray-600 hover:bg-gray-100'
+                        ? 'bg-mainPurple text-white'
+                        : 'text-gray-600 hover:bg-gray-100'
                         }`}
                 >
                     {page + 1}
@@ -44,8 +44,8 @@ export const Pagination: React.FC<PaginationProps> = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages - 1}
                 className={`p-2 rounded-md ${currentPage === totalPages - 1
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : 'text-gray-600 hover:bg-gray-100'
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-600 hover:bg-gray-100'
                     }`}
             >
                 <ChevronRight size={20} />

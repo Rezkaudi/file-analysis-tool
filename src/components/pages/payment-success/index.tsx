@@ -28,11 +28,11 @@ const Index = () => {
                         Thank you for your payment. Your transaction has been completed successfully.
                     </p>
 
-                    <div className="bg-green-50/50 rounded-lg p-4 w-full">
+                    {/* <div className="bg-green-50/50 rounded-lg p-4 w-full">
                         <div className="text-sm text-gray-600">
                             A confirmation email has been sent to your inbox.
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full pt-4">
                         <Link

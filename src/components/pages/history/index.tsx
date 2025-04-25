@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { getHistory } from '@/services/profile';
 import { HistoryCard } from './components/HistoryCard';
+import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
 
 
 const Index = () => {
@@ -46,30 +47,27 @@ const Index = () => {
                     <h1 className="text-xl lg:text-3xl font-bold text-gray-900">History</h1>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                ) : (
-                    <>
-                        {history && history.length > 0 ? <>
-                            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
-                                {history?.map((item) => (
-                                    <HistoryCard
-                                        key={item.id}
-                                        data={item}
-                                    />
-                                ))}
-                            </div>
+                {isLoading ? <DataLoadSpinner /> :
+                    (
+                        <>
+                            {history && history.length > 0 ? <>
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
+                                    {history?.map((item) => (
+                                        <HistoryCard
+                                            key={item.id}
+                                            data={item}
+                                        />
+                                    ))}
+                                </div>
 
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={setCurrentPage}
-                            />
-                        </> : <h4 className='w-full text-center mt-[100px] text-red-500'>No History Found</h4>}
-                    </>
-                )}
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={setCurrentPage}
+                                />
+                            </> : <h4 className='w-full text-center mt-[100px] text-red-500'>No History Found</h4>}
+                        </>
+                    )}
             </div>
         </div>
     );

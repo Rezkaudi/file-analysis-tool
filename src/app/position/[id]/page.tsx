@@ -1,6 +1,6 @@
 
 // page
-import Analysis from "@/components/pages/analysis2"
+import Analysis from "@/components/pages/analysis"
 
 interface IAnalysis {
   params: Promise<{

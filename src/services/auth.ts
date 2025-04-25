@@ -60,7 +60,7 @@ export const refreshToken = async () => {
     await setRefreshToken(response.data.refreshToken)
     await setAccessToken(response.data.accessToken)
     await setUserData(response.data.user)
-
+    console.log(response)
     return response.data
     // response is {accessToken,refreshToken,user} (user data)
 };

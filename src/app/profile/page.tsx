@@ -8,8 +8,6 @@ import { baseUrl } from '@/utils/baseUrl';
 
 // metadata
 export const metadata: Metadata = {
-  title: "profile ",
-  description: "profile Description",
   keywords: "profile",
   alternates: {
     canonical: `${baseUrl}/profile`

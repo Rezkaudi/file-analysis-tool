@@ -7,6 +7,7 @@ import { Minus, Plus, X } from 'lucide-react';
 import { getAccessToken } from '@/utils/authStatus';
 
 import { apiUrl } from '@/utils/apiUrl';
+import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
 
 const Index = () => {
     const [Plans, setPlans] = useState<PricingTier[] | null>(null);
@@ -91,11 +92,7 @@ const Index = () => {
                     </p>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                ) : (
+                {isLoading ? <DataLoadSpinner /> : (
                     <div className="mt-16 grid gap-8 lg:grid-cols-3 lg:gap-12">
                         {Plans?.map((tier) => (
                             <div
@@ -121,7 +118,7 @@ const Index = () => {
                                     <div className="mt-6">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
-                                                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                                                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-mainPurple">
                                                     {tier.points}
                                                 </div>
                                             </div>
@@ -202,7 +199,7 @@ const Index = () => {
                                                 setQuantity(val);
                                             }
                                         }}
-                                        className="w-20 text-center rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        className="w-20 text-center rounded-md border-gray-300 shadow-sm focus:border-mainPurple focus:ring-mainPurple"
                                         min="1"
                                         max="100"
                                     />

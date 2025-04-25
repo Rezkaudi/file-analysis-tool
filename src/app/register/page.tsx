@@ -9,8 +9,6 @@ import { baseUrl } from '@/utils/baseUrl';
 // metadata
 export const metadata: Metadata = {
   title: "Register ",
-  description: "Register Description",
-  keywords: "Register",
   alternates: {
     canonical: `${baseUrl}/register`
   },
