@@ -42,7 +42,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                             e.preventDefault();
                             onDelete(position)
                         }}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                        className="p-2 text-mainPurple hover:bg-red-50 rounded-full transition-colors"
                     >
                         <Trash2 size={18} />
                     </button>
@@ -55,7 +55,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                             e.preventDefault();
                             onDuplicate(position)
                         }}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                        className="p-2 text-mainPurple hover:bg-red-50 rounded-full transition-colors"
                     >
                         <Copy size={18} />
                     </button>

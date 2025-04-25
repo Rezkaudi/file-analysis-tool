@@ -49,6 +49,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
+            console.log(axiosError.status)
+
+            if (axiosError.status === 401) {
+                await logout()
+                window.location.href = "/login"
+            }
+
             toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
             set({ isLoading: false });
         }
@@ -73,7 +80,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         try {
             const response = await login(data)
             set({ user: response.user, isAuthenticated: true, isLoading: false });
-            router.push("/profile");
+            router.push("/");
 
             toast.success("Login successful");
         } catch (error) {
