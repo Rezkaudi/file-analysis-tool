@@ -45,11 +45,15 @@ export const useAuthStore = create<AuthState>((set) => ({
             if (isAuth) {
                 await useAuthStore.getState().getUserBalance();
             }
+
+            console.log("isAuth", isAuth)
+            console.log("user", user)
+
             set({ user, isAuthenticated: isAuth, isLoading: false });
 
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
-            console.log(axiosError.status)
+            console.log("status", axiosError.status)
 
             if (axiosError.status === 401) {
                 await logout()
