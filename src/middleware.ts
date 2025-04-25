@@ -7,7 +7,6 @@ export async function middleware(request: NextRequest) {
 
     // Get the token from cookies
     const token = request.cookies.get('accessToken');
-    console.log("token", token)
 
     // Allow access to home page without authentication
     if (PUBLIC_PATHS.includes(pathname)) {

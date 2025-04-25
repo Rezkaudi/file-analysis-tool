@@ -13,8 +13,8 @@ const Header: React.FC = () => {
         <header className="w-full h-20 lg:h-20 sticky top-0 z-50 bg-mainPurple text-white" aria-label="Website Header">
             <div className="px-4 lg:px-7 flex w-full justify-between items-center gap-8 h-full relative">
                 {/* logo */}
-                <Link href="/" className="relative block text-xl w-[200px] h-[80px] lg:text-3xl font-black">
-                    <Image src={"/images/logo1.png"} unoptimized fill className="object-contain" alt="" />
+                <Link href="/" className="relative block text-xl w-[200px] h-[40px] lg:text-3xl font-black">
+                    <Image src={"/images/logo1.png"} unoptimized fill alt="" className=" object-contain" />
                 </Link>
 
                 {/* Only show login button if not logged in AND not on login page */}

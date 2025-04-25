@@ -42,8 +42,6 @@ export const useAuthStore = create<AuthState>((set) => ({
             const isAuth = await checkAuthStatus();
             const user = await getUserData();
 
-            console.log(isAuth, user)
-
             if (isAuth) {
                 await useAuthStore.getState().getUserBalance();
             }
