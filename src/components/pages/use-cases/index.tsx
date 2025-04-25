@@ -11,6 +11,7 @@ import { getPositions, createPosition, updatePosition, deletePosition, duplicate
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 
 const Index = () => {
@@ -19,7 +20,6 @@ const Index = () => {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
@@ -56,16 +56,17 @@ const Index = () => {
     }, [currentPage]);
 
 
-    const handleCreatePosition = async (data: WorkPositionFormData) => {
+    const handleCreatePosition = async (data: WorkPositionFormData, router:AppRouterInstance) => {
         try {
-            await createPosition(data);
-            fetchPositions(currentPage);
+           const response = await createPosition(data);
+           const useCaseId = response.id;
             toast.success("successful");
+            router.push(`/position/${useCaseId}`);
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
             if (axiosError.response?.data?.statusCode === 401) {
                 await refreshToken()
-                await handleCreatePosition(data)
+                await handleCreatePosition(data , router)
             }
             else {
                 toast.error(axiosError.response?.data?.message || "Failed. Please try again.");

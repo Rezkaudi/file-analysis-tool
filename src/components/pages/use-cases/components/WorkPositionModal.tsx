@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { X } from 'lucide-react';
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
 
 interface WorkPositionModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (data: WorkPositionFormData) => void;
+    onSubmit: (data: WorkPositionFormData , router:AppRouterInstance) => void;
     position?: WorkPosition;
     mode: 'create' | 'edit';
 }
@@ -41,6 +43,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
         description: ''
     });
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         if (position && mode === 'edit') {
@@ -59,7 +62,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        await onSubmit(formData);
+        await onSubmit(formData , router);
         setFormData({
             title: '',
             description: ''
