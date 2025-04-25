@@ -21,9 +21,7 @@ const finalConfig = { ...DEFAULT_CONFIG };
 
 export async function checkAuthStatus(): Promise<boolean> {
     try {
-        console.log("checkAuthStatus")
         const accessToken = Cookies.get(finalConfig.accessTokenName);
-        console.log(!!accessToken && accessToken.length > 0)
         return !!accessToken && accessToken.length > 0;
     } catch (error) {
         console.error('Error checking authentication:', error);

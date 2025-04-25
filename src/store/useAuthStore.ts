@@ -42,6 +42,8 @@ export const useAuthStore = create<AuthState>((set) => ({
             const isAuth = await checkAuthStatus();
             const user = await getUserData();
 
+            console.log(isAuth, user)
+
             if (isAuth) {
                 await useAuthStore.getState().getUserBalance();
             }
@@ -64,8 +66,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     logoutUser: async (router: AppRouterInstance) => {
         set({ error: null });
         try {
-            await logout()
+
             router.push("/login")
+            await logout()
 
             set({ user: null, isAuthenticated: false, isLoading: false });
         } catch (error) {
@@ -79,6 +82,8 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ error: null });
         try {
             const response = await login(data)
+            await useAuthStore.getState().getUserBalance();
+
             set({ user: response.user, isAuthenticated: true, isLoading: false });
             router.push("/");
 
