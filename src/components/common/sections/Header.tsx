@@ -31,13 +31,13 @@ const Header: React.FC = () => {
                             </Link>
 
                             <Link href="/plans" className="relative block text-md lg:text-lg font-black">
-                                Plans
+                                Pricing
                             </Link>
                         </div>
                         <div className="flex items-center justify-between gap-2 md:gap-5">
                             {userBalance &&
                                 <span className="text-lg block">
-                                    Balance : {userBalance}
+                                    Your Credits : {userBalance}
                                 </span>
                             }
                             <ProfileDropdown />

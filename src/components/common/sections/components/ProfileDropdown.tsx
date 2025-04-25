@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, CreditCard, MessageSquare, LogOut, BriefcaseBusiness } from 'lucide-react';
+import { User, CreditCard, LogOut, BriefcaseBusiness } from 'lucide-react';
 import Image from 'next/image';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
@@ -27,21 +27,21 @@ export default function ProfileDropdown() {
             }
         },
         {
-            label: 'Payment',
+            label: 'Buy Credits',
             icon: <CreditCard className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
                 router.push('/payments')
             }
         },
-        {
-            label: 'Feedback',
-            icon: <MessageSquare className="w-4 h-4" />,
-            onClick: () => {
-                setIsOpen(false)
-                router.push('/feedback')
-            }
-        },
+        // {
+        //     label: 'Feedback',
+        //     icon: <MessageSquare className="w-4 h-4" />,
+        //     onClick: () => {
+        //         setIsOpen(false)
+        //         router.push('/feedback')
+        //     }
+        // },
         {
             label: 'Change Password',
             icon: <User className="w-4 h-4" />,
