@@ -39,15 +39,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     checkAuth: async () => {
         set({ isLoading: true, error: null });
         try {
+            console.log("check")
+
             const isAuth = await checkAuthStatus();
+
+            console.log("isAuth", isAuth)
+
             const user = await getUserData();
+
+            console.log("user", user)
+
 
             if (isAuth) {
                 await useAuthStore.getState().getUserBalance();
             }
-
-            console.log("isAuth", isAuth)
-            console.log("user", user)
 
             set({ user, isAuthenticated: isAuth, isLoading: false });
 
@@ -62,6 +67,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
             toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
             set({ isLoading: false });
+            console.log(error)
+            throw error
         }
     },
 

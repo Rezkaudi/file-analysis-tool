@@ -13,7 +13,6 @@ const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
 
     useEffect(() => {
         checkAuth()
-        console.log("check")
     }, [checkAuth])
 
     return (
