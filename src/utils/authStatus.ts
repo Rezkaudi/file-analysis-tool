@@ -22,6 +22,7 @@ const finalConfig = { ...DEFAULT_CONFIG };
 
 export async function checkAuthStatus(): Promise<boolean> {
     try {
+        console.log("checkAuthStatus")
         const cookieStore = cookies();
         const accessToken = (await cookieStore).get(finalConfig.accessTokenName)?.value;
         console.log(!!accessToken && accessToken.length > 0)
@@ -135,6 +136,7 @@ export async function setUserData(user: User): Promise<void> {
 
 export async function getUserData(): Promise<User | null> {
     try {
+        console.log("getUserData")
         const cookieStore = cookies();
         const userData = (await cookieStore).get(finalConfig.userDataName);
         return userData ? JSON.parse(userData.value) : null;
