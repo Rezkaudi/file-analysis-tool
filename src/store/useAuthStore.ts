@@ -84,8 +84,10 @@ export const useAuthStore = create<AuthState>((set) => ({
             const response = await login(data)
             await useAuthStore.getState().getUserBalance();
 
-            set({ user: response.user, isAuthenticated: true, isLoading: false });
             router.push("/");
+            window.location.href = "/"
+
+            set({ user: response.user, isAuthenticated: true, isLoading: false });
 
             toast.success("Login successful");
         } catch (error) {

@@ -16,6 +16,10 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
+    if (token && pathname === "/login") {
+        return NextResponse.redirect(new URL('/', request.url));
+    }
+
     // Token exists, allow access to protected pages
     return NextResponse.next();
 }
