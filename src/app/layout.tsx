@@ -89,7 +89,6 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
-
           <Toaster position="bottom-right" richColors />
         </AuthProvider>
 

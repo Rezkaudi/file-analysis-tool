@@ -31,7 +31,7 @@ export default function ProfileDropdown() {
             icon: <CreditCard className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
-                router.push('/plans')
+                router.push('/plansa')
             }
         },
         // {
