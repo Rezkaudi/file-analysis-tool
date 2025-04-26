@@ -3,3 +3,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader {
+    @apply relative inline-block w-[100px] h-[100px] rounded-full border-t-[7px] border-r-[7px] border-solid border-mainPurple border-r-transparent box-border animate-[rotation_1s_linear_infinite];
+}
+
+.loader::after {
+    content: "";
+    @apply absolute top-0 left-0 w-[100px] h-[100px] rounded-full border-l-[7px] border-b-[7px] border-solid border-mainPurple border-b-transparent box-border animate-[rotation_0.5s_linear_infinite_reverse];
+}

@@ -4,6 +4,7 @@ import { X, Upload, Trash, XIcon, Check } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import SmallSpinner from '@/components/common/components/SmallSpinner';
 
 
 interface CreateResumeModalProps {
@@ -58,24 +59,6 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
         onClose()
     }
 
-    // const handleSubmit = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     if (file) {
-    //         try {
-    //             setIsLoading(true)
-
-    //             await onSubmit(file)
-    //             setFile(null);
-    //             onClose();
-    //         } catch (error) {
-    //             const axiosError = error as AxiosError<ApiError>;
-    //             toast.error(axiosError.response?.data?.message);
-    //         } finally {
-    //             setIsLoading(false)
-    //         }
-    //     }
-    // };
-
     const handleUpload = async () => {
         setIsLoading(true)
         for (const file of files) {
@@ -122,10 +105,7 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
                         </div>
                         <div className="flex items-center gap-2">
                             {uploadStatus[file.name] === 'uploading' && (
-                                <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
+                                <SmallSpinner />
                             )}
                             {uploadStatus[file.name] === 'error' && <XIcon size={16} color='red' />}
                             {uploadStatus[file.name] === 'success' && <Check size={16} color='green' />}
@@ -152,10 +132,7 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
                     Upload Resumes
                     {isLoading && (
                         <div className="flex items-center justify-center">
-                            <svg className="h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
+                            <SmallSpinner />
                         </div>
                     )}
                 </button>

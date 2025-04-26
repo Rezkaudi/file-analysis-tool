@@ -11,7 +11,8 @@ import { getPositions, createPosition, updatePosition, deletePosition, duplicate
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 
 const Index = () => {
@@ -56,17 +57,17 @@ const Index = () => {
     }, [currentPage]);
 
 
-    const handleCreatePosition = async (data: WorkPositionFormData, router:AppRouterInstance) => {
+    const handleCreatePosition = async (data: WorkPositionFormData, router: AppRouterInstance) => {
         try {
-           const response = await createPosition(data);
-           const useCaseId = response.id;
+            const response = await createPosition(data);
+            const useCaseId = response.id;
             toast.success("successful");
             router.push(`/position/${useCaseId}`);
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
             if (axiosError.response?.data?.statusCode === 401) {
                 await refreshToken()
-                await handleCreatePosition(data , router)
+                await handleCreatePosition(data, router)
             }
             else {
                 toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
@@ -159,11 +160,7 @@ const Index = () => {
                     </button>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                ) : (
+                {isLoading ? <DataLoadSpinner /> : (
                     <>
                         {positions.length > 0 ? <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

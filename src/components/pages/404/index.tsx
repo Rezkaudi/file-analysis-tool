@@ -1,9 +1,7 @@
-"use client";
-
 import Link from "next/link";
 
-
 const Index: React.FC = () => {
+
   return (
     <section className="relative w-full py-20 text-center px-5  h-[calc(100vh-60px)] flex items-center justify-center">
       <div>
