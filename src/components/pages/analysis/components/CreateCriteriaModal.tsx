@@ -11,7 +11,6 @@ interface CreateCriteriaModalProps {
     onClose: () => void;
     onSubmit: (description: string) => void;
 }
-
 const modalStyles = {
     content: {
         top: '50%',
@@ -30,7 +29,6 @@ const modalStyles = {
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
     },
 };
-
 export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteriaModalProps) {
     const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -71,12 +69,11 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
                         Description
                     </label>
-                    <textarea
+                    <input
                         id="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mainPurple"
-                        rows={4}
                         required
                     />
                 </div>

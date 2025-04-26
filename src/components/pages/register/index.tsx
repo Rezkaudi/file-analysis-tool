@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation"
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
-;
+
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
