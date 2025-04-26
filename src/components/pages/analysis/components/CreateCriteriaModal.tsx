@@ -73,12 +73,7 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
                         id="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-<<<<<<< HEAD:src/components/pages/analysis2/components/CreateCriteriaModal.tsx
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-=======
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mainPurple"
-                        rows={4}
->>>>>>> 3973ec5d246bc68be22030d43b6b535c50254273:src/components/pages/analysis/components/CreateCriteriaModal.tsx
                         required
                     />
                 </div>
