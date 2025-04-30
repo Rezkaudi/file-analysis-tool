@@ -4,16 +4,16 @@ interface AuthConfig {
     accessTokenName: string;
     refreshTokenName: string;
     userDataName: string
-    accessTokenDuration: number; // in seconds
-    refreshTokenDuration: number; // in seconds
+    accessTokenDuration: Date; // in seconds
+    refreshTokenDuration: Date; // in seconds
 }
 
 const DEFAULT_CONFIG: AuthConfig = {
     accessTokenName: 'accessToken',
     refreshTokenName: 'refreshToken',
     userDataName: "userData",
-    accessTokenDuration: 12 * 60 * 60, // 12 hours
-    refreshTokenDuration: 30 * 24 * 60 * 60 // 30 days
+    accessTokenDuration: new Date(new Date().getTime() + 12 * 60 * 60 * 1000), // 12 hours
+    refreshTokenDuration: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000) // 30 days
 };
 
 const finalConfig = { ...DEFAULT_CONFIG };
@@ -34,11 +34,13 @@ export async function checkAuthStatus(): Promise<boolean> {
  */
 export async function setAccessToken(accessToken: string): Promise<void> {
     try {
-        Cookies.set(finalConfig.accessTokenName, accessToken, {
-            expires: finalConfig.accessTokenDuration,
-            secure: true,
-            sameSite: "strict",
-        });
+        if (accessToken) {
+            Cookies.set(finalConfig.accessTokenName, accessToken, {
+                expires: finalConfig.accessTokenDuration,
+                secure: true,
+                sameSite: "strict",
+            });
+        }
     } catch (error) {
         console.error('Error setting access token:', error);
         throw error;
@@ -63,11 +65,13 @@ export async function getAccessToken(): Promise<string | null> {
  */
 export async function setRefreshToken(refreshToken: string): Promise<void> {
     try {
-        Cookies.set(finalConfig.refreshTokenName, refreshToken, {
-            expires: finalConfig.refreshTokenDuration,
-            secure: true,
-            sameSite: "strict",
-        });
+        if (refreshToken) {
+            Cookies.set(finalConfig.refreshTokenName, refreshToken, {
+                expires: finalConfig.refreshTokenDuration,
+                secure: true,
+                sameSite: "strict",
+            });
+        }
     } catch (error) {
         console.error('Error setting refresh token:', error);
         throw error;
@@ -106,11 +110,13 @@ export async function removeAccessToken(): Promise<void> {
 
 export async function setUserData(user: User): Promise<void> {
     try {
-        Cookies.set(finalConfig.userDataName, JSON.stringify(user), {
-            expires: finalConfig.accessTokenDuration,
-            secure: true,
-            sameSite: "strict",
-        });
+        if (user) {
+            Cookies.set(finalConfig.userDataName, JSON.stringify(user), {
+                expires: finalConfig.accessTokenDuration,
+                secure: true,
+                sameSite: "strict",
+            });
+        }
     } catch (error) {
         console.error('Error setting user data:', error);
         throw error;

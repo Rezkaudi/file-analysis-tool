@@ -2,7 +2,6 @@ import axios from 'axios';
 import { apiUrl } from '@/utils/apiUrl';
 import { getAccessToken } from '@/utils/authStatus';
 
-
 const api = axios.create({
     baseURL: apiUrl,
     headers: {
