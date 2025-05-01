@@ -8,6 +8,8 @@ export async function middleware(request: NextRequest) {
     // Get the token from cookies
     const token = request.cookies.get('accessToken');
 
+
+
     // Allow access to home page without authentication
     if (PUBLIC_PATHS.includes(pathname)) {
         if (token && pathname === "/login") {
@@ -33,7 +35,7 @@ export async function middleware(request: NextRequest) {
 
 // Configure which routes the middleware should protect
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images|locale).*)'],
 };
 
 

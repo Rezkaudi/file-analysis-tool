@@ -1,0 +1,42 @@
+{
+  "register": {
+    "name": "名前",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認する",
+    "IAgreeToTheTermsOfServiceAnd": "私は利用規約に同意します",
+    "privacyPolicy": "プライバシーポリシー",
+    "CreatingAccount": "アカウントを作成中...",
+    "alreadyHaveAnAccount": "すでにアカウントをお持ちですか",
+    "login": "  ログイン",
+    "createAnAccount": " アカウントを作成する ",
+    "enterYourInformationToCreateAnAccount": " アカウントを作成するための情報を入力してください ",
+    "regButton": " 登録 "
+  },
+
+  "login": {
+    "login": "ログイン",
+    "name": "名前",
+    "email": "メールアドレス",
+    "enterYourCredentialsToAccessYourAccount": "アカウントにアクセスするための資格情報を入力してください",
+    "password": "パスワード",
+    "loginButton": "ログイン",
+    "register": "登録",
+    "dontHaveAnAccount": "アカウントをお持ちでないですか",
+    "forgotPassword": "パスワードを忘れた",
+    "loggingIn": " ログインしています..."
+  },
+  "header": {
+    "login": "ログイン",
+    "useCases": "ユースケース",
+    "pricing": "価格",
+    "yourCredits": "あなたのクレジット"
+  },
+  "profileDropDown": {
+    "history": "歴史",
+    "buyCredits": "クレジットを購入",
+    "feedback": "フィードバック",
+    "changePassword": "パスワードを変更",
+    "logout": "ログアウト"
+  }
+}

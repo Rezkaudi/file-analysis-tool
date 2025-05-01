@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
+import {useTranslation} from "react-i18next";
 
 
 const loginSchema = z.object({
@@ -18,6 +19,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const {t} = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { loginUser } = useAuthStore()
@@ -45,16 +47,16 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-primary">Login</h1>
+          <h1 className="text-3xl font-bold text-primary">{t("login.login")}</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your credentials to access your account
+            {t("login.enterYourCredentialsToAccessYourAccount")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
             <label htmlFor="email" className="block text-sm font-medium text-secondary">
-              Email
+              {t("login.email")}
             </label>
             <input
               id="email"
@@ -72,7 +74,7 @@ export default function LoginPage() {
 
           <div className="space-y-1">
             <label htmlFor="password" className="block text-sm font-medium text-secondary">
-              Password
+              {t("login.password")}
             </label>
             <input
               id="password"
@@ -95,24 +97,25 @@ export default function LoginPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-3 justify-center">
-                <span>  Logging in...</span>
+                <span> {t("login.loggingIn")}</span>
                 <SmallSpinner />
               </div>
             ) : (
-              "Login"
+                <div>{t("login.loginButton")}</div>
+
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          Don&apos;t have an account?{" "}
+          {t("login.dontHaveAnAccount")}?{" "}
           <Link href="/register" className="font-medium text-primary hover:opacity-80">
-            Register
+            {t("login.register")}
           </Link>
         </div>
         <div className="mt-2 text-center text-sm">
           <Link href="/forget-password" className="font-medium text-primary hover:opacity-80">
-            Forget Password
+            {t("login.forgotPassword")}
           </Link>
         </div>
       </div>

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {useTranslation} from 'react-i18next';
 
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
@@ -37,6 +38,7 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
+  const {t} = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -77,16 +79,16 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-primary">Create an account</h1>
+          <h1 className="text-4xl font-black text-primary">{t("register.createAnAccount")}</h1>
           <p className="mt-3 text-sm text-gray-600">
-            Enter your information to create an account
+            {t("register.enterYourInformationToCreateAnAccount")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
             <label htmlFor="name" className="block text-sm font-medium text-primary">
-              Name
+              {t('register.name')}
             </label>
             <input
               id="name"
@@ -105,7 +107,7 @@ export default function RegisterPage() {
 
           <div className="space-y-1">
             <label htmlFor="email" className="block text-sm font-medium text-primary">
-              Email
+              {t('register.email')}
             </label>
             <input
               id="email"
@@ -123,7 +125,7 @@ export default function RegisterPage() {
 
           <div className="space-y-1">
             <label htmlFor="password" className="block text-sm font-medium text-primary">
-              Password
+              {t('register.password')}
             </label>
             <div className="relative">
               <input
@@ -155,7 +157,7 @@ export default function RegisterPage() {
 
           <div className="space-y-1">
             <label htmlFor="repassword" className="block text-sm font-medium text-primary">
-              Confirm Password
+              {t('register.confirmPassword')}
             </label>
             <div className="relative">
               <input
@@ -195,8 +197,8 @@ export default function RegisterPage() {
             />
             <div className="space-y-1 leading-none">
               <label htmlFor="terms" className="text-sm font-medium text-gray-700">
-                I agree to the terms of service and
-                <Link className="ml-1 text-secondary underline" href="/privacy-policy">privacy policy</Link>
+                {t('register.IAgreeToTheTermsOfServiceAnd')}
+                <Link className="ml-1 text-secondary underline" href="/privacy-policy">{t('register.privacyPolicy')}</Link>
               </label>
               {errors.terms && (
                 <p className="text-xs text-red-500">{errors.terms.message}</p>
@@ -211,19 +213,19 @@ export default function RegisterPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-3 justify-center">
-                <span>  Creating account...</span>
+                <span>  {t('register.creatingAccount')}</span>
                 <SmallSpinner />
               </div>
             ) : (
-              "Register"
+               <div>{t("register.regButton")}</div>
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          Already have an account?{" "}
+          {t('register.alreadyHaveAnAccount')}?{" "}
           <Link href="/login" className="font-medium text-primary hover:opacity-80">
-            Login
+            {t('register.login')}
           </Link>
         </div>
       </div>

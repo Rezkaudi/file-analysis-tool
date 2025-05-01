@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { submitFeedback, uploadPhoto } from '@/services/feedback';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
 import {toast} from "sonner";
