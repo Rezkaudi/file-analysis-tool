@@ -38,7 +38,7 @@ export async function setAccessToken(accessToken: string): Promise<void> {
             Cookies.set(finalConfig.accessTokenName, accessToken, {
                 expires: finalConfig.accessTokenDuration,
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",
             });
         }
     } catch (error) {
@@ -69,7 +69,7 @@ export async function setRefreshToken(refreshToken: string): Promise<void> {
             Cookies.set(finalConfig.refreshTokenName, refreshToken, {
                 expires: finalConfig.refreshTokenDuration,
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",
             });
         }
     } catch (error) {
@@ -114,7 +114,7 @@ export async function setUserData(user: User): Promise<void> {
             Cookies.set(finalConfig.userDataName, JSON.stringify(user), {
                 expires: finalConfig.accessTokenDuration,
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",
             });
         }
     } catch (error) {

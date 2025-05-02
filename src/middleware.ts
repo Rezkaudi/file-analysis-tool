@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
     const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy', '/payment-success', 'payment-cancel'];
 
     // Get the token from cookies
-    const token = request.cookies.get('accessToken');
+    const token = await request.cookies.get('accessToken');
 
     // Allow access to home page without authentication
     if (PUBLIC_PATHS.includes(pathname)) {
