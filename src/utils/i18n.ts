@@ -4,25 +4,109 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { fetchTranslations } from '@/services/translations';
 import {toast} from "sonner";
 
+const LOCAL_TRANSLATIONS_PATH = '/locales/{{lng}}/translation.json';
+const API_RETRY_INTERVAL = 1000; // 1 seconds
+
+// Track offline state and retry timers
+let isOfflineMode = false;
+const retryTimers: Record<string, NodeJS.Timeout> = {};
+
+const transformTranslations = (apiResponse: Array<{
+    translation_key: string;
+    value: string;
+}>) => {
+    const result: Record<string, any> = {};
+
+    apiResponse.forEach(({ translation_key, value }) => {
+        const keys = translation_key.split('.');
+        let current = result;
+
+        keys.forEach((key, index) => {
+            if (index === keys.length - 1) {
+                current[key] = value;
+            } else {
+                current[key] = current[key] || {};
+                current = current[key];
+            }
+        });
+    });
+
+    return result;
+};
+
+const loadLocalTranslations = async (lng: string) => {
+    try {
+        const localPath = LOCAL_TRANSLATIONS_PATH.replace('{{lng}}', lng);
+        const response = await fetch(localPath);
+
+        if (!response.ok) throw new Error('Local fetch failed');
+
+        const translations = await response.json();
+        toast.warning(`Using offline translations for ${lng}`);
+        return translations;
+    } catch (error) {
+        toast.error(`Failed to load local translations:${error}`);
+        return {};
+    }
+};
+
+const scheduleApiRetry = (lng: string, callback: (error: any, data?: any) => void) => {
+    if (retryTimers[lng]) {
+        clearTimeout(retryTimers[lng]);
+    }
+
+    retryTimers[lng] = setTimeout(async () => {
+        if (!isOfflineMode) {
+            console.log(`Retrying API fetch for ${lng}`);
+            try {
+                const apiResponse = await fetchTranslations(lng);
+
+                if (apiResponse.status < 308) {
+                    const transformed = transformTranslations(apiResponse.data);
+                    callback(null, transformed);
+                    return;
+                }
+            } catch (error) {
+                toast.error(`API retry failed for ${lng}: ${error}`, );
+            }
+
+            // If retry failed, schedule next attempt
+            scheduleApiRetry(lng, callback);
+        }
+    }, API_RETRY_INTERVAL);
+};
+
 const CustomBackend = {
     type: 'backend' as const,
     init() {},
     async read(lng: string, ns: string, callback: (error: any, data?: any) => void) {
-        try {
-            const response = await fetchTranslations(lng);
+        // 1. If offline, use local immediately
+        if (isOfflineMode) {
+            const localTranslations = await loadLocalTranslations(lng);
+            return callback(null, localTranslations);
+        }
 
-            if (response.status >= 400) {
-                throw new Error(`Translation fetch failed: ${response.statusText}`);
+        // 2. Try API first
+        try {
+            const apiResponse = await fetchTranslations(lng);
+
+            if (apiResponse.status < 308) {
+                const transformed = transformTranslations(apiResponse.data);
+                return callback(null, transformed);
             }
 
-            // Handle direct key-value pairs response
-            const translations = response.data;
-            callback(null, translations);
+            // 3. If API fails, use local but schedule retry
+            const localTranslations = await loadLocalTranslations(lng);
+            scheduleApiRetry(lng, callback);
+            return callback(null, localTranslations);
 
         } catch (error) {
-            toast.error( "Failed to load translation. Please try again.");
-            console.error('Failed to load translations:', error);
-            callback(error, {}); // Provide empty fallback
+            console.error('API translation fetch failed:', error);
+            isOfflineMode = true;
+
+            // 4. Final fallback to local
+            const localTranslations = await loadLocalTranslations(lng);
+            return callback(null, localTranslations);
         }
     }
 };
@@ -46,9 +130,23 @@ i18n
         }
     });
 
-// Sync language changes
+// Reset offline mode and clear retries on successful language change
 i18n.on('languageChanged', (lng) => {
     localStorage.setItem('i18nextLng', lng);
+    isOfflineMode = false;
+    Object.values(retryTimers).forEach(timer => clearTimeout(timer));
+});
+
+// Network status detection
+window.addEventListener('online', () => {
+    isOfflineMode = false;
+    console.log('Connection restored, exiting offline mode');
+});
+
+window.addEventListener('offline', () => {
+    isOfflineMode = true;
+    Object.values(retryTimers).forEach(timer => clearTimeout(timer));
+    console.warn('Network offline, using local translations');
 });
 
 export default i18n;

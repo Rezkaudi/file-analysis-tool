@@ -5,20 +5,26 @@ import { apiUrl } from '@/utils/apiUrl';
 const api = axios.create({
     baseURL: apiUrl,
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+
     }
 })
 
 
 const endPoint = {
-    languages: "",
-    translations: "http://127.0.0.1:8000/api/translations/", // for now : it fetches the translations from the admin panel ( for testing purposes)
+    languages: "v1/languages",
+    translations: "v1/translations/",
 }
 
 
 
 
 export const fetchTranslations = async (language: string) => {
-    return await api.get(`${endPoint.translations}${language}`); // Changed to GET with language in URL
+    return await api.get(`${endPoint.translations}${language}`);
+};
+
+// Add this to your existing translations service
+export const getLanguages = async () => {
+    return await api.get(endPoint.languages);
 };
 

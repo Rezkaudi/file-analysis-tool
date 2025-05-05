@@ -38,6 +38,40 @@
     "feedback": " Feedback ",
     "changePassword": "Change Password",
     "logout": " Logout "
-  }
+  },
+  "useCase":{
+    "title": "Use-Cases",
+    "addUseCaseBtn": " Add Use Case ",
+    "editUseCase": " Edit this Use Case ",
+    "deleteUseCase": " Delete this Use Case ",
+    "duplicateUseCase": " Duplicate this Use Case ",
+    "createNewPosition" : " Create New Position ",
+    "editPosition": " Edit Position ",
+    "positionsException":" No Position Found . Create New Position ",
+
+
+    "workPositionModal":{
+      "title": " Title ",
+      "description": " Description ",
+      "cancel": "Cancel",
+      "create": "Create",
+      "saveChanges": " Save Changes "
+    },
+    "deleteConfirmationModal":{
+      "title": "Confirm Deletion",
+      "description1": " Are you sure you want to delete the position  ",
+      "description2": " This action cannot be undone. ",
+      "cancel": "  Cancel ",
+      "delete": "  Delete  "
+    },
+    "duplicateConfirmationModal":
+    {
+      "title": "Confirm Duplicate",
+      "description": "   Are you sure you want to Duplicate the position  ",
+      "cancel": " Cancel ",
+      "duplicate": " Duplicate "
+    }
+}
+
 
 }

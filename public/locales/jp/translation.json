@@ -1,30 +1,29 @@
 {
   "register": {
     "name": "名前",
-    "email": "メールアドレス",
+    "email": "メール",
     "password": "パスワード",
-    "confirmPassword": "パスワードを確認する",
-    "IAgreeToTheTermsOfServiceAnd": "私は利用規約に同意します",
-    "privacyPolicy": "プライバシーポリシー",
-    "CreatingAccount": "アカウントを作成中...",
-    "alreadyHaveAnAccount": "すでにアカウントをお持ちですか",
-    "login": "  ログイン",
+    "confirmPassword": "パスワードの確認",
+    "IAgreeToTheTermsOfServiceAnd": "利用規約に同意します ",
+    "privacyPolicy": " プライバシーポリシー ",
+    "CreatingAccount": " アカウントを作成中 ...",
+    "alreadyHaveAnAccount": " アカウントをお持ちですか ",
+    "login": " ログイン",
     "createAnAccount": " アカウントを作成する ",
     "enterYourInformationToCreateAnAccount": " アカウントを作成するための情報を入力してください ",
-    "regButton": " 登録 "
+    "regButton": "登録"
   },
-
   "login": {
-    "login": "ログイン",
-    "name": "名前",
-    "email": "メールアドレス",
+    "login": " ログイン ",
+    "name": " 名前 ",
+    "email": "メール",
     "enterYourCredentialsToAccessYourAccount": "アカウントにアクセスするための資格情報を入力してください",
     "password": "パスワード",
     "loginButton": "ログイン",
     "register": "登録",
     "dontHaveAnAccount": "アカウントをお持ちでないですか",
     "forgotPassword": "パスワードを忘れた",
-    "loggingIn": " ログインしています..."
+    "loggingIn": "ログイン中 ..."
   },
   "header": {
     "login": "ログイン",
@@ -33,10 +32,41 @@
     "yourCredits": "あなたのクレジット"
   },
   "profileDropDown": {
-    "history": "歴史",
-    "buyCredits": "クレジットを購入",
-    "feedback": "フィードバック",
+    "history": " 履歴 ",
+    "buyCredits": " クレジットを購入 ",
+    "feedback": " フィードバック ",
     "changePassword": "パスワードを変更",
-    "logout": "ログアウト"
+    "logout": " ログアウト "
+  },
+  "useCase": {
+    "title": "ユースケース",
+    "addUseCaseBtn": " ユースケースを追加 ",
+    "editUseCase": " このユースケースを編集 ",
+    "deleteUseCase": " このユースケースを削除 ",
+    "duplicateUseCase": " このユースケースを複製 ",
+    "createNewPosition": " 新しいポジションを作成 ",
+    "editPosition": " ポジションを編集 ",
+    "positionsException": " ポジションが見つかりません。新しいポジションを作成してください ",
+
+    "workPositionModal": {
+      "title": " タイトル ",
+      "description": " 説明 ",
+      "cancel": "キャンセル",
+      "create": "作成",
+      "saveChanges": " 変更を保存 "
+    },
+    "deleteConfirmationModal": {
+      "title": "削除の確認",
+      "description1": " 本当にこのポジションを削除してもよろしいですか ",
+      "description2": " この操作は元に戻せません。 ",
+      "cancel": "  キャンセル ",
+      "delete": "  削除  "
+    },
+    "duplicateConfirmationModal": {
+      "title": "複製の確認",
+      "description": " 本当にこのポジションを複製してもよろしいですか ",
+      "cancel": " キャンセル ",
+      "duplicate": " 複製 "
+    }
   }
 }
