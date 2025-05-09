@@ -63,7 +63,7 @@ const Index = () => {
         try {
             const response = await createPosition(data);
             const useCaseId = response.id;
-            toast.success("successful");
+            toast.success(t("general.successful"));
             router.push(`/position/${useCaseId}`);
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
@@ -100,7 +100,6 @@ const Index = () => {
             toast.error(axiosError.response?.data?.message || "Failed. Please try again.");
         }
     };
-//equivalent
     const handleDuplicatePosition = async (id: string) => {
         try {
             await duplicatePosition(id);

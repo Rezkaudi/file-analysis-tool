@@ -1,4 +1,7 @@
-{
+{ "general": {
+  "successful": "成功",
+  "successPasswordChange": "パスワードの変更が成功しました"
+},
   "register": {
     "name": "名前",
     "email": "メール",
@@ -68,5 +71,94 @@
       "cancel": " キャンセル ",
       "duplicate": " 複製 "
     }
+  },
+  "analysis": {
+    "addCriteria": " 基準を追加 ",
+    "uploadResume": "履歴書をアップロード",
+    "criteriaList": "基準",
+    "resumesList": "履歴書",
+    "noCriteriaFound": "基準が見つかりません。新しい基準を作成してください",
+    "noResumesFound": "履歴書が見つかりません。新しい履歴書を作成してください",
+    "startAnalysis": " 分析を開始 "
+  },
+  "createCriteriaModal": {
+    "title": "新しい基準を追加",
+    "description": "説明",
+    "cancelBtn": "キャンセル",
+    "addBtn": "基準を追加"
+  },
+  "createResumeModal": {
+    "title": "履歴書をアップロード",
+    "dropFile": "ここにファイルをドロップ",
+    "dropPDFFiles": "PDFファイルをドラッグ＆ドロップするか、クリックして選択",
+    "cancel": "キャンセル",
+    "uploadBtn": "履歴書をアップロード"
+  },
+  "resultPage": {
+    "exportBtn": "エクスポート",
+    "showCriteriaBrn": "基準を表示",
+    "score": "スコア",
+    "fileName": "ファイル名",
+    "analysis": "分析"
+  },
+  "changePasswordPage": {
+    "title": "パスワードを変更",
+    "description": "パスワードを変更するための情報を入力してください",
+    "oldPassword": "旧パスワード",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "新しいパスワードの確認",
+    "changing": "変更中...",
+    "changeBtn": "パスワードを変更"
+  },
+
+  "historyPage": {
+    "title": "履歴",
+    "noHistoryFound": "履歴が見つかりません",
+    "amount": "金額",
+    "paidAt": "支払日"
+  },
+
+  "forgetPassword": {
+    "title": "パスワードを忘れた",
+    "description": "パスワードをリセットするためにメールアドレスを入力してください",
+    "email": "メール",
+    "loggingIn": " ログイン中...",
+    "submitBtn": "送信",
+    "haveAnAccount": "アカウントをお持ちですか",
+    "login": "ログイン"
+  },
+
+  "verify": {
+    "title": "アカウントを確認",
+    "description": "メールに送信された4桁のコードを入力してください",
+    "verifying": "確認中...",
+    "verifyAccount": "アカウントを確認",
+    "didntReceiveCode": "コードを受け取らなかったですか？",
+    "ResendCode": "コードを再送信",
+    "verifyError": "有効な4桁の確認コードを入力してください"
+  },
+  "resetPassword": {
+    "title": "アカウントを確認",
+    "description": "メールに送信された4桁のコードを入力してください",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "パスワードの確認",
+    "resetPasswordBtn": "パスワードをリセット",
+    "didntReceiveACode": "コードを受け取らなかったですか？",
+    "resendBtn": "コードを再送信",
+    "reset": "リセット中...",
+    "validationError": "有効な4桁の確認コードを入力してください"
+  },
+
+  "feedback": {
+    "title": "フィードバックを送信",
+    "titleField": "タイトル",
+    "description": "説明",
+    "haveAScreenshot": "問題のスクリーンショットはありますか？",
+    "uploadSuccess": "画像が正常にアップロードされました！",
+    "feedbackSuccess": "フィードバックが正常に送信されました！",
+    "attachAnImage": "画像を添付",
+    "submitBtn": "フィードバックを送信",
+    "submitting": "送信中...",
+    "missingFieldError": "タイトルと説明は必須です"
   }
 }

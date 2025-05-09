@@ -8,12 +8,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
+import {useTranslation} from "react-i18next";
 
 
 export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingResend, setIsLoadingResend] = useState(false);
   const { resetPasswordUser, resendVerificationCodeForResetUser } = useAuthStore()
+
+
+  const { t } = useTranslation();
 
   const [code, setCode] = useState(["", "", "", ""]);
   const inputRefs = [
@@ -88,7 +92,7 @@ export default function ResetPasswordPage() {
     const verificationCode = code.join("");
 
     if (verificationCode.length !== 4) {
-      toast.error("Please enter a valid 4-digit verification code");
+      toast.error(t("resetPassword.validationError"));
       return;
     }
 
@@ -112,9 +116,9 @@ export default function ResetPasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-primary">Verify your account</h1>
+          <h1 className="text-3xl font-bold text-primary">{t("resetPassword.title")}</h1>
           <p className="mt-3 text-sm text-gray-600">
-            Enter the 4-digit code sent to your email
+            {t("resetPassword.description")}
           </p>
         </div>
 
@@ -142,7 +146,7 @@ export default function ResetPasswordPage() {
 
             <div className="space-y-1">
               <label htmlFor="password" className="block text-sm font-medium text-primary">
-                New Password
+                {t("resetPassword.newPassword")}
               </label>
               <input
                 id="newPassword"
@@ -160,7 +164,7 @@ export default function ResetPasswordPage() {
 
             <div className="space-y-1">
               <label htmlFor="repassword" className="block text-sm font-medium text-primary">
-                Confirm Password
+                {t("resetPassword.confirmPassword")}
               </label>
               <input
                 id="repassword"
@@ -183,17 +187,17 @@ export default function ResetPasswordPage() {
             >
               {isLoading ? (
                 <div className="flex items-center gap-3 justify-center">
-                  <span>  Reset...</span>
+                  <span>  {t("resetPassword.reset")}</span>
                   <SmallSpinner />
                 </div>
               ) : (
-                "Reset Password"
+                  t("resetPassword.resetPasswordBtn")
               )}
             </button>
           </form>
 
           <div className="text-center text-sm">
-            Didn&apos;t receive a code?{" "}
+            {t("resetPassword.didntReceiveACode")}{" "}
             <button
               onClick={handleResend}
               className="font-medium text-mainPurple hover:opacity-80 inline-flex justify-center items-center gap-2"

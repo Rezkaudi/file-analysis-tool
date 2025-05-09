@@ -101,7 +101,7 @@ const CustomBackend = {
             return callback(null, localTranslations);
 
         } catch (error) {
-            console.error('API translation fetch failed:', error);
+            toast.error(`API translation fetch failed: ${error}` );
             isOfflineMode = true;
 
             // 4. Final fallback to local
@@ -116,7 +116,7 @@ i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'en',
+        fallbackLng: 'ff', //english offline
         debug: process.env.NODE_ENV !== 'production',
         ns: ['translation'],
         defaultNS: 'translation',
@@ -137,16 +137,16 @@ i18n.on('languageChanged', (lng) => {
     Object.values(retryTimers).forEach(timer => clearTimeout(timer));
 });
 
-// Network status detection
-window.addEventListener('online', () => {
-    isOfflineMode = false;
-    console.log('Connection restored, exiting offline mode');
-});
-
-window.addEventListener('offline', () => {
-    isOfflineMode = true;
-    Object.values(retryTimers).forEach(timer => clearTimeout(timer));
-    console.warn('Network offline, using local translations');
-});
+// // Network status detection
+// window.addEventListener('online', () => {
+//     isOfflineMode = false;
+//     console.log('Connection restored, exiting offline mode');
+// });
+//
+// window.addEventListener('offline', () => {
+//     isOfflineMode = true;
+//     Object.values(retryTimers).forEach(timer => clearTimeout(timer));
+//     console.warn('Network offline, using local translations');
+// });
 
 export default i18n;

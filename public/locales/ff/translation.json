@@ -1,0 +1,174 @@
+{ "general":
+ {
+  "successful": "Successful",
+  "successPasswordChange": "Change Password successful"
+  },
+  "register":{
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "IAgreeToTheTermsOfServiceAnd": "I agree to the terms of service and   ",
+    "privacyPolicy": " Privacy Policy ",
+    "CreatingAccount": " Creating Account ...",
+    "alreadyHaveAnAccount": " Already Have An Account ",
+    "login": "  Login",
+    "createAnAccount": " Create an Account ",
+    "enterYourInformationToCreateAnAccount": " Enter your information to create an account ",
+    "regButton": "Register"
+  },
+  "login": {
+    "login": " Login ",
+    "name": " Name ",
+    "email": "Email",
+    "enterYourCredentialsToAccessYourAccount": "Enter Your Credentials To Access Your Account",
+    "password": "Password",
+    "loginButton": "Login",
+    "register": "Register",
+    "dontHaveAnAccount": "don't have an account",
+    "forgotPassword": "Forgot Password",
+    "loggingIn": "Logging in ..."
+  },
+  "header": {
+    "login":"Login",
+    "useCases": "Use-cases",
+    "pricing": "Pricing",
+    "yourCredits": "Your Credits"
+
+  },
+  "profileDropDown": {
+    "history":" History ",
+    "buyCredits": " Buy Credits ",
+    "feedback": " Feedback ",
+    "changePassword": "Change Password",
+    "logout": " Logout "
+  },
+  "useCase":{
+    "title": "Use-Cases",
+    "addUseCaseBtn": " Add Use Case ",
+    "editUseCase": " Edit this Use Case ",
+    "deleteUseCase": " Delete this Use Case ",
+    "duplicateUseCase": " Duplicate this Use Case ",
+    "createNewPosition" : " Create New Position ",
+    "editPosition": " Edit Position ",
+    "positionsException":" No Position Found . Create New Position ",
+
+
+    "workPositionModal":{
+      "title": " Title ",
+      "description": " Description ",
+      "cancel": "Cancel",
+      "create": "Create",
+      "saveChanges": " Save Changes "
+    },
+    "deleteConfirmationModal":{
+      "title": "Confirm Deletion",
+      "description1": " Are you sure you want to delete the position  ",
+      "description2": " This action cannot be undone. ",
+      "cancel": "  Cancel ",
+      "delete": "  Delete  "
+    },
+    "duplicateConfirmationModal":
+    {
+      "title": "Confirm Duplicate",
+      "description": "   Are you sure you want to Duplicate the position  ",
+      "cancel": " Cancel ",
+      "duplicate": " Duplicate "
+    }
+},
+
+
+  "feedback": {
+    "title":"Submit Feedback",
+    "titleField": "Title",
+    "description": "Description",
+    "haveAScreenshot": "Have a screenshot for your issue? ",
+    "uploadSuccess": "Image uploaded successfully!",
+    "feedbackSuccess": "Feedback submitted successfully!",
+    "attachAnImage": "Attach An Image",
+    "submitBtn": "Submit Feedback",
+    "submitting" : "Submitting...",
+    "missingFieldError": "Title and description are required"
+  },
+
+
+  "analysis": {
+   "addCriteria": " Add Criteria ",
+    "uploadResume": "Upload Resume",
+    "criteriaList": "Criteria",
+    "resumesList": " Resumes",
+    "noCriteriaFound": "No Criteria Found . Create New Criteria",
+    "noResumesFound": " No Resumes Found . Create New Resumes ",
+    "startAnalysis": " Start Analysis "
+
+  },
+  "createCriteriaModal": {
+    "title": "Add New Criteria",
+    "description": "Description",
+    "cancelBtn": "Cancel",
+    "addBtn": "Add Criteria"
+  },
+  "createResumeModal": {
+    "title": " Upload Resumes ",
+    "dropFile": "Drop the files here",
+    "dropPDFFiles": "Drag & drop PDF files or click to select",
+    "cancel": "Cancel",
+    "uploadBtn": "Upload Resumes"
+  },
+  "resultPage": {
+    "exportBtn": "Export",
+    "showCriteriaBrn": "Show Criteria",
+    "score": "Score",
+    "fileName": "File Name",
+    "analysis": "Analysis"
+  },
+  "changePasswordPage": {
+    "title": "Change Password",
+    "description": "Enter your information to Change Password",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "changing": "Changing...",
+    "changeBtn" : "Change Password",
+    "passwordWaring": "Password must be at least 4 characters"
+  },
+  "historyPage": {
+    "title": "History",
+    "noHistoryFound": "No History Found",
+    "amount": "Amount",
+    "paidAt": "Paid at"
+  },
+  "forgetPassword": {
+    "title": "Forget Password",
+    "description" : "Enter your email to Reset Password",
+    "email": "Email",
+    "loggingIn": " Logging in...",
+    "submitBtn": "Submit",
+    "haveAnAccount": " Do you have an account",
+    "login": "Login"
+  },
+  "verify": {
+    "title": "Verify your account",
+    "description": "Enter the 4-digit code sent to your email",
+    "verifying": "Verifying...",
+    "verifyAccount": "Verify Account",
+    "didntReceiveCode": "Didn't receive a code?",
+    "ResendCode": "Resend code",
+    "verifyError": "Please enter a valid 4-digit verification code"
+
+
+  },
+
+  "resetPassword": {
+    "title": "Verify your account",
+    "description" : " Enter the 4-digit code sent to your email",
+    "newPassword": "New Password",
+    "confirmPassword": " Confirm Password",
+    "resetPasswordBtn": "Reset Password",
+    "didntReceiveACode": " Didn't receive code ?",
+    "resendBtn": "Resend code",
+    "reset": "Reset...",
+    "validationError": "Please enter a valid 4-digit verification code"
+  }
+
+}

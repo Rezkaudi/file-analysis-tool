@@ -2,6 +2,7 @@
 import {useTranslation} from "react-i18next";
 import { useEffect, useState } from "react";
 import { getLanguages } from "@/services/translations";
+import {isUndefined} from "node:util";
 
 
 
@@ -38,7 +39,7 @@ export default function LanguageSwitcher () {
                 console.error("Failed to load languages:", error);
                 // Fallback to default languages if API fails
                 setLanguages([
-                    { code: "en", name: "English", direction: "ltr" },
+                    { code: "ff", name: "English", direction: "ltr" },
                 ]);
                 setLoading(false);
             }
@@ -50,9 +51,18 @@ export default function LanguageSwitcher () {
     const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const langCode = e.target.value;
         const selectedLang = languages.find(lang => lang.code === langCode);
+        console.log(selectedLang);
+        if(
+        isUndefined(selectedLang))
+        {
+            i18n.changeLanguage(langCode);
+            document.documentElement.dir = "ltr";
+        }
+
+        // document.documentElement.dir = selectedLang.direction;
         if (selectedLang) {
-            i18n.changeLanguage(langCode); // replace langCode with 'jp' to test japanese language after commiting fetching languages from the backend in the i18n.ts  (fast local testing)
-            document.documentElement.dir = selectedLang.direction;
+           i18n.changeLanguage(langCode); // replace langCode with 'jp' to test japanese language after commiting fetching languages from the backend in the i18n.ts  (fast local testing)
+                document.documentElement.dir = selectedLang.direction;
         }
     };
 
@@ -69,14 +79,26 @@ export default function LanguageSwitcher () {
         <div className="bg-primary  , text-white">
             <select
                 className="bg-primary text-white p-1 rounded border-none focus:outline-none"
-            value={i18n.language}
+                value={i18n.language}
                 onChange={handleLanguageChange}>
+
+
                 {languages.map((lang) => (
                     <option key={lang.code} value={lang.code}>
                         {lang.name}
                     </option>
                 ))}
-        </select></div>
+
+                <option value="jp">
+                    Japanese Offline
+                </option>
+
+                <option value="ff">
+                    English Offline
+                </option>
+
+
+            </select></div>
 
     );
 }

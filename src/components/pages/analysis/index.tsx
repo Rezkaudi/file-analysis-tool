@@ -15,6 +15,7 @@ import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
+import {useTranslation} from "react-i18next";
 
 interface IAnalysis {
   id: string
@@ -29,6 +30,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
   const [isLoadingProcess, setIsLoadingProcess] = useState(false);
   const router = useRouter();
   const { getUserBalance } = useAuthStore()
+  const { t } = useTranslation();
 
   // Initialize router
   // const [results, setResults] = useState<WorkPosition | null>(null);
@@ -143,20 +145,20 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                   className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradiantPurple px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 >
                   <Plus size={20} />
-                  Add Criteria
+                  {t("analysis.addCriteria")}
                 </button>}
                 <button
                   onClick={() => setIsResumeModalOpen(true)}
                   className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradiantPurple px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 >
                   <Plus size={20} />
-                  Upload Resume
+                  {t("analysis.uploadResume")}
                 </button>
               </div>
             </div>
 
             <div className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4">Criteria : {"(" + jobPosting.criterias.length + ")"}</h2>
+              <h2 className="text-2xl font-semibold mb-4">{t("analysis.criteriaList")} : {"(" + jobPosting.criterias.length + ")"}</h2>
               {jobPosting.criterias.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {jobPosting.criterias.map(criteria => (
                   <CriteriaCard
@@ -165,11 +167,11 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                     onDelete={handleDeleteCriteria}
                   />
                 ))}
-              </div> : <h4 className='w-full text-center mt-[50px] text-red-500'>No Critiria Found . Create New Critiria</h4>}
+              </div> : <h4 className='w-full text-center mt-[50px] text-red-500'>{t("analysis.noCriteriaFound")}</h4>}
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold mb-4">Resumes :  {"(" + jobPosting.resumes.length + ")"}</h2>
+              <h2 className="text-2xl font-semibold mb-4">{t("analysis.resumesList")} :  {"(" + jobPosting.resumes.length + ")"}</h2>
               {jobPosting.resumes.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {jobPosting.resumes.map(resume => (
                   <ResumeCard
@@ -178,7 +180,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                     onDelete={handleDeleteResume}
                   />
                 ))}
-              </div> : <h4 className='w-full text-center mt-[50px] text-red-500'>No Resumes Found . Create New Resumes</h4>}
+              </div> : <h4 className='w-full text-center mt-[50px] text-red-500'>{t("analysis.noResumesFound")}</h4>}
             </div>
 
 
@@ -187,7 +189,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                 onClick={startAnalysis}
                 disabled={jobPosting.resumes.length === 0 || jobPosting.criterias.length === 0}
               >
-                Start Analysis
+                {t("analysis.startAnalysis")}
                 {isLoadingProcess && (
                   <div className="flex items-center justify-center">
                     <svg className="h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
