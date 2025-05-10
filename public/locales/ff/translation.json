@@ -169,6 +169,27 @@
     "resendBtn": "Resend code",
     "reset": "Reset...",
     "validationError": "Please enter a valid 4-digit verification code"
+  },
+  "paymentCancel": {
+    "title": "Payment Cancelled",
+    "description1": " Your payment was not completed. Dont worry - no charges were made to your account.",
+    "description2": " If you experienced any issues, please contact our support team.",
+    "homeLink": "Return Home",
+    "plansLink": "Back to Plans"
+  },
+  "paymentSuccess": {
+    "title": "Payment Successful!",
+    "description": " Thank you for your payment. Your transaction has been completed successfully.",
+    "homeLink": "Return Home",
+    "historyLink": "View History"
+  },
+  "historyCard": {
+    "amount": "Amount",
+    "created": "Created"
+  },
+  "plans":{
+    "title": "Choose Your Plan",
+    "description": "Select the perfect package for your recruitment needs"
   }
 
 }

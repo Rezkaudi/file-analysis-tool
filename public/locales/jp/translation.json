@@ -160,5 +160,27 @@
     "submitBtn": "フィードバックを送信",
     "submitting": "送信中...",
     "missingFieldError": "タイトルと説明は必須です"
+  },
+  "paymentCancel": {
+    "title": "支払いがキャンセルされました",
+    "description1": "お支払いは完了しませんでした。ご安心ください - あなたのアカウントには料金は請求されていません。",
+    "description2": "問題が発生した場合は、サポートチームにお問い合わせください。",
+    "homeLink": "ホームに戻る",
+    "plansLink": "プランに戻る"
+  },
+  "paymentSuccess": {
+    "title": "支払い成功！",
+    "description": "お支払いありがとうございます。取引は正常に完了しました。",
+    "homeLink": "ホームに戻る",
+    "historyLink": "履歴を見る"
+  },
+  "historyCard": {
+    "amount": "金額",
+    "created": "作成日"
+  },
+  "plans": {
+    "title": "プランを選択",
+    "description": "あなたの採用ニーズに最適なパッケージを選択してください"
   }
+
 }

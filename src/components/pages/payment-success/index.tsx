@@ -1,8 +1,10 @@
 import Link from "next/link";
+import {useTranslation} from "react-i18next";
 
 
 const Index = () => {
 
+const {t}= useTranslation();
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 p-4">
@@ -22,10 +24,10 @@ const Index = () => {
                         </svg>
                     </div>
 
-                    <h1 className="text-2xl font-bold text-gray-900">Payment Successful!</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">{t("paymentSuccess.title")}</h1>
 
                     <p className="text-gray-600 max-w-sm">
-                        Thank you for your payment. Your transaction has been completed successfully.
+                        {t("paymentSuccess.description")}
                     </p>
 
                     {/* <div className="bg-green-50/50 rounded-lg p-4 w-full">
@@ -39,13 +41,13 @@ const Index = () => {
                             href="/"
                             className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors text-center"
                         >
-                            Return Home
+                            {t("paymentSuccess.homeLink")}
                         </Link>
                         <Link
                             href="/history"
                             className="w-full px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-md transition-colors text-center"
                         >
-                            View History
+                            {t("paymentSuccess.historyLink")}
                         </Link>
                     </div>
                 </div>
