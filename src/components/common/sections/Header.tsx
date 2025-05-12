@@ -6,6 +6,8 @@ import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useAuthStore } from "@/store/useAuthStore";
 import Image from "next/image";
 import {useTranslation} from "react-i18next";
+import FloatingFeedbackButton from "@/components/common/sections/components/FloatingFeedbackButton";
+import React from "react";
 
 const Header: React.FC = () => {
     const {t} = useTranslation();
@@ -44,6 +46,7 @@ const Header: React.FC = () => {
                                 {t("header.yourCredits")} : {userBalance || 0}
                             </span>
                             <ProfileDropdown />
+                            <FloatingFeedbackButton />
                         </div>
                     </div>
                 }
