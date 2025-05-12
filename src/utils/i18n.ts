@@ -5,7 +5,7 @@ import { fetchTranslations } from '@/services/translations';
 import {toast} from "sonner";
 
 const LOCAL_TRANSLATIONS_PATH = '/locales/{{lng}}/translation.json';
-const API_RETRY_INTERVAL = 1000; // 1 seconds
+const API_RETRY_INTERVAL = 7000; // 7 seconds
 
 // Track offline state and retry timers
 let isOfflineMode = false;
