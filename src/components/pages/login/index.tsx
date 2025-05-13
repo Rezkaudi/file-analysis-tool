@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 
 const loginSchema = z.object({
@@ -19,7 +19,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { loginUser } = useAuthStore()
@@ -101,7 +101,7 @@ export default function LoginPage() {
                 <SmallSpinner />
               </div>
             ) : (
-                <div>{t("login.loginButton")}</div>
+              <div>{t("login.loginButton")}</div>
 
             )}
           </button>

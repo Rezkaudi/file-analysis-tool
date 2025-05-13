@@ -1,10 +1,13 @@
+"use client"
+
+
 import Link from "next/link";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 
 const Index = () => {
 
-    const {t}= useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-gray-50 p-4">

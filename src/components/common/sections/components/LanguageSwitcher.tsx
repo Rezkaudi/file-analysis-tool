@@ -1,8 +1,7 @@
 'use client';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { getLanguages } from "@/services/translations";
-import {isUndefined} from "node:util";
 
 
 
@@ -13,8 +12,8 @@ interface Language {
 }
 
 
-export default function LanguageSwitcher () {
-    const {i18n} = useTranslation();
+export default function LanguageSwitcher() {
+    const { i18n } = useTranslation();
 
     const [languages, setLanguages] = useState<Language[]>([]);
     const [loading, setLoading] = useState(true);
@@ -52,17 +51,15 @@ export default function LanguageSwitcher () {
         const langCode = e.target.value;
         const selectedLang = languages.find(lang => lang.code === langCode);
         console.log(selectedLang);
-        if(
-        isUndefined(selectedLang))
-        {
+        if (!selectedLang) {
             i18n.changeLanguage(langCode);
             document.documentElement.dir = "ltr";
         }
 
         // document.documentElement.dir = selectedLang.direction;
         if (selectedLang) {
-           i18n.changeLanguage(langCode); // replace langCode with 'jp' to test japanese language after commiting fetching languages from the backend in the i18n.ts  (fast local testing)
-                document.documentElement.dir = selectedLang.direction;
+            i18n.changeLanguage(langCode); // replace langCode with 'jp' to test japanese language after commiting fetching languages from the backend in the i18n.ts  (fast local testing)
+            document.documentElement.dir = selectedLang.direction;
         }
     };
 
