@@ -1,3 +1,14 @@
+// 'use client';
+
+// import { useParams } from 'next/navigation';
+// import Analysis from "@/components/pages/analysis";
+
+// export default function AnalysisPage() {
+//   const params = useParams();
+//   const id = params.id as string;
+
+//   return <Analysis id={id} />;
+// }
 
 // page
 import Analysis from "@/components/pages/analysis"
@@ -13,3 +24,8 @@ export default async function AnalysisPage({ params }: IAnalysis) {
 
   return <Analysis id={id} />;
 }
+
+
+
+
+

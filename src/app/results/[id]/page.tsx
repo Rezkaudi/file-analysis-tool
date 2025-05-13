@@ -1,3 +1,14 @@
+// 'use client';
+
+// import { useParams } from 'next/navigation';
+// import Results from "@/components/pages/results"
+
+// export default function ResultsPage() {
+//   const params = useParams();
+//   const id = params.id as string;
+
+//   return <Results id={id} />;
+// }
 
 // page
 import Results from "@/components/pages/results"
