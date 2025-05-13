@@ -3,16 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
-<<<<<<< HEAD
-    const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy' , '/locales'];
-=======
-    const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy', '/payment-success', 'payment-cancel'];
->>>>>>> ff51232be31592d98359ab6a30d44b53049518d3
+    const PUBLIC_PATHS = ['/login', '/register', '/verify', '/forget-password', '/reset-password', '/privacy-policy', '/payment-success', 'payment-cancel', '/locales'];
 
     // Get the token from cookies
-    const token = await request.cookies.get('accessToken');
-
-
+    const token = request.cookies.get('accessToken');
 
     // Allow access to home page without authentication
     if (PUBLIC_PATHS.includes(pathname)) {
