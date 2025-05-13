@@ -5,7 +5,6 @@ import { fetchTranslations } from '@/services/translations';
 import {toast} from "sonner";
 
 const LOCAL_TRANSLATIONS_PATH = '/locales/{{lng}}/translation.json';
-const API_RETRY_INTERVAL = 7000; // 7 seconds
 
 // Track offline state and retry timers
 let isOfflineMode = false;
@@ -50,31 +49,6 @@ const loadLocalTranslations = async (lng: string) => {
     }
 };
 
-const scheduleApiRetry = (lng: string, callback: (error: any, data?: any) => void) => {
-    if (retryTimers[lng]) {
-        clearTimeout(retryTimers[lng]);
-    }
-
-    retryTimers[lng] = setTimeout(async () => {
-        if (!isOfflineMode) {
-            console.log(`Retrying API fetch for ${lng}`);
-            try {
-                const apiResponse = await fetchTranslations(lng);
-
-                if (apiResponse.status < 308) {
-                    const transformed = transformTranslations(apiResponse.data);
-                    callback(null, transformed);
-                    return;
-                }
-            } catch (error) {
-                toast.error(`API retry failed for ${lng}: ${error}`, );
-            }
-
-            // If retry failed, schedule next attempt
-            scheduleApiRetry(lng, callback);
-        }
-    }, API_RETRY_INTERVAL);
-};
 
 const CustomBackend = {
     type: 'backend' as const,
@@ -83,21 +57,23 @@ const CustomBackend = {
         // 1. If offline, use local immediately
         if (isOfflineMode) {
             const localTranslations = await loadLocalTranslations(lng);
+            toast.warning(`Using offline translations for ${lng}`);
             return callback(null, localTranslations);
         }
 
         // 2. Try API first
         try {
-            const apiResponse = await fetchTranslations(lng);
+            //check if it is not english offline or japanese offline ( needs to be changed in the future ) -- only for testing purposes for now .
+            if(lng !== 'ff' && lng !=='jp' ) {
+                const apiResponse = await fetchTranslations(lng);
 
-            if (apiResponse.status < 308) {
-                const transformed = transformTranslations(apiResponse.data);
-                return callback(null, transformed);
+                if (apiResponse.status < 308) {
+                    const transformed = transformTranslations(apiResponse.data);
+                    return callback(null, transformed);
+                }
             }
-
             // 3. If API fails, use local but schedule retry
             const localTranslations = await loadLocalTranslations(lng);
-            scheduleApiRetry(lng, callback);
             return callback(null, localTranslations);
 
         } catch (error) {
