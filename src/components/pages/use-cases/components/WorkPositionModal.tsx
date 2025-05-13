@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
+import {useTranslation} from "react-i18next";
 
 interface WorkPositionModalProps {
     isOpen: boolean;
@@ -45,6 +46,8 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
     });
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         if (position && mode === 'edit') {
@@ -83,7 +86,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
             <div className="bg-white rounded-lg">
                 <div className="flex justify-between items-center border-b p-4">
                     <h2 className="text-xl font-semibold text-gray-800">
-                        {mode === 'create' ? 'Create New Position' : 'Edit Position'}
+                        {mode === 'create' ? t("useCase.createNewPosition"): t("useCase.editPosition")}
                     </h2>
                     <button
                         onClick={onClose}
@@ -96,7 +99,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                                Title
+                                {t("useCase.workPositionModal.title")}
                             </label>
                             <input
                                 type="text"
@@ -109,7 +112,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
                         </div>
                         <div>
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                                Description
+                                {t("useCase.workPositionModal.description")}
                             </label>
                             <textarea
                                 id="description"
@@ -135,7 +138,7 @@ export const WorkPositionModal: React.FC<WorkPositionModalProps> = ({
                             disabled={isLoading}
                             className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                         >
-                            {mode === 'create' ? 'Create' : 'Save Changes'}
+                            {mode === 'create' ? t("useCase.workPositionModal.create") : t("useCase.workPositionModal.saveChanges")}
 
                             {isLoading && (
                                 <div className="flex items-center justify-center">

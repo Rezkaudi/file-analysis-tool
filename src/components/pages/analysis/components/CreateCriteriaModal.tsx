@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
+import {useTranslation} from "react-i18next";
 
 
 interface CreateCriteriaModalProps {
@@ -33,6 +34,8 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
     const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const { t } = useTranslation();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -40,7 +43,7 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
             await onSubmit(description);
             setDescription('');
             onClose();
-            toast.success("Succsessfull")
+            toast.success(t("general.successful"))
         }
         catch (error) {
             const axiosError = error as AxiosError<ApiError>;
@@ -59,7 +62,7 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
             ariaHideApp={false}
         >
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold">Add New Criteria</h2>
+                <h2 className="text-2xl font-semibold">{t("createCriteriaModal.title")} </h2>
                 <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
                     <X size={24} />
                 </button>
@@ -67,7 +70,7 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                        Description
+                        {t("createCriteriaModal.description")}
                     </label>
                     <input
                         id="description"
@@ -83,14 +86,14 @@ export function CreateCriteriaModal({ isOpen, onClose, onSubmit }: CreateCriteri
                         onClick={onClose}
                         className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
                     >
-                        Cancel
+                        {t("createCriteriaModal.cancelBtn")}
                     </button>
                     <button
                         type="submit"
                         disabled={isLoading}
                         className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                     >
-                        Add Criteria
+                        {t("createCriteriaModal.addBtn")}
 
                         {isLoading && (
                             <div className="flex items-center justify-center">

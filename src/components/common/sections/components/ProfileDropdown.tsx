@@ -3,6 +3,7 @@ import {User, CreditCard, LogOut, BriefcaseBusiness, MessageCircleCodeIcon} from
 import Image from 'next/image';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
+import {useTranslation} from "react-i18next";
 
 interface MenuItem {
     label: string;
@@ -11,6 +12,7 @@ interface MenuItem {
 }
 
 export default function ProfileDropdown() {
+   const {t} = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const { user, logoutUser } = useAuthStore()
     const router = useRouter();
@@ -19,7 +21,7 @@ export default function ProfileDropdown() {
 
     const menuItems: MenuItem[] = [
         {
-            label: 'History',
+            label: t("profileDropDown.history"),
             icon: <BriefcaseBusiness className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
@@ -27,7 +29,7 @@ export default function ProfileDropdown() {
             }
         },
         {
-            label: 'Buy Credits',
+            label: t("profileDropDown.buyCredits"),
             icon: <CreditCard className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
@@ -35,7 +37,7 @@ export default function ProfileDropdown() {
             }
         },
         {
-            label: 'Feedback',
+            label: t("profileDropDown.feedback"),
             icon: <MessageCircleCodeIcon className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
@@ -43,7 +45,7 @@ export default function ProfileDropdown() {
             }
         },
         {
-            label: 'Change Password',
+            label: t("profileDropDown.changePassword"),
             icon: <User className="w-4 h-4" />,
             onClick: () => {
                 setIsOpen(false)
@@ -51,7 +53,7 @@ export default function ProfileDropdown() {
             }
         },
         {
-            label: 'Logout',
+            label: t('profileDropDown.logout'),
             icon: <LogOut className="w-4 h-4" />,
             onClick: async () => {
                 await logoutUser(router);

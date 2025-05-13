@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
+import {useTranslation} from "react-i18next";
 
 
 interface CreateResumeModalProps {
@@ -40,6 +41,7 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const{ t } = useTranslation();
     const onDrop = useCallback((acceptedFiles: File[]) => {
         setFiles(prevFiles => [...prevFiles, ...acceptedFiles]);
     }, []);
@@ -83,7 +85,7 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
     return (
         <Modal isOpen={isOpen} style={modalStyles} ariaHideApp={false}>
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold">Upload Resumes</h2>
+                <h2 className="text-2xl font-semibold">{t("createResumeModal.title")}</h2>
                 <button onClick={handleClose} className="text-gray-500 hover:text-gray-700">
                     <X size={24} />
                 </button>
@@ -91,7 +93,7 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
             <div {...getRootProps()} className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer hover:border-gray-400">
                 <input {...getInputProps()} />
                 <Upload className="mx-auto mb-4 text-gray-400" size={24} />
-                <p className="text-sm text-gray-600">{isDragActive ? 'Drop the files here' : 'Drag & drop PDF files or click to select'}</p>
+                <p className="text-sm text-gray-600">{isDragActive ? t("createResumeModal.dropFile") : t("createResumeModal.dropPDFFiles") }</p>
             </div>
             <div className="mt-4 space-y-2 px-5 max-h-96 overflow-auto">
                 {files.map((file, index) => (
@@ -122,14 +124,14 @@ export function CreateResumeModal({ isOpen, onClose, onSubmit, fetchPositionsByI
                     onClick={onClose}
                     className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
                 >
-                    Cancel
+                    {t("createResumeModal.cancel")}
                 </button>
                 <button
                     onClick={handleUpload}
                     disabled={files.length === 0 || isLoading}
                     className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                 >
-                    Upload Resumes
+                    {t("createResumeModal.uploadBtn")}
                     {isLoading && (
                         <div className="flex items-center justify-center">
                             <SmallSpinner />

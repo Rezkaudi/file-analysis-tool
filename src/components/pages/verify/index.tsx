@@ -1,17 +1,18 @@
 "use client";
 
-import { useState, useRef } from "react";
+import {useState, useRef,} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
+import {useTranslation} from "react-i18next";
 
 export default function VerifyPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingResend, setIsLoadingResend] = useState(false);
   const { verifyUser, resendVerificationCodeUser } = useAuthStore()
-
+  const { t } = useTranslation();
   const [code, setCode] = useState(["", "", "", ""]);
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -61,7 +62,7 @@ export default function VerifyPage() {
     const verificationCode = code.join("");
 
     if (verificationCode.length !== 4) {
-      toast.error("Please enter a valid 4-digit verification code");
+      toast.error(t("verify.verifyError"));
       return;
     }
 
@@ -84,9 +85,9 @@ export default function VerifyPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-primary">Verify your account</h1>
+          <h1 className="text-3xl font-bold text-primary">{t("verify.title")}</h1>
           <p className="mt-3 text-sm text-gray-600">
-            Enter the 4-digit code sent to your email
+            {t("verify.description")}
           </p>
         </div>
 
@@ -116,23 +117,23 @@ export default function VerifyPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-3 justify-center">
-                <span> Verifying...</span>
+                <span> {t("verify.verifying")}</span>
                 <SmallSpinner />
               </div>
             ) : (
-              "Verify Account"
+              t("verify.verifyAccount")
             )}
           </button>
 
 
           <div className="text-center text-sm">
-            Didn&apos;t receive a code?{" "}
+            {t("verify.didntReceiveCode")}{" "}
             <button
               onClick={handleResend}
               className="font-medium text-mainPurple hover:opacity-70 inline-flex justify-center items-center gap-2"
               disabled={isLoadingResend}
             >
-              <span>Resend code</span>
+              <span>{t("verify.ResendCode")}</span>
               {isLoadingResend && <SmallSpinner />}
             </button>
           </div>
