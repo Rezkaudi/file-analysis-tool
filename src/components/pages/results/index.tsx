@@ -20,7 +20,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string>("");
-
+  const[showCriteria,setShowCriteria]=useState(false);
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null); // Store interval reference
   const isPollingStopped = useRef(false); // Flag to prevent unnecessary API calls
 
@@ -194,9 +194,9 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                       <>
                         <button
                             className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
-                            // onClick={() => handleExtractExcel(position?.resumes)} // need to be changed to handle toggling showing criteria
+                            onClick={() => setShowCriteria(!showCriteria)}
                         >
-                          {t("resultPage.showCriteriaBrn")}
+                            {showCriteria ?    t("resultPage.hideCriteriaBtn") : t("resultPage.showCriteriaBrn")  }
                         </button>
                         <button
                             className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
@@ -224,13 +224,13 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                         </button>
                       </div>
                     </th>
-                    {position?.criterias.map((item, idx) => (
+                    {showCriteria && position?.criterias.map((item, idx) => (
                         <th key={idx} className=" bg-gray-200 w-32 h-24 px-4 py-3 text-sm font-semibold text-gray-900 text-center border-l border-r   border-gray-300 whitespace-normal break-words">
                           {item.description}
                         </th>
                     ))}
                     <th className=" bg-gray-200 px-4 py-3  text-sm text-center font-semibold text-gray-900 border-b border-l border-gray-200 w-1/3">{t("resultPage.analysis")}</th>
-                  </tr>
+                    </tr>
                   </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -261,7 +261,7 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                         </td>
 
                         {/* Criteria */}
-                        {position?.criterias.map((item, idx) => (
+                        {showCriteria && position?.criterias.map((item, idx) => (
                             <td key={idx} className="px-4 py-3 text-sm text-center text-gray-900 border border-gray-200">
                               {item.description}
                             </td>

@@ -118,6 +118,7 @@
   "resultPage": {
     "exportBtn": "Export",
     "showCriteriaBrn": "Show Criteria",
+    "hideCriteriaBtn": "Hide Criteria",
     "score": "Score",
     "fileName": "File Name",
     "analysis": "Analysis"

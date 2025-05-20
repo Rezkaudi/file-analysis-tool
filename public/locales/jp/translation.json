@@ -97,6 +97,7 @@
   "resultPage": {
     "exportBtn": "エクスポート",
     "showCriteriaBrn": "基準を表示",
+    "hideCriteriaBtn": "基準を隠す",
     "score": "スコア",
     "fileName": "ファイル名",
     "analysis": "分析"
