@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pencil, Trash2, Copy } from 'lucide-react';
 import Link from 'next/link';
+import {useTranslation} from "react-i18next";
 
 interface WorkPositionCardProps {
     position: WorkPosition;
@@ -17,13 +18,15 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
     onDuplicate
 }) => {
 
+    const { t } = useTranslation();
+
     return (
         <Link href={`/position/${position.id}`} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-start mb-4">
                 <h3 className="text-xl font-semibold text-gray-800">{position.title}</h3>
                 <div className="flex space-x-1">
                     <button
-                        title='Edit this Use Case'
+                        title={t("useCase.editUseCase")}
                         onClick={(e) => {
                             e.stopPropagation()
                             e.nativeEvent.stopImmediatePropagation();
@@ -35,7 +38,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                         <Pencil size={18} />
                     </button>
                     <button
-                        title='Delete this Use Case'
+                        title={t("useCase.deleteUseCase")}
                         onClick={(e) => {
                             e.stopPropagation()
                             e.nativeEvent.stopImmediatePropagation();
@@ -48,7 +51,7 @@ export const WorkPositionCard: React.FC<WorkPositionCardProps> = ({
                     </button>
 
                     <button
-                        title='Duplicate this Use Case'
+                        title={t("useCase.duplicateUseCase")}
                         onClick={(e) => {
                             e.stopPropagation()
                             e.nativeEvent.stopImmediatePropagation();

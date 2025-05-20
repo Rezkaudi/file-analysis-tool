@@ -1,9 +1,10 @@
 "use client";
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { submitFeedback, uploadPhoto } from '@/services/feedback';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
 import {toast} from "sonner";
 import {AxiosError} from "axios";
+import {useTranslation} from "react-i18next";
 
 export default function FeedbackPage() {
     const [title, setTitle] = useState('');
@@ -16,6 +17,8 @@ export default function FeedbackPage() {
     const [uploadError, setUploadError] = useState<string | null>(null);
     const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const {t} =useTranslation();
 
     // Effect to clear messages after 3 seconds
     useEffect(() => {
@@ -32,7 +35,7 @@ export default function FeedbackPage() {
         setSuccess(null);
 
         if (!title || !description) {
-            toast.error( "Title and description are required");
+            toast.error( t("feedback.missingFieldError"));
             return;
         }
 
@@ -48,7 +51,7 @@ export default function FeedbackPage() {
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
-            toast.success("Feedback submitted successfully!");
+            toast.success(t("feedback.feedbackSuccess"));
             // Show success message
             setSuccess('');
         } catch (error) {
@@ -71,7 +74,7 @@ export default function FeedbackPage() {
             setIsUploading(true);
             const response = await uploadPhoto(file);
             setImageUrl(response.data.url);
-            setUploadSuccess('Image uploaded successfully!');
+            setUploadSuccess(t("feedback.uploadSuccess"));
         } catch (error) {
             const axiosError = error as AxiosError<ApiError>;
 
@@ -84,14 +87,14 @@ export default function FeedbackPage() {
     return (
         <div className="min-h-screen bg-gray-100 py-8 px-4">
             <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
-                <h1 className="text-3xl font- text-gray-800 mb-6">Submit Feedback</h1>
+                <h1 className="text-3xl font- text-gray-800 mb-6">{t("feedback.title")}</h1>
 
 
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                            Title
+                            {t("feedback.titleField")}
                         </label>
                         <input
                             type="text"
@@ -105,7 +108,7 @@ export default function FeedbackPage() {
 
                     <div>
                         <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                            Description
+                            {t("feedback.description")}
                         </label>
                         <textarea
                             id="description"
@@ -118,9 +121,12 @@ export default function FeedbackPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Attach Image (optional)
+                        <label className="flex text-sm font-medium text-gray-700">
+                            {t("feedback.haveAScreenshot")}{"   "}   <h5 className=" ml-2 text-md  text-gray-800">{t("feedback.attachAnImage")}
+
+                        </h5>
                         </label>
+
                         <div className="mt-1 flex items-center gap-2">
                             <input
                                 type="file"
@@ -128,18 +134,19 @@ export default function FeedbackPage() {
                                 onChange={handleFileChange}
                                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                                 accept="image/*"
-                                disabled={isLoading || isUploading}
+                                disabled={isLoading || isUploading
+                               }
                             />
-                            {isUploading && <SmallSpinner />}
+                            {isUploading && <SmallSpinner/>}
                         </div>
 
                         {uploadSuccess && (
-                            <p className="mt-2 w-60 h-10 py-2 flex justify-center rounded-md text-center  text-sm text-green-800 bg-green-200 transition-opacity duration-300">
+                            <p className="mt-2 w-60 h-13 py-2 flex justify-center rounded-md text-center  text-sm text-green-800 bg-green-200 transition-opacity duration-300">
                                 {uploadSuccess}
                             </p>
                         )}
                         {uploadError && (
-                            <p className="mt-2  w-60 h-10 py-2 flex justify-center rounded-md text-sm text-red-600 bg-red-300 transition-opacity duration-300">
+                            <p className="mt-2  w-60 h-13 py-2 flex justify-center rounded-md text-sm text-red-600 bg-red-300 transition-opacity duration-300">
                                 {uploadError}
                             </p>
                         )}
@@ -152,10 +159,10 @@ export default function FeedbackPage() {
                     >
                         {isLoading ? (
                             <div className="text-sm text-center text-white text-wrap">
-                                <SmallSpinner/> Submitting
+                                <SmallSpinner/> {t("feedback.submitting")}
                             </div>
                         ) : (
-                            'Submit Feedback'
+                            t("feedback.submitBtn")
                         )}
                     </button>
                 </form>

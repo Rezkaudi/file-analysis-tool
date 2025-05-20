@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import { getHistory } from '@/services/profile';
 import { HistoryCard } from './components/HistoryCard';
 import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
+import {useTranslation} from "react-i18next";
 
 
 const Index = () => {
@@ -13,7 +14,7 @@ const Index = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-
+const {t} = useTranslation();
     const pageSize = 20
 
 
@@ -44,7 +45,7 @@ const Index = () => {
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="max-w-6xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-xl lg:text-3xl font-bold text-gray-900">History</h1>
+                    <h1 className="text-xl lg:text-3xl font-bold text-gray-900">{t("historyPage.title")}</h1>
                 </div>
 
                 {isLoading ? <DataLoadSpinner /> :
@@ -65,7 +66,7 @@ const Index = () => {
                                     totalPages={totalPages}
                                     onPageChange={setCurrentPage}
                                 />
-                            </> : <h4 className='w-full text-center mt-[100px] text-red-500'>No History Found</h4>}
+                            </> : <h4 className='w-full text-center mt-[100px] text-red-500'>{t("historyPage.noHistoryFound")}</h4>}
                         </>
                     )}
             </div>

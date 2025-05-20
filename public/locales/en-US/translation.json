@@ -1,0 +1,43 @@
+{
+  "register":{
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "IAgreeToTheTermsOfServiceAnd": "I agree to the terms of service and   ",
+    "privacyPolicy": " Privacy Policy ",
+    "CreatingAccount": " Creating Account ...",
+    "alreadyHaveAnAccount": " Already Have An Account ",
+    "login": "  Login",
+    "createAnAccount": " Create an Account ",
+    "enterYourInformationToCreateAnAccount": " Enter your information to create an account ",
+    "regButton": "Register"
+  },
+  "login": {
+    "login": " Login ",
+    "name": " Name ",
+    "email": "Email",
+    "enterYourCredentialsToAccessYourAccount": "Enter Your Credentials To Access Your Account",
+    "password": "Password",
+    "loginButton": "Login",
+    "register": "Register",
+    "dontHaveAnAccount": "don't have an account",
+    "forgotPassword": "Forgot Password",
+    "loggingIn": "Logging in ..."
+  },
+  "header": {
+    "login":"Login",
+    "useCases": "Use-cases",
+    "pricing": "Pricing",
+    "yourCredits": "Your Credits"
+
+  },
+  "profileDropDown": {
+    "history":" History ",
+    "buyCredits": " Buy Credits ",
+    "feedback": " Feedback ",
+    "changePassword": "Change Password",
+    "logout": " Logout "
+  }
+
+}
