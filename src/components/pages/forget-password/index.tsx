@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/useAuthStore";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
+import {useTranslation} from "react-i18next";
 
 const forgetSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -16,6 +17,7 @@ const forgetSchema = z.object({
 type ForgetPasswordFormValues = z.infer<typeof forgetSchema>;
 
 export default function ForgetPasswordPage() {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { forgetPasswordUser } = useAuthStore()
@@ -41,16 +43,16 @@ export default function ForgetPasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-primary">Forget Password</h1>
+          <h1 className="text-3xl font-bold text-primary">{t("forgetPassword.title")}</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your email to Reset Password
+            {t("forgetPassword.description")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
             <label htmlFor="email" className="block text-sm font-medium text-secondary">
-              Email
+              {t("forgetPassword.email")}
             </label>
             <input
               id="email"
@@ -73,19 +75,19 @@ export default function ForgetPasswordPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-3 justify-center">
-                <span> Logging in...</span>
+                <span> {t("forgetPassword.loggingIn")}</span>
                 <SmallSpinner />
               </div>
             ) : (
-              "Submit"
+              t("forgetPassword.submitBtn")
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm">
-          Do you have an account?{" "}
+          {t("forgetPassword.haveAnAccount")}?{" "}
           <Link href="/login" className="font-medium text-primary hover:opacity-80">
-            Login
+            {t("forgetPassword.login")}
           </Link>
         </div>
       </div>

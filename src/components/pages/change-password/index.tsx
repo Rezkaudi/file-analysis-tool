@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { changePassword } from "@/services/profile";
 import SmallSpinner from "@/components/common/components/SmallSpinner";
+import {useTranslation} from "react-i18next";
 
 const changePasswordSchema = z.object({
   oldPassword: z.string().min(4, { message: "Password must be at least 4 characters" }),
@@ -24,6 +25,8 @@ type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 export default function ChangePasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  const { t } = useTranslation();
 
   const {
     register,
@@ -52,7 +55,7 @@ export default function ChangePasswordPage() {
       await changePassword(apiData)
       router.push(`/profile`);
 
-      toast.success("Change Password successful");
+      toast.success(t("general.successPasswordChange"));
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
@@ -66,9 +69,9 @@ export default function ChangePasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-primary">Change Password</h1>
+          <h1 className="text-4xl font-black text-primary">{t("changePasswordPage.title")}</h1>
           <p className="mt-3 text-sm text-gray-600">
-            Enter your information to Change Password
+            {t("changePasswordPage.description")}
           </p>
         </div>
 
@@ -76,7 +79,7 @@ export default function ChangePasswordPage() {
 
           <div className="space-y-1">
             <label htmlFor="oldPassword" className="block text-sm font-medium text-primary">
-              Old Password
+              {t("changePasswordPage.oldPassword")}
             </label>
             <input
               id="oldPassword"
@@ -94,7 +97,7 @@ export default function ChangePasswordPage() {
 
           <div className="space-y-1">
             <label htmlFor="newPassword" className="block text-sm font-medium text-primary">
-              New Password
+              {t("changePasswordPage.newPassword")}
             </label>
             <input
               id="newPassword"
@@ -112,7 +115,7 @@ export default function ChangePasswordPage() {
 
           <div className="space-y-1">
             <label htmlFor="repassword" className="block text-sm font-medium text-primary">
-              Confirm New Password
+              {t("changePasswordPage.confirmPassword")}
             </label>
             <input
               id="repassword"
@@ -137,11 +140,11 @@ export default function ChangePasswordPage() {
           >
             {isLoading ? (
               <div className="flex items-center gap-3 justify-center">
-                <span>Changing...</span>
+                <span>{t("changePasswordPage.changing")} </span>
                 <SmallSpinner />
               </div>
             ) : (
-              "Change Password"
+              t("changePasswordPage.changeBtn")
             )}
           </button>
         </form>

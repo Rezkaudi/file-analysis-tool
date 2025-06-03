@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { X } from 'lucide-react';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
+import {useTranslation} from "react-i18next";
 
 interface DeleteConfirmationModalProps {
     isOpen: boolean;
@@ -37,6 +38,8 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
 }) => {
     const [isLoading, setIsLoading] = useState(false);
 
+    const { t }= useTranslation();
+
     const handleDelete = async () => {
         setIsLoading(true)
 
@@ -57,7 +60,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
         >
             <div className="bg-white rounded-lg">
                 <div className="flex justify-between items-center border-b p-4">
-                    <h2 className="text-xl font-semibold text-gray-800">Confirm Deletion</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">{t("useCase.deleteConfirmationModal.title")}</h2>
                     <button
                         onClick={onClose}
                         className="text-gray-500 hover:text-gray-700"
@@ -67,22 +70,22 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
                 </div>
                 <div className="p-4">
                     <p className="text-gray-600">
-                        Are you sure you want to delete the position <span className="font-semibold">{positionTitle}</span>?
-                        This action cannot be undone.
+                        {t("useCase.deleteConfirmationModal.description1")} <span className="font-semibold">{positionTitle}</span>?
+                        {t("useCase.deleteConfirmationModal.description2")}
                     </p>
                     <div className="mt-6 flex justify-end space-x-3">
                         <button
                             onClick={onClose}
                             className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                         >
-                            Cancel
+                            {t("useCase.deleteConfirmationModal.cancel")}
                         </button>
                         <button
                             onClick={handleDelete}
                             disabled={isLoading}
                             className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
                         >
-                            Delete
+                            {t("useCase.deleteConfirmationModal.delete")}
 
                             {isLoading && (
                                 <div className="flex items-center justify-center">

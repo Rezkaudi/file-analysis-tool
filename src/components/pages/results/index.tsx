@@ -9,6 +9,7 @@ import { getResumeFile } from '@/services/resume';
 import * as XLSX from "xlsx";
 import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
+import {useTranslation} from "react-i18next";
 
 interface IAnalysis {
   id: string
@@ -19,11 +20,12 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string>("");
-
+  const[showCriteria,setShowCriteria]=useState(false);
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null); // Store interval reference
   const isPollingStopped = useRef(false); // Flag to prevent unnecessary API calls
 
 
+  const { t } = useTranslation();
 
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
@@ -166,98 +168,119 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+      <div className="min-h-screen bg-gray-100 p-8">
+        {isLoading ? (
+            <DataLoadSpinner />
+        ) : (
+            <div className="max-w-6xl mx-auto">
+              {/* Header Section */}
+              <div className="flex items-center justify-between mb-6">
+          <span className={`px-3 py-1 flex gap-3 rounded-full text-sm font-medium ${
+              position?.status === 'completed'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-yellow-100 text-yellow-800'
+          }`}>
+            {position?.status}
+            {position?.status === 'processing' && (
+                <svg className="animate-spin h-5 w-5 text-mainPurple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            )}
+          </span>
 
-      {isLoading ? <DataLoadSpinner /> : (
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between">
-            <span className={`px-3 py-1 flex gap-3 rounded-full text-sm font-medium ${position?.status === 'completed'
-              ? 'bg-green-100 text-green-800'
-              : 'bg-yellow-100 text-yellow-800'
-              }`}>
-              {position?.status}
+                <div className="flex gap-3">
+                  {position?.status !== 'processing' && position?.resumes && (
+                      <>
+                        <button
+                            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                            onClick={() => setShowCriteria(!showCriteria)}
+                        >
+                            {showCriteria ?    t("resultPage.hideCriteriaBtn") : t("resultPage.showCriteriaBrn")  }
+                        </button>
+                        <button
+                            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+                            onClick={() => handleExtractExcel(position?.resumes)}
+                        >
+                          {t("resultPage.exportBtn")}
+                          <Download size={16} />
+                        </button>
+                      </>
+                  )}
+                </div>
+              </div>
+              {/* Table Container */}
+              <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                  <tr>
+                    <th className=" bg-gray-200 px-4 py-3 text-left text-sm font-semibold text-gray-900 border-r border-b border-gray-300">{t("resultPage.fileName")}</th>
+                    <th className=" bg-gray-200 px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b border-l border-gray-300">
+                      <div className="flex items-center bg-gray-200">
+                        {t("resultPage.score")}
 
-              {position?.status === 'processing' && <svg className="animate-spin h-5 w-5 text-mainPurple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>}
-            </span>
-
-            <div className='flex gap-3'>
-              {position?.status !== 'processing' && position?.resumes &&
-                <button
-                  className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-md font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
-                  onClick={() => handleExtractExcel(position?.resumes)}>
-                  Export
-                  <Download size={16} />
-                </button>}
-            </div>
-          </div>
-
-          <div className="overflow-x-auto pt-10">
-
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-gray-300 px-4 py-2">File Name</th>
-                  {/* {position?.criterias.map((criterion, index) => (
-                    <th key={index} className="border border-gray-300 px-4 py-2">
-                      Criteria {index + 1}
-                      <div className="text-sm text-gray-500">{criterion.description}</div>
-                    </th>
-                  ))} */}
-                  <th className=" px-4 py-2 flex items-center justify-center">
-                    Score
-                    <button className="ml-2 px-2 py-1 bg-gray-300 rounded flex items-center" onClick={toggleSortOrder}>
-                      {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </button>
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">Analysis</th>
-                </tr>
-              </thead>
-              <tbody>
-                {position?.resumes.map((result, index) => (
-                  <tr key={index} className="border border-gray-300">
-
-                    <td className=" flex items-center gap-2 justify-between px-4 py-2">
-                      <span className='hover:text-purple-900 cursor-pointer flex gap-3' onClick={() => handleGetFile(result.id)}>
-                        {result.title}
-                        {isLoadingFile && selectedFile === result.id && (
-                          <div className="flex items-center justify-center">
-                            <SmallSpinner />
-                          </div>
-                        )}
-                      </span>
-
-                    </td>
-                    {/* {position?.criterias.map((item, idx: number) => (
-                      <td key={idx} className="border border-gray-300 px-4 py-2">
-                        {item.description}
-                      </td>
-                    ))} */}
-                    <td className="border border-gray-300 px-4 py-2">
-                      <div className="relative w-full bg-gray-200 rounded">
-                        <div
-                          className="bg-green-500 h-4 rounded"
-                          style={{ width: `${result.score || 0}%` }}
-                        ></div>
-                        <span className="absolute inset-0 flex justify-center items-center text-xs font-semibold">
-                          {result.score !== null ? `${result.score}%` : "null"}
-                        </span>
+                        <button className="ml-2 p-1 bg-gray-200 rounded hover:bg-gray-300" onClick={toggleSortOrder}>
+                          {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </button>
                       </div>
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result.explanation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )
-      }
-    </div >
+                    </th>
+                    {showCriteria && position?.criterias.map((item, idx) => (
+                        <th key={idx} className=" bg-gray-200 w-32 h-24 px-4 py-3 text-sm font-semibold text-gray-900 text-center border-l border-r   border-gray-300 whitespace-normal break-words">
+                          {item.description}
+                        </th>
+                    ))}
+                    <th className=" bg-gray-200 px-4 py-3  text-sm text-center font-semibold text-gray-900 border-b border-l border-gray-200 w-1/3">{t("resultPage.analysis")}</th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white divide-y divide-gray-200">
+                  {position?.resumes.map((result, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        {/* File Name */}
+                        <td className="px-4 py-3 text-sm text-center border border-gray-200 text-gray-900">
+                          <button
+                              className="flex items-center gap-2  hover:text-purple-900 transition-colors"
+                              onClick={() => handleGetFile(result.id)}
+                          >
+                            {result.title}
+                            {isLoadingFile && selectedFile === result.id && <SmallSpinner />}
+                          </button>
+                        </td>
+
+                        {/* Score */}
+                        <td className="px-4 py-3 text-sm text-gray-900">
+                          <div className="relative w-full h-6 bg-gray-200 rounded">
+                            <div
+                                className="absolute top-0 left-0 bg-green-500 h-full rounded"
+                                style={{ width: `${result.score || 0}%` }}
+                            ></div>
+                            <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold">
+                        {result.score !== null ? `${result.score}%` : "N/A"}
+                      </span>
+                          </div>
+                        </td>
+
+                        {/* Criteria */}
+                        {showCriteria && position?.criterias.map((item, idx) => (
+                            <td key={idx} className="px-4 py-3 text-sm text-center text-gray-900 border border-gray-200">
+                              {item.description}
+                            </td>
+                        ))}
+
+                        {/* Analysis */}
+                        <td className="px-4 py-3 text-sm text-gray-700 align-top h-48">
+                          <div className="h-full overflow-y-auto prose max-w-none">
+                            {result.explanation}
+                          </div>
+                        </td>
+                      </tr>
+                  ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        )}
+      </div>
   );
 };
 
