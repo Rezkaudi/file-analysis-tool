@@ -1,7 +1,8 @@
-{ "general": {
-  "successful": "成功",
-  "successPasswordChange": "パスワードの変更が成功しました"
-},
+{
+  "general": {
+    "successful": "成功",
+    "successPasswordChange": "パスワードの変更が成功しました"
+  },
   "register": {
     "name": "名前",
     "email": "メール",
@@ -44,6 +45,7 @@
   "useCase": {
     "title": "ユースケース",
     "addUseCaseBtn": " ユースケースを追加 ",
+    "openUseCase": "Open",
     "editUseCase": " このユースケースを編集 ",
     "deleteUseCase": " このユースケースを削除 ",
     "duplicateUseCase": " このユースケースを複製 ",
@@ -183,5 +185,4 @@
     "title": "プランを選択",
     "description": "あなたの採用ニーズに最適なパッケージを選択してください"
   }
-
 }

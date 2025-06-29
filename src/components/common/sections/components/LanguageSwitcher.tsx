@@ -3,40 +3,35 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { getLanguages } from "@/services/translations";
 
-
-
 interface Language {
     code: string;
     name: string;
     direction: string;
 }
 
+interface LanguageSwitcherProps {
+    inDropdown?: boolean;
+}
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ inDropdown = false }: LanguageSwitcherProps) {
     const { i18n } = useTranslation();
-
     const [languages, setLanguages] = useState<Language[]>([]);
     const [loading, setLoading] = useState(true);
-
 
     useEffect(() => {
         const loadLanguages = async () => {
             try {
-                //check if the languages are cached before calling the api
                 const cachedLangs = localStorage.getItem('availableLanguages');
                 if (cachedLangs) {
                     setLanguages(JSON.parse(cachedLangs));
                 }
-                //if now cached , cal the api endpoint
 
                 const response = await getLanguages();
                 setLanguages(response.data);
                 setLoading(false);
-                //cache the fetched languages
                 localStorage.setItem('availableLanguages', JSON.stringify(response.data));
             } catch (error) {
                 console.error("Failed to load languages:", error);
-                // Fallback to default languages if API fails
                 setLanguages([
                     { code: "ff", name: "English", direction: "ltr" },
                 ]);
@@ -50,19 +45,44 @@ export default function LanguageSwitcher() {
     const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const langCode = e.target.value;
         const selectedLang = languages.find(lang => lang.code === langCode);
-        console.log(selectedLang);
-        if (!selectedLang) {
+
+        if (selectedLang) {
+            i18n.changeLanguage(langCode);
+            document.documentElement.dir = selectedLang.direction;
+        } else {
             i18n.changeLanguage(langCode);
             document.documentElement.dir = "ltr";
         }
-
-        // document.documentElement.dir = selectedLang.direction;
-        if (selectedLang) {
-            i18n.changeLanguage(langCode); // replace langCode with 'jp' to test japanese language after commiting fetching languages from the backend in the i18n.ts  (fast local testing)
-            document.documentElement.dir = selectedLang.direction;
-        }
     };
 
+    // STYLING FOR DROPDOWN CONTEXT
+    if (inDropdown) {
+        if (loading) {
+            return (
+                <span className="text-gray-500 text-sm">
+                    Loading...
+                </span>
+            );
+        }
+
+        return (
+            <select
+                className="bg-transparent text-gray-700 text-sm border-none focus:outline-none focus:ring-0 cursor-pointer"
+                value={i18n.language}
+                onChange={handleLanguageChange}
+            >
+                {languages.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                        {lang.name}
+                    </option>
+                ))}
+                <option value="jp">Japanese</option>
+                <option value="ff">English</option>
+            </select>
+        );
+    }
+
+    // DEFAULT STYLING (STANDALONE)
     if (loading) {
         return (
             <div className="bg-primary text-white p-2 rounded">
@@ -71,31 +91,21 @@ export default function LanguageSwitcher() {
         );
     }
 
-
     return (
-        <div className="bg-primary  , text-white">
+        <div className="bg-primary text-white">
             <select
                 className="bg-primary text-white p-1 rounded border-none focus:outline-none"
                 value={i18n.language}
-                onChange={handleLanguageChange}>
-
-
+                onChange={handleLanguageChange}
+            >
                 {languages.map((lang) => (
                     <option key={lang.code} value={lang.code}>
                         {lang.name}
                     </option>
                 ))}
-
-                <option value="jp">
-                    Japanese Offline
-                </option>
-
-                <option value="ff">
-                    English Offline
-                </option>
-
-
-            </select></div>
-
+                <option value="jp">Japanese</option>
+                <option value="ff">English</option>
+            </select>
+        </div>
     );
 }

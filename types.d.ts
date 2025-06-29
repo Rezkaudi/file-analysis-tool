@@ -4,7 +4,8 @@ type WorkPosition = {
     description: string;
     status: string;
     criterias: Criteria[]
-    resumes: Resume[]
+    resumes: Resume[],
+    createdAt: string;
 }
 
 type BalanceHistory = {

@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect,} from 'react';
+import React, { useState, useEffect, } from 'react';
 import { Plus } from 'lucide-react';
 import { WorkPositionCard } from './components/WorkPositionCard';
 import { WorkPositionModal } from './components/WorkPositionModal';
@@ -13,7 +13,7 @@ import { AxiosError } from 'axios';
 import { refreshToken } from '@/services/auth';
 import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 
 const Index = () => {
@@ -147,24 +147,23 @@ const Index = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
-            <div className="max-w-6xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-xl lg:text-3xl font-bold text-gray-900">{t("useCase.title")}</h1>
-                    <button
-                        onClick={openCreateModal}
-                        className="flex items-center min-w-[149px] gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
+        <div className="min-h-screen bg-gray-100 p-2 lg:p-6">
+            <div className="px-4 lg:px-20 mt-10 mx-auto">
 
-                    >
-                        <Plus size={20}/>
-                        {t("useCase.addUseCaseBtn")}
-                    </button>
-                </div>
-                {/*testing purposes*/}
-                <div> {t("home.title") }</div>
-                <div> {t("home.description")}</div>
-                {isLoading ? <DataLoadSpinner/> : (
+                {isLoading ? <DataLoadSpinner /> : (
                     <>
+                        <div className="flex flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                            <h1 className="text-2xl sm:text-2xl font-bold text-mainPurple">
+                                {positions.length} {t("useCase.title")}
+                            </h1>
+                            <button
+                                onClick={openCreateModal}
+                                className="flex items-center gap-2 px-4 py-2 min-w-[149px] text-sm font-medium text-white rounded-xl bg-gradient-to-r from-secondary to-accent shadow-md transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50"
+                            >
+                                <Plus size={20} />
+                                {t("useCase.addUseCaseBtn")}
+                            </button>
+                        </div>
                         {positions.length > 0 ? <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {positions.map((position) => (

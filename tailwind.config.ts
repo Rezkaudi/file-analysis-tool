@@ -15,10 +15,10 @@ export default {
         text: 'var(--color-text)',
         background: "var(--background)",
         foreground: "var(--foreground)",
-        mainPurple: "#8926a4",
+        mainPurple: "#2563eb",
       },
       backgroundImage: {
-        gradiantPurple: "linear-gradient(to right, #a855f7, #ec4899)"
+        gradiantPurple: "linear-gradient(to right, #2563eb, #2563eb)"
       }
     },
   },

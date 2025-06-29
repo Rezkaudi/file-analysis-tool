@@ -1,9 +1,9 @@
-{ "general":
- {
-  "successful": "Successful",
-  "successPasswordChange": "Change Password successful"
+{
+  "general": {
+    "successful": "Successful",
+    "successPasswordChange": "Change Password successful"
   },
-  "register":{
+  "register": {
     "name": "Name",
     "email": "Email",
     "password": "Password",
@@ -30,56 +30,53 @@
     "loggingIn": "Logging in ..."
   },
   "header": {
-    "login":"Login",
+    "login": "Login",
     "useCases": "Use-cases",
     "pricing": "Pricing",
     "yourCredits": "Your Credits"
-
   },
   "profileDropDown": {
-    "history":" History ",
+    "history": " History ",
     "buyCredits": " Buy Credits ",
     "feedback": " Feedback ",
     "changePassword": "Change Password",
     "logout": " Logout "
   },
-  "useCase":{
+  "useCase": {
     "title": "Use-Cases",
     "addUseCaseBtn": " Add Use Case ",
-    "editUseCase": " Edit this Use Case ",
-    "deleteUseCase": " Delete this Use Case ",
-    "duplicateUseCase": " Duplicate this Use Case ",
-    "createNewPosition" : " Create New Position ",
+    "openUseCase": "Open",
+    "editUseCase": " Edit",
+    "deleteUseCase": " Delete",
+    "duplicateUseCase": " Duplicate",
+    "createNewPosition": " Create New Position ",
     "editPosition": " Edit Position ",
-    "positionsException":" No Position Found . Create New Position ",
+    "positionsException": " No Position Found . Create New Position ",
 
-
-    "workPositionModal":{
+    "workPositionModal": {
       "title": " Title ",
       "description": " Description ",
       "cancel": "Cancel",
       "create": "Create",
       "saveChanges": " Save Changes "
     },
-    "deleteConfirmationModal":{
+    "deleteConfirmationModal": {
       "title": "Confirm Deletion",
       "description1": " Are you sure you want to delete the position  ",
       "description2": " This action cannot be undone. ",
       "cancel": "  Cancel ",
       "delete": "  Delete  "
     },
-    "duplicateConfirmationModal":
-    {
+    "duplicateConfirmationModal": {
       "title": "Confirm Duplicate",
       "description": "   Are you sure you want to Duplicate the position  ",
       "cancel": " Cancel ",
       "duplicate": " Duplicate "
     }
-},
-
+  },
 
   "feedback": {
-    "title":"Submit Feedback",
+    "title": "Submit Feedback",
     "titleField": "Title",
     "description": "Description",
     "haveAScreenshot": "Have a screenshot for your issue? ",
@@ -87,20 +84,18 @@
     "feedbackSuccess": "Feedback submitted successfully!",
     "attachAnImage": "Attach An Image",
     "submitBtn": "Submit Feedback",
-    "submitting" : "Submitting...",
+    "submitting": "Submitting...",
     "missingFieldError": "Title and description are required"
   },
 
-
   "analysis": {
-   "addCriteria": " Add Criteria ",
+    "addCriteria": " Add Criteria ",
     "uploadResume": "Upload Resume",
     "criteriaList": "Criteria",
     "resumesList": " Resumes",
     "noCriteriaFound": "No Criteria Found . Create New Criteria",
     "noResumesFound": " No Resumes Found . Create New Resumes ",
     "startAnalysis": " Start Analysis "
-
   },
   "createCriteriaModal": {
     "title": "Add New Criteria",
@@ -130,7 +125,7 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm New Password",
     "changing": "Changing...",
-    "changeBtn" : "Change Password",
+    "changeBtn": "Change Password",
     "passwordWaring": "Password must be at least 4 characters"
   },
   "historyPage": {
@@ -141,7 +136,7 @@
   },
   "forgetPassword": {
     "title": "Forget Password",
-    "description" : "Enter your email to Reset Password",
+    "description": "Enter your email to Reset Password",
     "email": "Email",
     "loggingIn": " Logging in...",
     "submitBtn": "Submit",
@@ -156,13 +151,11 @@
     "didntReceiveCode": "Didn't receive a code?",
     "ResendCode": "Resend code",
     "verifyError": "Please enter a valid 4-digit verification code"
-
-
   },
 
   "resetPassword": {
     "title": "Verify your account",
-    "description" : " Enter the 4-digit code sent to your email",
+    "description": " Enter the 4-digit code sent to your email",
     "newPassword": "New Password",
     "confirmPassword": " Confirm Password",
     "resetPasswordBtn": "Reset Password",
@@ -188,9 +181,8 @@
     "amount": "Amount",
     "created": "Created"
   },
-  "plans":{
+  "plans": {
     "title": "Choose Your Plan",
     "description": "Select the perfect package for your recruitment needs"
   }
-
 }
