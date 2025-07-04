@@ -204,6 +204,8 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
+
+
                   <h4 className="text-gray-500 text-lg">{t("analysis.noCriteriaFound")}</h4>
                 </motion.div>
               )}
