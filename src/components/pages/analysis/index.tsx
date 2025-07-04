@@ -162,7 +162,15 @@ const Index: React.FC<IAnalysis> = ({ id }) => {
                       <ListChecks size={18} />
                       {t("analysis.addCriteria")}
                     </button>
+
+
                   )}
+
+
+
+
+
+
                   <button
                     onClick={() => setIsResumeModalOpen(true)}
                     className="bg-mainPurple text-white font-semibold text-sm px-5 py-3 rounded-xl shadow-md hover:shadow-lg hover:bg-mainPurple/90 transition-all duration-200 flex items-center gap-2"
