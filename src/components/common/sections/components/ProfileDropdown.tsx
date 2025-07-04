@@ -1,109 +1,150 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {User, CreditCard, LogOut, BriefcaseBusiness, MessageCircleCodeIcon} from 'lucide-react';
+'use client';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import {
+    CreditCard, BriefcaseBusiness, MessageCircleCodeIcon,
+    User, Globe
+} from 'lucide-react';
+import LanguageSwitcher from './LanguageSwitcher';
 
-interface MenuItem {
-    label: string;
-    icon: React.ReactNode;
-    onClick?: () => Promise<void> | void
-}
+const dropdownVariants = {
+    hidden: { opacity: 0, y: -10, pointerEvents: "none" },
+    visible: { opacity: 1, y: 0, pointerEvents: "auto" },
+};
 
 export default function ProfileDropdown() {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
-    const { user, logoutUser } = useAuthStore()
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { user, logoutUser, userBalance } = useAuthStore();
     const router = useRouter();
 
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const menuItems: MenuItem[] = [
-        {
-            label: 'History',
-            icon: <BriefcaseBusiness className="w-4 h-4" />,
-            onClick: () => {
-                setIsOpen(false)
-                router.push('/history')
-            }
-        },
-        {
-            label: 'Buy Credits',
-            icon: <CreditCard className="w-4 h-4" />,
-            onClick: () => {
-                setIsOpen(false)
-                router.push('/plans')
-            }
-        },
-        {
-            label: 'Feedback',
-            icon: <MessageCircleCodeIcon className="w-4 h-4" />,
-            onClick: () => {
-                setIsOpen(false)
-                router.push('/feedback')
-            }
-        },
-        {
-            label: 'Change Password',
-            icon: <User className="w-4 h-4" />,
-            onClick: () => {
-                setIsOpen(false)
-                router.push('/change-password')
-            }
-        },
-        {
-            label: 'Logout',
-            icon: <LogOut className="w-4 h-4" />,
-            onClick: async () => {
-                await logoutUser(router);
-                setIsOpen(false)
-            }
-        },
-    ];
-
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        const close = (e: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
                 setIsOpen(false);
             }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        };
+        document.addEventListener("mousedown", close);
+        return () => document.removeEventListener("mousedown", close);
     }, []);
 
+    const menuItems = [
+        {
+            label: t("header.yourCredits"),
+            icon: <CreditCard className="w-4 h-4" />,
+            badge: userBalance
+        },
+        {
+            label: t("profileDropDown.history"),
+            icon: <BriefcaseBusiness className="w-4 h-4" />,
+            onClick: () => router.push('/history')
+        },
+        {
+            label: t("profileDropDown.buyCredits"),
+            icon: <CreditCard className="w-4 h-4" />,
+            onClick: () => router.push('/plans')
+        },
+        {
+            label: t("profileDropDown.feedback"),
+            icon: <MessageCircleCodeIcon className="w-4 h-4" />,
+            onClick: () => router.push('/feedback')
+        },
+        {
+            label: t("profileDropDown.changePassword"),
+            icon: <User className="w-4 h-4" />,
+            onClick: () => router.push('/change-password')
+        }
+    ];
 
+    const handleLogout = async () => {
+        await logoutUser(router);
+        setIsOpen(false);
+    };
 
     return (
         <div className="relative" ref={dropdownRef}>
             <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center space-x-3 focus:outline-none"
+                onClick={() => setIsOpen((prev) => !prev)}
+                className="rounded-full border-2 border-white shadow-sm transition hover:opacity-90"
             >
                 <Image
                     src={user?.imageUrl || "/images/user.png"}
-                    alt={user?.name || "Profile"}
+                    alt="Profile"
                     width={40}
                     height={40}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-white"
+                    className="rounded-full object-cover"
                 />
-                <span>{user?.name}</span>
-                <span className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-white"></span>
             </button>
 
-            {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
-                    {menuItems.map((item, index) => (
-                        <button
-                            key={index}
-                            className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                            onClick={item.onClick}
-                        >
-                            {item.icon}
-                            <span>{item.label}</span>
-                        </button>
-                    ))}
-                </div>
-            )}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={dropdownVariants}
+                        transition={{ duration: 0.2 }}
+                        className="absolute right-0 mt-2 w-72 rounded-lg border border-gray-200 bg-white shadow-lg z-50"
+                    >
+                        <div className="border-b px-4 py-3">
+                            <div className="flex items-center gap-3">
+                                <Image
+                                    src={user?.imageUrl || "/images/user.png"}
+                                    alt={user?.name || ""}
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full border"
+                                />
+                                <div>
+                                    <p className="font-medium text-gray-800">{user?.name}</p>
+                                    <p className="text-sm text-gray-500">{user?.email}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="divide-y">
+                            <div className="py-1">
+                                {menuItems.map((item, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => {
+                                            item.onClick?.();
+                                            setIsOpen(false);
+                                        }}
+                                        className="flex w-full items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            {item.icon}
+                                            <span>{item.label}</span>
+                                        </div>
+                                        {item.badge !== undefined && (
+                                            <span className="text-xs text-gray-500">{item.badge}</span>
+                                        )}
+                                    </button>
+                                ))}
+                                <div className="px-4 py-2 flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <Globe className="w-4 h-4" />
+                                    <LanguageSwitcher inDropdown />
+                                </div>
+                            </div>
+
+                            <div className="py-2 px-4">
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full rounded-md bg-red-50 text-red-600 hover:bg-red-100 px-3 py-2 text-sm font-medium"
+                                >
+                                    {t("profileDropDown.logout")}
+                                </button>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

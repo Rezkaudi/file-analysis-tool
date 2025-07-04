@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import TranslationProvider from '../providers/TranslationProvider'
 import { Toaster } from 'sonner';
 
 // styles
@@ -84,6 +85,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <TranslationProvider>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
           <Header />
@@ -91,8 +93,8 @@ export default function RootLayout({
           <Footer />
           <Toaster position="bottom-right" richColors />
         </AuthProvider>
-
       </body>
+    </TranslationProvider>
     </html>
   );
 }

@@ -1,97 +1,64 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
 import { X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import SmallSpinner from '@/components/common/components/SmallSpinner';
+import { AnimatedModalContainer } from './AnimatedModalContainer';
 
-interface DuplicateConfirmationModal {
+interface DuplicateConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
     positionTitle: string;
 }
 
-const modalStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        padding: '0',
-        border: 'none',
-        borderRadius: '0.5rem',
-        maxWidth: '400px',
-        width: '90%',
-    },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    },
-};
-
-export const DuplicateConfirmationModal: React.FC<DuplicateConfirmationModal> = ({
+export const DuplicateConfirmationModal: React.FC<DuplicateConfirmationModalProps> = ({
     isOpen,
     onClose,
     onConfirm,
     positionTitle,
 }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const { t } = useTranslation();
 
-    const handleDublicate = async () => {
-        setIsLoading(true)
-
+    const handleDuplicate = async () => {
+        setIsLoading(true);
         await onConfirm();
-
-        setIsLoading(false)
+        setIsLoading(false);
         onClose();
-    }
-
+    };
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onClose}
-            style={modalStyles}
-            contentLabel="Delete Confirmation Modal"
-            ariaHideApp={false}
-        >
-            <div className="bg-white rounded-lg">
-                <div className="flex justify-between items-center border-b p-4">
-                    <h2 className="text-xl font-semibold text-gray-800">Confirm Duplicate</h2>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-500 hover:text-gray-700"
-                    >
-                        <X size={24} />
+        <AnimatedModalContainer isOpen={isOpen} onClose={onClose}>
+            <div className="px-6 py-4">
+                <div className="flex justify-between items-center border-b pb-3 mb-3">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        {t('useCase.duplicateConfirmationModal.title')}
+                    </h2>
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">
+                        <X size={20} />
                     </button>
                 </div>
-                <div className="p-4">
-                    <p className="text-gray-600">
-                        Are you sure you want to Duplicate the position <span className="font-semibold">{positionTitle}</span>?
-                    </p>
-                    <div className="mt-6 flex justify-end space-x-3">
-                        <button
-                            onClick={onClose}
-                            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            onClick={handleDublicate}
-                            disabled={isLoading}
-                            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:opacity-80 focus:ring-offset-2 disabled:opacity-50"
-                        >
-                            Duplicate
-
-                            {isLoading && (
-                                <div className="flex items-center justify-center">
-                                    <SmallSpinner />
-                                </div>
-                            )}
-                        </button>
-                    </div>
+                <p className="text-gray-600 mb-6">
+                    {t('useCase.duplicateConfirmationModal.description')}{' '}
+                    <span className="font-semibold">{positionTitle}</span>?
+                </p>
+                <div className="flex justify-end space-x-3">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+                    >
+                        {t('useCase.duplicateConfirmationModal.cancel')}
+                    </button>
+                    <button
+                        onClick={handleDuplicate}
+                        disabled={isLoading}
+                        className="flex items-center gap-2 rounded-md bg-gradient-to-r from-secondary to-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50 transition"
+                    >
+                        {t('useCase.duplicateConfirmationModal.duplicate')}
+                        {isLoading && <SmallSpinner />}
+                    </button>
                 </div>
             </div>
-        </Modal>
+        </AnimatedModalContainer>
     );
 };

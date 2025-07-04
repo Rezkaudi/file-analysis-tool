@@ -1,7 +1,72 @@
 :root {
+    --color-primary: #2563eb;
+    --color-secondary: #2563eb;
+    --color-accent: #2563eb;
+    --color-background: #ececec;
+    --color-text: #757575;
+}
+
+
+/* :root {
     --color-primary: #8926a4;
     --color-secondary: #a855f7;
     --color-accent: #ec4899 ;
     --color-background: #ececec;
     --color-text: #757575;
-}
+} */
+
+/* more appealing color pallet 👍 🟦 */
+
+/*:root {*/
+/*    --color-primary: #3726a4;*/
+/*    --color-secondary: #5558f7;*/
+/*    --color-accent: #48b3ec;*/
+/*    --color-background: #ececec;*/
+/*    --color-text: #757575;*/
+/*}*/
+
+/* const menuItems: MenuItem[] = [
+        {
+            label: t("profileDropDown.publicProfile"),
+            icon: <User className="w-4 h-4" />,
+            onClick: () => {
+                setIsOpen(false);
+                router.push('/public-profile');
+            }
+        },
+        {
+            label: t("profileDropDown.myProfile"),
+            icon: <Settings className="w-4 h-4" />,
+            onClick: () => {
+                setIsOpen(false);
+                router.push('/profile');
+            }
+        },
+        {
+            label: t("profileDropDown.myAccount"),
+            icon: <FileText className="w-4 h-4" />,
+            onClick: () => {
+                setIsOpen(false);
+                router.push('/account');
+            }
+        },
+        {
+            label: t("profileDropDown.devForum"),
+            icon: <Users className="w-4 h-4" />,
+            onClick: () => {
+                setIsOpen(false);
+                router.push('/forum');
+            }
+        },
+        {
+            label: t("profileDropDown.language"),
+            icon: <Globe className="w-4 h-4" />,
+            type: 'language',
+            badge: "English"
+        },
+        {
+            label: t("profileDropDown.logout"),
+            icon: <LogOut className="w-4 h-4" />,
+            onClick: handleLogout
+        },
+    ]; */

@@ -8,6 +8,7 @@ import { getAccessToken } from '@/utils/authStatus';
 
 import { apiUrl } from '@/utils/apiUrl';
 import DataLoadSpinner from '@/components/common/components/DataLoadSpinner';
+import {useTranslation} from "react-i18next";
 
 const Index = () => {
     const [Plans, setPlans] = useState<PricingTier[] | null>(null);
@@ -17,6 +18,8 @@ const Index = () => {
     const [selectedTier, setSelectedTier] = useState<PricingTier | null>(null);
     const [quantity, setQuantity] = useState(1);
 
+
+    const {t} = useTranslation();
     const calculateTotal = (price: string, qty: number) => {
         return (parseFloat(price) * qty).toFixed(2);
     };
@@ -85,10 +88,10 @@ const Index = () => {
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-                        Choose Your Plan
+                        {t("plans.title")}
                     </h1>
                     <p className="mt-5 text-xl text-gray-500">
-                        Select the perfect package for your recruitment needs
+                        {t("plans.description")}
                     </p>
                 </div>
 
