@@ -154,7 +154,7 @@
   },
 
   "resetPassword": {
-    "title": "Verify your account",
+    "title": "Reset your Password",
     "description": " Enter the 4-digit code sent to your email",
     "newPassword": "New Password",
     "confirmPassword": " Confirm Password",
